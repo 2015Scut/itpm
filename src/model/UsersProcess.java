@@ -120,6 +120,7 @@ public class UsersProcess {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}*/
+		//wsj
 		ConnDB.getConn();
 	}
 }
