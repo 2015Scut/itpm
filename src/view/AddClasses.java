@@ -15,8 +15,8 @@ public class AddClasses {
 	private static Stage stage;
 	private Label namelb;
 	private Label idlb;
-	private Label departlb;
-	private ComboBox<String> departcb;
+	private Label gradelb;
+	private ComboBox<String> gradecb;
 	private TextField idtf;
 	private TextField nametf;
 	private Label majorlb;
@@ -35,9 +35,9 @@ public class AddClasses {
 		idlb=new Label("id: ");
 		idtf=new TextField();
 		idtf.setEditable(false);//id通过查询数据库获取自动分配
-		departlb=new Label("学院: ");
-		departcb=new ComboBox<>();
-		majorlb=new Label("专业");
+		gradelb=new Label("年级: ");
+		gradecb=new ComboBox<>();
+		majorlb=new Label("文理科: ");
 		majorcb=new ComboBox<>();
 		teacherlb=new Label("班主任");
 		teachercb=new ComboBox<>();
@@ -48,7 +48,7 @@ public class AddClasses {
 		HBox namehb=new HBox();
 		namehb.getChildren().addAll(namelb,nametf);
 		HBox departhb=new HBox();
-		departhb.getChildren().addAll(departlb,departcb);
+		departhb.getChildren().addAll(gradelb,gradecb);
 		HBox majorhb=new HBox();
 		majorhb.getChildren().addAll(majorlb,majorcb);
 		HBox teacherhb=new HBox();

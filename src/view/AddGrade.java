@@ -1,29 +1,32 @@
 package view;
 
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class AddDepartment {
-	private static AddDepartment ad;
+public class AddGrade {
+	private static AddGrade ad;
 	private static Stage stage;
-	private Label namelb;
-	private TextField nametf;
+	private Label gradelb;
+	private ComboBox<String> gradecb;
 	private Button confirm;
 	
-	private AddDepartment() {
+	private AddGrade() {
 		stage=new Stage();
 		stage.setResizable(false);
-		stage.setTitle("新建学院");
+		stage.setTitle("新建年级");
 		stage.initModality(Modality.APPLICATION_MODAL);
-		namelb=new Label("名称: ");
-		nametf=new TextField();
+		gradelb=new Label("年级: ");
+		gradecb=new ComboBox<>();
 		confirm=new Button("确定");
 		
 		HBox namehb=new HBox();
-		namehb.getChildren().addAll(namelb,nametf);
+		namehb.getChildren().addAll(gradelb,gradecb);
 		VBox vb=new VBox();
 		vb.getChildren().addAll(namehb,confirm);
 		vb.setSpacing(20);
@@ -37,7 +40,7 @@ public class AddDepartment {
 	}
 	
 	public static void show() {
-		ad=new AddDepartment();
+		ad=new AddGrade();
 		stage.show();
 	}
 	

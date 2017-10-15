@@ -11,7 +11,7 @@ import javafx.geometry.Side;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import model.Department;
+import model.Grade;
 /**
  * 搜索页面
  * @author 钟恩俊

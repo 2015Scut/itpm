@@ -52,12 +52,12 @@ public class IndexPage extends Application {
 		men=new LeftBox();
 		men.setPrefWidth(150);
 		
-		MenuItem depart=new MenuItem("录入学院信息");
+		MenuItem depart=new MenuItem("录入年级信息");
 		menuFile.getItems().add(depart);
 		depart.setOnAction(e->{
-			AddDepartment.show();
+			AddGrade.show();
 		});
-		MenuItem major=new MenuItem("录入专业信息");
+		MenuItem major=new MenuItem("录入文理科信息");
 		menuFile.getItems().add(major);
 		major.setOnAction(e->{
 			AddMajor.show();

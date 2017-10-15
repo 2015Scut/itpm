@@ -2,38 +2,30 @@ package model;
 
 import java.util.ArrayList;
 /**
- * 学院类
+ * 年级类
  * @author 钟恩俊
  *
  */
-public class Department {
-	/**学院id*/
-	private String departId;
-	/**学院名称*/
-	private String departName;
+public class Grade {
+	/**年级id*/
+	private String gradeId;
 	/**专业列表*/
 	private ArrayList<Major>majorList;
 	/**教师列表*/
 	private ArrayList<Teacher>teacherList;
 	
-	public Department() {}
-	public Department(String did,String dn,ArrayList<Major>ml,ArrayList<Teacher>tl) {
-		departId=did;
-		departName=dn;
+	public Grade() {}
+	public Grade(String did,ArrayList<Major>ml,ArrayList<Teacher>tl) {
+		gradeId=did;
 		majorList=ml;
 		teacherList=tl;
 	}
-	public String getDepartId() {
-		return departId;
+	
+	public String getGradeId() {
+		return gradeId;
 	}
-	public void setDepartId(String departId) {
-		this.departId = departId;
-	}
-	public String getDepartName() {
-		return departName;
-	}
-	public void setDepartName(String departName) {
-		this.departName = departName;
+	public void setGradeId(String gradeId) {
+		this.gradeId = gradeId;
 	}
 	public ArrayList<Major> getMajorList() {
 		return majorList;

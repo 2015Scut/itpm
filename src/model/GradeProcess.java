@@ -2,9 +2,9 @@ package model;
 
 import java.sql.ResultSet;
 
-public class DepartmentProcess implements Process {
+public class GradeProcess implements Process {
 
-	public DepartmentProcess() {}
+	public GradeProcess() {}
 	
 	@Override
 	public ResultSet getData(String sql) {
