@@ -2,7 +2,7 @@ package model;
 
 import java.sql.ResultSet;
 /**
- * 处理学生类数据的类，可以获取，添加，更新，删除学生数据
+ * 处理学生类数据的类，可以获取，添加，更新和删除学生数据
  * @author 王圣杰
  * @version 1.0
  * 
