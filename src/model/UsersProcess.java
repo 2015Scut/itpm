@@ -42,28 +42,25 @@ public class UsersProcess {
 		ps=ct.prepareStatement(confirmSQL);
 		ps.setString(1, tid);
 		rs=ps.executeQuery();
-		System.out.println(ps.toString());
+		rs.next();
 		if(!name.equals(rs.getString(2)))return false;//验证教师身份
 		
 
-		System.out.println(1);
 		ps=ct.prepareStatement(searchSQL);//验证用户名是否重复
 		ps.setString(1, uid);
-		System.out.println(ps.toString());
 		rs=ps.executeQuery();
 		if(rs.next())return false;
 		
 		ps=ct.prepareStatement(insertSQL);//插入用户表
 		ps.setString(1, uid);//向String中？的地方填入数据
 		ps.setString(2, pw);
+		ps.setString(3, tid);
 		ps.executeUpdate();
-		System.out.println("3");
 		
 		ps=ct.prepareStatement(relationSQL);//插入关系表
 		ps.setString(1, tid);
 		ps.setString(2, uid);
 		ps.executeUpdate();
-		System.out.println("4");
 		ct.close();//关闭数据库，记得每次用完都要关闭
 		ct=null;
 		ps=null;
