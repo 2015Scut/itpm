@@ -20,7 +20,7 @@ public class StudentProcess implements Process {
 	@Override
 	public void insertData(String sql) {
 		// TODO Auto-generated method stub
-		
+		//1
 	}
 
 }
