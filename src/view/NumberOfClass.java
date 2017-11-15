@@ -10,18 +10,18 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class NumberOfClass extends VBox {
-	private Label departlb;
+	private Label gradelb;
 	private Label majorlb;
-	private ComboBox<String> departcb;
+	private ComboBox<String> gradecb;
 	private ComboBox<String> majorcb;
     
     public NumberOfClass() {
-    	departlb=new Label("学院: ");
-    	majorlb=new Label("专业: ");
-    	departcb=new ComboBox<>();
+    	gradelb=new Label("年级: ");
+    	majorlb=new Label("分科: ");
+    	gradecb=new ComboBox<>();
     	majorcb=new ComboBox<>();
     	HBox hb=new HBox();
-    	hb.getChildren().addAll(departlb,departcb,majorlb,majorcb);
+    	hb.getChildren().addAll(gradelb,gradecb,majorlb,majorcb);
     	hb.setSpacing(10);
     	
         final NumberAxis yAxis = new NumberAxis();

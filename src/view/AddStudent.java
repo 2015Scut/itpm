@@ -1,4 +1,5 @@
 package view;
+import controller.*;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -13,22 +14,22 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class AddForm {
-	private static AddForm af;
+public class AddStudent {
+	private static AddStudent af;
 	private static Stage stage;
 	private Label idlb;
 	private Label namelb;
 	private Label sexlb;
 	private TextField idtf;
 	private TextField nametf;
-	private ComboBox<String>sex;
+	public ComboBox<String>sex;
 	private Button confirm;
 	private FileChooser photochooser;
 	private Button photo;
 	private Image image;
 	private ImageView imageview;
 	
-	private AddForm() {
+	private AddStudent() {
 		stage=new Stage();
 		//stage.setResizable(false);
 		stage.setTitle("增加学生");
@@ -81,13 +82,15 @@ public class AddForm {
 		confirm.setOnAction(e->{
 			//弹出确认窗口
 			//录入数据
+			Insert is=new Insert();
+			is.insertStudent(this);
 			stage.close();
 		});
 		
 	}
 	
 	public static void show() {
-		af=new AddForm();
+		af=new AddStudent();
 		stage.show();
 	}
 }

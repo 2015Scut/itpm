@@ -18,38 +18,38 @@ import model.Grade;
  *
  */
 public class SearchPage extends BorderPane{
-	private TablePane tb;
+	private StudentTable tb;
 	private Button sbt;
 	private Button modify;
-	private Button add;
+	//private Button add;
 	private Button delete;
 	private TextField idtf;
 	private TextField nametf;
 	private Label idlb;
 	private Label namelb;
 	private Pagination pg;
-	private Label departlb;
+	private Label gradelb;
 	private Label majorlb;
 	private Label classlb;
-	private ComboBox<String> departcb;
+	private ComboBox<String> gradecb;
 	private ComboBox<String> majorcb;
 	private ComboBox<String> classcb;
 	
 	public SearchPage() {
 		
-		tb=new TablePane();
-		departlb=new Label("学院: ");
-    	majorlb=new Label("专业: ");
+		tb=new StudentTable();
+		gradelb=new Label("年级: ");
+    	majorlb=new Label("分科: ");
     	classlb=new Label("班级: ");
     	
     	//ObservableList<String> departments = FXCollections.observableArrayList(getDepartmentList());
-    	departcb=new ComboBox<>();
+    	gradecb=new ComboBox<>();
     	String[] departments=getDepartmentList();
-    	departcb.getItems().addAll(departments);
+    	gradecb.getItems().addAll(departments);
     	majorcb=new ComboBox<>();
     	classcb=new ComboBox<>();
-    	departcb.valueProperty().addListener(new ChangeListener<String>() {
-    		//当学院下拉框的值改变时，设置专业下拉框的items
+    	gradecb.valueProperty().addListener(new ChangeListener<String>() {
+    		//当下拉框的值改变时，设置专业下拉框的items
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 				// TODO Auto-generated method stub
@@ -72,7 +72,7 @@ public class SearchPage extends BorderPane{
     	});
 		sbt=new Button("搜索");
 		modify=new Button("修改");
-		add=new Button("增加");
+		//add=new Button("增加");
 		delete=new Button("删除");
 		idtf=new TextField();
 		nametf=new TextField();
@@ -87,25 +87,31 @@ public class SearchPage extends BorderPane{
             }
         });
 		
+		delete.setOnAction(e->{
+			System.out.println(tb.row());
+			System.out.println(tb.col());
+		});
+		
 		sbt.setOnAction(e->{
 			//搜索
 		});
 		
 		modify.setOnAction(e->{
 			test.show("没有权限");
+			System.out.println(test.getRet());
 		});
-		add.setOnAction(e->{
-			AddForm.show();
-		});
+		/*add.setOnAction(e->{
+			AddStudent.show();
+		});*/
 		
 		HBox hb=new HBox();
-    	hb.getChildren().addAll(idlb,idtf,namelb,nametf,departlb,departcb,majorlb,majorcb,classlb,classcb,sbt);
+    	hb.getChildren().addAll(idlb,idtf,namelb,nametf,gradelb,gradecb,majorlb,majorcb,classlb,classcb,sbt);
 		hb.setSpacing(10);
 		this.setTop(hb);
 		this.setCenter(tb);
 		VBox vb=new VBox();
 		HBox buttonBox=new HBox();
-		buttonBox.getChildren().addAll(modify,add,delete);
+		buttonBox.getChildren().addAll(modify,delete);
 		buttonBox.setAlignment(Pos.CENTER);
 		buttonBox.setSpacing(20);
 		vb.getChildren().addAll(pg,buttonBox);
@@ -124,7 +130,7 @@ public class SearchPage extends BorderPane{
 	}
 	private String[] getDepartmentList(){
 		String[] ml=new String[1];
-		ml[0]="软件学院";
+		ml[0]="2015级";
 		return ml;
 	}
 	private VBox createPage(int pageIndex) {

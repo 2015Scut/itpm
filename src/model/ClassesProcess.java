@@ -10,16 +10,7 @@ public class ClassesProcess implements Process {
 	
 	public ClassesProcess() {}
 
-	@Override
-	public ResultSet getData(String sql) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
-	public void insertData(String sql) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 }

@@ -10,7 +10,7 @@ import javafx.scene.layout.*;
  *
  */
 public class StatisticsPage extends VBox{
-	private TablePane tb;
+	private StudentTable tb;
 	private NumberOfClass noc;
 	private TabPane tp;
 	private Tab NumberOfClasst;
@@ -30,7 +30,7 @@ public class StatisticsPage extends VBox{
 		Sext.setContent(sr);
 		aget=new Tab("平均年龄");
 		aget.setClosable(false);
-		tb=new TablePane();
+		tb=new StudentTable();
 		aget.setContent(tb);
 		tp.getTabs().addAll(NumberOfClasst,Sext,aget);
 		tp.setSide(Side.BOTTOM);

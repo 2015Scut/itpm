@@ -22,22 +22,22 @@ public class Student extends Person{
 	private String classId;
 	/**照片*/
 	private Blob photo;
-	/**学院*/
-	private String department;
+	/**年级*/
+	private String grade;
 	/**专业*/
 	private String major;
 	/**班级名称*/
 	private String classes;
 	
 	public Student() {}
-	public Student(String na,int a,String s,String sid,String j,int n,String cid,Blob p,String d,String m,String c) {
+	public Student(String na,int a,String s,String sid,String j,int n,String cid,Blob p,String g,String m,String c) {
 		super(na,a,s);
 		studentId=sid;
 		job=j;
 		seatNumber=n;
 		classId=cid;
 		photo=p;
-		department=d;
+		grade=g;
 		major=m;
 		classes=c;
 	}
@@ -71,11 +71,11 @@ public class Student extends Person{
 	public void setPhoto(Blob photo) {
 		this.photo = photo;
 	}
-	public String getDepartment() {
-		return department;
+	public String getGrade() {
+		return grade;
 	}
-	public void setDepartment(String department) {
-		this.department = department;
+	public void setGrade(String grade) {
+		this.grade = grade;
 	}
 	public String getMajor() {
 		return major;

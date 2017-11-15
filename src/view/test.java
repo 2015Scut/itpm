@@ -3,6 +3,7 @@ package view;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -12,11 +13,18 @@ public class test {
 	
 	private static Stage primaryStage;
 	
+	private static int ret;
+	
 	private test(String message) {
-		Button t=new Button("确定");
+		ret=0;
+		Button t1=new Button("确定");
+		Button t2=new Button("取消");
 		Label lb=new Label(message);
+		HBox hb=new HBox();
+		hb.getChildren().addAll(t1,t2);
+		hb.setSpacing(20);
 		VBox vb=new VBox();
-		vb.getChildren().addAll(lb,t);
+		vb.getChildren().addAll(lb,hb);
 		vb.setSpacing(20);
 		primaryStage = new Stage();
         primaryStage.setResizable(false);      
@@ -24,7 +32,11 @@ public class test {
         primaryStage.setScene(new Scene(vb,300,150));
         primaryStage.setAlwaysOnTop(true);
         primaryStage.initModality(Modality.APPLICATION_MODAL);
-        t.setOnAction(e->{
+        t1.setOnAction(e->{
+        	ret=1;
+        	primaryStage.close();
+        });
+        t2.setOnAction(e->{
         	primaryStage.close();
         });
 	}
@@ -33,5 +45,8 @@ public class test {
 		t=new test(message);
 		if(primaryStage != null)
             primaryStage.showAndWait(); 
+	}
+	public static int getRet() {
+		return ret;
 	}
 }

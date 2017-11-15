@@ -1,10 +1,11 @@
 package view;
 
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;  
 import javafx.collections.ObservableList;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
@@ -20,30 +21,34 @@ import javafx.scene.control.cell.TextFieldTableCell;
 public class SeatPage extends VBox{
 	private TableView<row> tv;
 	
-	private Label departlb;
+	private Label gradelb;
 	private Label majorlb;
 	private Label classlb;
-	private ComboBox<String> departcb;
+	private ComboBox<String> gradecb;
 	private ComboBox<String> majorcb;
 	private ComboBox<String> classcb;
 	private ObservableList<row> data;
+	private Button photo;
+	private Button sbt;
 	
 	public SeatPage() {
-		departlb=new Label("学院: ");
-    	majorlb=new Label("专业: ");
+		gradelb=new Label("年级: ");
+    	majorlb=new Label("分科: ");
     	classlb=new Label("班级: ");
-    	departcb=new ComboBox<>();
+    	gradecb=new ComboBox<>();
     	majorcb=new ComboBox<>();
     	classcb=new ComboBox<>();
+    	photo=new Button("显示照片");
+    	sbt=new Button("搜索");
     	HBox hb=new HBox();
-    	hb.getChildren().addAll(departlb,departcb,majorlb,majorcb,classlb,classcb);
+    	hb.getChildren().addAll(gradelb,gradecb,majorlb,majorcb,classlb,classcb,photo,sbt);
     	hb.setSpacing(10);
     	data=FXCollections.observableArrayList(new row("","","","讲","台","","",""));
-    	
     	
 		tv=new TableView<>();
 		for(int i=0;i<8;i++) {
 			TableColumn tc=new TableColumn(i+1+"");
+			
 			tc.setMinWidth(124);
 			tc.setCellValueFactory(new PropertyValueFactory<row,String>(String.valueOf((char)(i+97))));
 			/*tc.setCellFactory(TextFieldTableCell.<row>forTableColumn());
@@ -56,7 +61,13 @@ public class SeatPage extends VBox{
 			tv.getColumns().add(tc);
 			
 		}
-		tv.getStylesheets().add(getClass().getResource("seattable.css").toExternalForm());
+		photo.setOnAction(e->{
+    		System.out.println(tv.getFocusModel().getFocusedCell().getColumn());
+    		
+    	});
+		tv.setId("seattable");
+		
+		this.getStylesheets().add(getClass().getResource("seattable.css").toExternalForm());
 		tv.setEditable(true);
 		tv.setItems(data);
 		tv.setPrefHeight(592);

@@ -17,7 +17,23 @@ public class Classes {
 	private String majorId;
 	/**学生列表*/
 	private ArrayList<Student>studentList;
+	/**班主任*/
+	private Teacher teacher;
+	/**班级人数*/
+	private int number;
 	
+	public Teacher getTeacher() {
+		return teacher;
+	}
+	public void setTeacher(Teacher teacher) {
+		this.teacher = teacher;
+	}
+	public int getNumber() {
+		return number;
+	}
+	public void setNumber(int number) {
+		this.number = number;
+	}
 	public Classes() {}
 	public Classes(String cid,String cn,int g,String mid,ArrayList<Student>sl) {
 		classId=cid;

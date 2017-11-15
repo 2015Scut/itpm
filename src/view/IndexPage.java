@@ -44,33 +44,45 @@ public class IndexPage extends Application {
 		vbox=new VBox();
 		
 		mb=new MenuBar();
-		Menu menuFile = new Menu("菜单");
-        Menu menuEdit = new Menu("Edit");
+		Menu menuInsert = new Menu("录入");
+        Menu menuEdit = new Menu("管理");
         Menu menuView = new Menu("View");
  
-        mb.getMenus().addAll(menuFile, menuEdit, menuView);
+        mb.getMenus().addAll(menuInsert, menuEdit, menuView);
 		men=new LeftBox();
 		men.setPrefWidth(150);
 		
+		MenuItem student=new MenuItem("录入学生信息");
+		menuInsert.getItems().add(student);
+		student.setOnAction(e->{
+			AddStudent.show();
+		});
+		
 		MenuItem depart=new MenuItem("录入年级信息");
-		menuFile.getItems().add(depart);
+		menuInsert.getItems().add(depart);
 		depart.setOnAction(e->{
 			AddGrade.show();
 		});
 		MenuItem major=new MenuItem("录入文理科信息");
-		menuFile.getItems().add(major);
+		menuInsert.getItems().add(major);
 		major.setOnAction(e->{
 			AddMajor.show();
 		});
 		MenuItem classes=new MenuItem("录入班级信息");
-		menuFile.getItems().add(classes);
+		menuInsert.getItems().add(classes);
 		classes.setOnAction(e->{
 			AddClasses.show();
 		});
 		MenuItem teacher=new MenuItem("录入教师信息");
-		menuFile.getItems().add(teacher);
+		menuInsert.getItems().add(teacher);
 		teacher.setOnAction(e->{
 			AddTeacher.show();
+		});
+		
+		MenuItem user=new MenuItem("用户管理");
+		menuEdit.getItems().add(user);
+		user.setOnAction(e->{
+			
 		});
 		
 		hbox.getChildren().addAll(men,border);
@@ -88,28 +100,24 @@ public class IndexPage extends Application {
 		//hbox.prefWidthProperty().bind(scene.widthProperty());
 		
 		men.getBt1().setOnAction((ActionEvent e)->{
-			System.out.println("button1 click");
 			search=new SearchPage();
 			border.getChildren().clear();
 			border.getChildren().add(search);
 			primaryStage.setScene(scene);
 		});
 		men.getBt2().setOnAction((ActionEvent e)->{
-			System.out.println("button2 click");
-			TablePane tp = new TablePane();
+			ClassTable ct = new ClassTable();
 			border.getChildren().clear();
-			border.getChildren().add(tp);
+			border.getChildren().add(ct);
 			primaryStage.setScene(scene);
 		});
 		men.getBt3().setOnAction((ActionEvent e)->{
-			System.out.println("button3 click");
 			SeatPage st=new SeatPage();
 			border.getChildren().clear();
 			border.getChildren().add(st);
 			primaryStage.setScene(scene);
 		});
 		men.getBt4().setOnAction((ActionEvent e)->{
-			System.out.println("button4 click");
 			form=new StatisticsPage();
 			border.getChildren().clear();
 			border.getChildren().add(form);

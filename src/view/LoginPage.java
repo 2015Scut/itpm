@@ -74,7 +74,7 @@ public class LoginPage extends Application {
                 actiontarget.setText("��½�ɹ�");  
                 grid.setVisible(false);  
                 //������  
-                TablePane tp = new TablePane();  
+                StudentTable tp = new StudentTable();  
                 //�ӵ�������  
                 Scene tpScene = new Scene(tp,500,500);  
                 //�л���̨����Ϊ������  

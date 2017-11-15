@@ -8,23 +8,23 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 
 public class SexRate extends VBox{
-	private Label departlb;
+	private Label gradelb;
 	private Label majorlb;
 	private Label classlb;
-	private ComboBox<String> departcb;
+	private ComboBox<String> gradecb;
 	private ComboBox<String> majorcb;
 	private ComboBox<String> classcb;
 	private PieChart pc;
 	
 	public SexRate() {
-		departlb=new Label("学院: ");
-    	majorlb=new Label("专业: ");
+		gradelb=new Label("年级: ");
+    	majorlb=new Label("分科: ");
     	classlb=new Label("班级: ");
-    	departcb=new ComboBox<>();
+    	gradecb=new ComboBox<>();
     	majorcb=new ComboBox<>();
     	classcb=new ComboBox<>();
     	HBox hb=new HBox();
-    	hb.getChildren().addAll(departlb,departcb,majorlb,majorcb,classlb,classcb);
+    	hb.getChildren().addAll(gradelb,gradecb,majorlb,majorcb,classlb,classcb);
     	hb.setSpacing(10);
     	
     	pc=new PieChart();

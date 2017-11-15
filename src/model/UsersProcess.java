@@ -8,12 +8,11 @@ import java.sql.*;
  * 
  */
 public class UsersProcess {
-	private Users user;
 	private Connection ct=null;
 	private PreparedStatement ps=null;
 	private ResultSet rs=null;
 	/**插入数据的sql语句*/
-	private static final String insertSQL="insert into users values (?,?)";
+	private static final String insertSQL="insert into users values (?,?,?)";
 	/**插入teacher_users关系表的sql语句*/
 	private static final String relationSQL="insert into teacher_users values(?,?)";
 	/**搜索用户id和密码的sql语句*/
@@ -28,39 +27,43 @@ public class UsersProcess {
 	 * 也可以自己百度学习一下有关JDBC的知识
 	 * */
 	public UsersProcess() {}
-	public UsersProcess(Users u) {
-		user=u;
-	}
+	
 	/**
-	 * 
-	 * 向数据库用户表中录入用户数据
-	 * @param u 用户类
-	 * @return 是否成功录入数据
+	 * 向数据库插入用户
+	 * @param uid 用户名
+	 * @param pw 密码
+	 * @param tid 教师id
+	 * @param name 教师名字
+	 * @return 是否成功
 	 * @throws SQLException SQL异常
 	 */
-	public boolean insertUser(Users u) throws SQLException {
+	public boolean insertUser(String uid,String pw,String tid,String name) throws SQLException {
 		ct=ConnDB.getConn();//获取数据库连接
 		ps=ct.prepareStatement(confirmSQL);
-		ps.setString(1, u.getTeacherId());
+		ps.setString(1, tid);
 		rs=ps.executeQuery();
-		String tid;
-		if(!rs.next())return false;//验证教师身份
-		else tid=rs.getString(1);
+		System.out.println(ps.toString());
+		if(!name.equals(rs.getString(2)))return false;//验证教师身份
 		
+
+		System.out.println(1);
 		ps=ct.prepareStatement(searchSQL);//验证用户名是否重复
-		ps.setString(1, u.getUserId());
+		ps.setString(1, uid);
+		System.out.println(ps.toString());
 		rs=ps.executeQuery();
 		if(rs.next())return false;
 		
 		ps=ct.prepareStatement(insertSQL);//插入用户表
-		ps.setString(1, u.getUserId());//向String中？的地方填入数据
-		ps.setString(2, u.getPassword());
+		ps.setString(1, uid);//向String中？的地方填入数据
+		ps.setString(2, pw);
 		ps.executeUpdate();
+		System.out.println("3");
 		
 		ps=ct.prepareStatement(relationSQL);//插入关系表
 		ps.setString(1, tid);
-		ps.setString(2, u.getUserId());
+		ps.setString(2, uid);
 		ps.executeUpdate();
+		System.out.println("4");
 		ct.close();//关闭数据库，记得每次用完都要关闭
 		ct=null;
 		ps=null;
@@ -110,18 +113,21 @@ public class UsersProcess {
 	 * @param args 参数
 	 */
 	public static void main(String [] args) {//测试
-		/*UsersProcess up=new UsersProcess();
+		UsersProcess up=new UsersProcess();
 		Users u=new Users();
 		u.setUserId("admin");
 		u.setPassword("itpm");
 		u.setTeacherId("03001");
 		try {
-			up.insertUser(u);
+			up.insertUser("admin","itpm","1","admin");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		}
 		//wsj
-		ConnDB.getConn();
+		//ConnDB.getConn();
+		/*while(true) {
+			
+		}*/
 	}
 }

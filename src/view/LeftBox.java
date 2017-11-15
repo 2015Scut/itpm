@@ -22,7 +22,7 @@ public class LeftBox extends VBox{
 		return bt4;
 	}
 	private Button bt1=new Button("基本情况查询");
-	private Button bt2=new Button("名单表");
+	private Button bt2=new Button("班级浏览");
 	private Button bt3=new Button("座位表");
 	private Button bt4=new Button("统计报表");
 	public LeftBox() {
