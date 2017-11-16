@@ -1,6 +1,7 @@
 package controller;
 import view.*;
 
+
 public class Insert {
 
 	public Insert(){}
