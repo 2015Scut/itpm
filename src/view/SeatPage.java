@@ -2,7 +2,12 @@ package view;
 
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+
+import java.util.ArrayList;
+
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;  
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
@@ -43,7 +48,9 @@ public class SeatPage extends VBox{
     	HBox hb=new HBox();
     	hb.getChildren().addAll(gradelb,gradecb,majorlb,majorcb,classlb,classcb,photo,sbt);
     	hb.setSpacing(10);
-    	data=FXCollections.observableArrayList(new row("","","","讲","台","","",""));
+    	ArrayList<row> rows=new ArrayList<>();
+    	rows.add(new row("","","","讲","台","","",""));
+    	data=FXCollections.observableArrayList(rows);
     	
 		tv=new TableView<>();
 		for(int i=0;i<8;i++) {
@@ -61,8 +68,25 @@ public class SeatPage extends VBox{
 			tv.getColumns().add(tc);
 			
 		}
+		gradecb.valueProperty().addListener(new ChangeListener<String>() {
+    		//当下拉框的值改变时，设置专业下拉框的items
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				// TODO Auto-generated method stub
+				ArrayList<String> majors = getMajorList(newValue);
+				majorcb.getItems().clear();
+				majorcb.getItems().addAll(majors);
+			}
+    		
+    	});
+		sbt.setOnAction(e->{
+			
+		});
 		photo.setOnAction(e->{
-    		System.out.println(tv.getFocusModel().getFocusedCell().getColumn());
+			int r=tv.getFocusModel().getFocusedCell().getRow();
+			int c=tv.getFocusModel().getFocusedCell().getColumn();
+			
+    		System.out.println(tv.getFocusModel().getFocusedItem().get(c));
     		
     	});
 		tv.setId("seattable");
@@ -74,6 +98,12 @@ public class SeatPage extends VBox{
 		tv.setMaxWidth(994);
 		this.getChildren().addAll(hb,tv);
 	}
+	
+	protected ArrayList<String> getMajorList(String newValue) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	public static class row{
 		private SimpleStringProperty a;
         private SimpleStringProperty b;
@@ -161,6 +191,17 @@ public class SeatPage extends VBox{
         }
         public String getH() {
         	return h.get();
+        }
+        public String get(int index) {
+        	if(index==0)return getA();
+        	else if(index==1)return getB();
+        	else if(index==2)return getC();
+        	else if(index==3)return getD();
+        	else if(index==4)return getE();
+        	else if(index==5)return getF();
+        	else if(index==6)return getG();
+        	else if(index==7)return getH();
+        	else return null;
         }
         
 	}

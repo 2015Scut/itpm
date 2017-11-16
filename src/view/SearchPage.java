@@ -44,8 +44,9 @@ public class SearchPage extends BorderPane{
     	
     	//ObservableList<String> departments = FXCollections.observableArrayList(getDepartmentList());
     	gradecb=new ComboBox<>();
-    	String[] departments=getDepartmentList();
-    	gradecb.getItems().addAll(departments);
+    	ArrayList<String> departments=getDepartmentList();
+    	if(departments!=null)
+    		gradecb.getItems().addAll(departments);
     	majorcb=new ComboBox<>();
     	classcb=new ComboBox<>();
     	gradecb.valueProperty().addListener(new ChangeListener<String>() {
@@ -53,7 +54,7 @@ public class SearchPage extends BorderPane{
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 				// TODO Auto-generated method stub
-				String[] majors = getMajorList(newValue);
+				ArrayList<String> majors = getMajorList(newValue);
 				majorcb.getItems().clear();
 				majorcb.getItems().addAll(majors);
 			}
@@ -64,7 +65,7 @@ public class SearchPage extends BorderPane{
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 				// TODO Auto-generated method stub
-				String[] classes = getClassList(newValue);
+				ArrayList<String> classes = getClassList(newValue);
 				classcb.getItems().clear();
 				classcb.getItems().addAll(classes);
 			}
@@ -122,16 +123,15 @@ public class SearchPage extends BorderPane{
 	 * @param departName 学院名
 	 * @return 专业名的数组
 	 */
-	private String[] getMajorList(String departName){
+	private ArrayList<String> getMajorList(String departName){
 		return null;
 	}
-	private String[] getClassList(String majorName){
+	private ArrayList<String> getClassList(String majorName){
 		return null;
 	}
-	private String[] getDepartmentList(){
-		String[] ml=new String[1];
-		ml[0]="2015级";
-		return ml;
+	private ArrayList<String> getDepartmentList(){
+		
+		return null;
 	}
 	private VBox createPage(int pageIndex) {
         VBox box = new VBox(5);
