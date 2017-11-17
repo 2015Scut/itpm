@@ -3,6 +3,8 @@ package view;
 
 import java.util.ArrayList;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
@@ -14,7 +16,7 @@ public class ClassTable extends VBox{
 	private Button sbt;
 	private Label gradelb;
 	private Label majorlb;
-	private ComboBox<String> gradecb;
+	private ComboBox<Integer> gradecb;
 	private ComboBox<String> majorcb;
 	
 	public ClassTable() {
@@ -46,8 +48,39 @@ public class ClassTable extends VBox{
         majorlb=new Label("分科: ");
         majorcb=new ComboBox<>();
     	gradecb=new ComboBox<>();
+    	
+    	ArrayList<Integer> grades=getGradeList();
+    	if(grades!=null)
+    		gradecb.getItems().addAll(grades);
+    	gradecb.valueProperty().addListener(new ChangeListener<Integer>() {
+    		//当下拉框的值改变时，设置专业下拉框的items
+			@Override
+			public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
+				// TODO Auto-generated method stub
+				ArrayList<String> majors = getMajorList(newValue);
+				majorcb.getItems().clear();
+				majorcb.getItems().addAll(majors);
+			}
+    		
+    	});
+    	
+    	sbt.setOnAction(e->{
+    		
+    	});
+    	
     	hb.getChildren().addAll(gradelb,gradecb,majorlb,majorcb,sbt);
     	hb.setSpacing(20);
     	this.getChildren().addAll(hb,tableView);
+	}
+	
+	private ArrayList<String> getMajorList(Integer gradeId){
+		ArrayList ml=new ArrayList<String>();
+		ml.add("理科");
+		return ml;
+	}
+	private ArrayList<Integer> getGradeList(){
+		ArrayList gl=new ArrayList<String>();
+		gl.add(2015);
+		return gl;
 	}
 }

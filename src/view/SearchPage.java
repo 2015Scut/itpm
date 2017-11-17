@@ -1,6 +1,6 @@
 package view;
 
-
+import controller.*;
 import java.util.ArrayList;
 
 import javafx.beans.value.ChangeListener;
@@ -32,7 +32,7 @@ public class SearchPage extends BorderPane{
 	private Label gradelb;
 	private Label majorlb;
 	private Label classlb;
-	private ComboBox<String> gradecb;
+	private ComboBox<Integer> gradecb;
 	private ComboBox<String> majorcb;
 	private ComboBox<String> classcb;
 	
@@ -43,17 +43,18 @@ public class SearchPage extends BorderPane{
     	majorlb=new Label("分科: ");
     	classlb=new Label("班级: ");
     	
-    	//ObservableList<String> departments = FXCollections.observableArrayList(getDepartmentList());
+    	Search search=new Search();
+    	
     	gradecb=new ComboBox<>();
-    	ArrayList<String> departments=getDepartmentList();
-    	if(departments!=null)
-    		gradecb.getItems().addAll(departments);
+    	ArrayList<Integer> grades=getGradeList();
+    	if(grades!=null)
+    		gradecb.getItems().addAll(grades);
     	majorcb=new ComboBox<>();
     	classcb=new ComboBox<>();
-    	gradecb.valueProperty().addListener(new ChangeListener<String>() {
+    	gradecb.valueProperty().addListener(new ChangeListener<Integer>() {
     		//当下拉框的值改变时，设置专业下拉框的items
 			@Override
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+			public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
 				// TODO Auto-generated method stub
 				ArrayList<String> majors = getMajorList(newValue);
 				majorcb.getItems().clear();
@@ -74,7 +75,6 @@ public class SearchPage extends BorderPane{
     	});
 		sbt=new Button("搜索");
 		modify=new Button("修改");
-		//add=new Button("增加");
 		delete=new Button("删除");
 		idtf=new TextField();
 		nametf=new TextField();
@@ -90,21 +90,27 @@ public class SearchPage extends BorderPane{
         });
 		
 		delete.setOnAction(e->{
-			System.out.println(tb.row());
-			System.out.println(tb.col());
+			String c=tb.getTable().getSelectionModel().getSelectedItem().getClasses();
+			if(checkTeacher(c));
+			System.out.println(c);
 		});
 		
 		sbt.setOnAction(e->{
 			//搜索
+			String stdid=idtf.getText();
+			String stdname=nametf.getText();
+			Integer grade=gradecb.getValue();
+			String major=majorcb.getValue();
+			String classes=classcb.getValue();
+			System.out.println(stdid+" "+stdname+" "+grade+" "+major+" "+classes+" ");
 		});
 		
 		modify.setOnAction(e->{
-			test.show("没有权限");
+			String c=tb.getTable().getSelectionModel().getSelectedItem().getClasses();
+			if(!checkTeacher(c))
+				test.show("没有权限");
 			System.out.println(test.getRet());
 		});
-		/*add.setOnAction(e->{
-			AddStudent.show();
-		});*/
 		
 		HBox hb=new HBox();
     	hb.getChildren().addAll(idlb,idtf,namelb,nametf,gradelb,gradecb,majorlb,majorcb,classlb,classcb,sbt);
@@ -124,18 +130,26 @@ public class SearchPage extends BorderPane{
 	 * @param departName 学院名
 	 * @return 专业名的数组
 	 */
-	private ArrayList<String> getMajorList(String departName){
-		return null;
+	private ArrayList<String> getMajorList(Integer gradeId){
+		ArrayList ml=new ArrayList<String>();
+		ml.add("理科");
+		return ml;
 	}
 	private ArrayList<String> getClassList(String majorName){
-		return null;
+		ArrayList cl=new ArrayList<String>();
+		cl.add("一班");
+		return cl;
 	}
-	private ArrayList<String> getDepartmentList(){
-		
-		return null;
+	private ArrayList<Integer> getGradeList(){
+		ArrayList gl=new ArrayList<String>();
+		gl.add(2015);
+		return gl;
 	}
 	private VBox createPage(int pageIndex) {
         VBox box = new VBox(5);
         return box;
     }
+	private boolean checkTeacher(String c) {
+		return false;
+	}
 }

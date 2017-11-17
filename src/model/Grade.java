@@ -9,23 +9,23 @@ import java.util.ArrayList;
  */
 public class Grade {
 	/**年级id*/
-	private String gradeId;
+	private int gradeId;
 	/**专业列表*/
 	private ArrayList<Major>majorList;
 	/**教师列表*/
 	private ArrayList<Teacher>teacherList;
 	
 	public Grade() {}
-	public Grade(String did,ArrayList<Major>ml,ArrayList<Teacher>tl) {
+	public Grade(int did,ArrayList<Major>ml,ArrayList<Teacher>tl) {
 		gradeId=did;
 		majorList=ml;
 		teacherList=tl;
 	}
 	
-	public String getGradeId() {
+	public int getGradeId() {
 		return gradeId;
 	}
-	public void setGradeId(String gradeId) {
+	public void setGradeId(int gradeId) {
 		this.gradeId = gradeId;
 	}
 	public ArrayList<Major> getMajorList() {

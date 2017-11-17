@@ -13,12 +13,12 @@ public class Major {
 	/**专业名称*/
 	private String majorName;
 	/**所属年级id*/
-	private String gradeId;
+	private int gradeId;
 	/**班级列表*/
 	private ArrayList<Classes>classList;
 	
 	public Major() {}
-	public Major(String mid,String mn,String did,ArrayList<Classes>cl) {
+	public Major(String mid,String mn,int did,ArrayList<Classes>cl) {
 		majorId=mid;
 		majorName=mn;
 		gradeId=did;
@@ -37,10 +37,10 @@ public class Major {
 		this.majorName = majorName;
 	}
 	
-	public String getGradeId() {
+	public int getGradeId() {
 		return gradeId;
 	}
-	public void setGradeId(String gradeId) {
+	public void setGradeId(int gradeId) {
 		this.gradeId = gradeId;
 	}
 	public ArrayList<Classes> getClassList() {

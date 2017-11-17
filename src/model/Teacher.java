@@ -9,13 +9,13 @@ public class Teacher extends Person{
 	/**教师id*/
 	private String teacherId;
 	/**所属学院id*/
-	private String departId;
+	private int gradeId;
 	
 	public Teacher() {}
-	public Teacher(String n,int a,String s,String tid,String did) {
+	public Teacher(String n,int a,String s,String tid,int gid) {
 		super(n,a,s);
 		teacherId=tid;
-		departId=did;
+		gradeId=gid;
 	}
 	public String getTeacherId() {
 		return teacherId;
@@ -23,11 +23,11 @@ public class Teacher extends Person{
 	public void setTeacherId(String teacherId) {
 		this.teacherId = teacherId;
 	}
-	public String getDepartId() {
-		return departId;
+	public int getDepartId() {
+		return gradeId;
 	}
-	public void setDepartId(String departId) {
-		this.departId = departId;
+	public void setDepartId(int gradeId) {
+		this.gradeId = gradeId;
 	}
 	
 }

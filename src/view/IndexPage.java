@@ -91,14 +91,10 @@ public class IndexPage extends Application {
 		
 		vbox.getChildren().addAll(mb,hbox);
 		
-		//g=new Group();
-		//g.getChildren().add(vbox);
 		
 		Scene scene=new Scene(vbox,1200,700);
 		mb.prefWidthProperty().bind(scene.widthProperty());
 		border.setPrefWidth(1000);
-		//hbox.prefHeightProperty().bind(scene.heightProperty());
-		//hbox.prefWidthProperty().bind(scene.widthProperty());
 		
 		men.getBt1().setOnAction((ActionEvent e)->{
 			search=new SearchPage();
