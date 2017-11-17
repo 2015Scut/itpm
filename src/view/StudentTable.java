@@ -69,7 +69,7 @@ public class StudentTable extends AnchorPane {
     	tableView.setEditable(true);
         ArrayList<Student> sl=new ArrayList<>();
         for(int i=0;i<5;i++) {
-        	sl.add(new Student("钟", 20, "男", "20150111001", null, 1, "20150111", null, "2015", "理科", "15级理科1班"));
+        	sl.add(new Student("钟", 20, "男", "20150111001", null, 1, "20150111", null, 2015, "理科", "15级理科1班"));
         }
         tableView.getItems().addAll(sl);
         tableView.getColumns().addAll(xhColumn,xmColumn,xbColumn,nlColumn,njColumn,fkColumn,bjColumn,zwColumn);  
