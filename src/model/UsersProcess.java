@@ -98,8 +98,8 @@ public class UsersProcess {
 	public void updateUsers(String uid,String pw) throws SQLException {
 		ct=ConnDB.getConn();
 		ps=ct.prepareStatement(updateSQL);
-		ps.setString(1, uid);
-		ps.setString(2, pw);
+		ps.setString(2, uid);
+		ps.setString(1, pw);
 		ps.executeQuery();
 		ct.close();
 		ct=null;
