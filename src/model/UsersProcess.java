@@ -100,7 +100,7 @@ public class UsersProcess {
 		ps=ct.prepareStatement(updateSQL);
 		ps.setString(2, uid);
 		ps.setString(1, pw);
-		ps.executeQuery();
+		ps.executeUpdate();
 		ct.close();
 		ct=null;
 		ps=null;
