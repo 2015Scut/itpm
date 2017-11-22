@@ -46,6 +46,7 @@ public class StudentProcess implements Process {
 		ps=ct.prepareStatement(searchSQL);//验证学生id是否重复
 		ps.setString(1, sid);
 		rs=ps.executeQuery();
+		System.out.println(ps);
 		if(rs.next())return false;
 		
 		ps=ct.prepareStatement(insertSQL);//插入学生表
@@ -57,6 +58,7 @@ public class StudentProcess implements Process {
 		ps.setString(6, cid);
 		ps.setString(7, job);
 		ps.setInt(8, seat);
+		System.out.println(ps);
 		ps.executeUpdate();
 		
 		ct.close();//关闭数据库，记得每次用完都要关闭
@@ -114,12 +116,12 @@ public class StudentProcess implements Process {
 	 */
 	public static void main(String [] args) {//测试
 		StudentProcess up=new StudentProcess();
-		/*try {
-			up.insertStudent("0001","王",20,"男",null,"001","打酱油",666);
+		try {
+			up.insertStudent("000010101","王",20,"男",null,"0000101","打酱油",666);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		}
 		/*try {
 			up.updateStudent("0001","打麻油",888);
 		} catch (SQLException e) {

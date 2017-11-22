@@ -14,8 +14,8 @@ public class AddTeacher {
 	private static Stage stage;
 	private Label namelb;
 	private Label idlb;
-	private Label departlb;
-	private ComboBox<String> departcb;
+	private Label gradelb;
+	private ComboBox<String> gradecb;
 	private TextField idtf;
 	private TextField nametf;
 	private Label sexlb;
@@ -32,8 +32,8 @@ public class AddTeacher {
 		idlb=new Label("工号: ");
 		idtf=new TextField();
 		idtf.setEditable(false);//id通过查询数据库获取自动分配
-		departlb=new Label("学院: ");
-		departcb=new ComboBox<>();
+		gradelb=new Label("年级: ");
+		gradecb=new ComboBox<>();
 		sexlb=new Label("性别: ");
 		ObservableList<String>options=FXCollections.observableArrayList("男","女");
 		sex=new ComboBox<>(options);
@@ -45,10 +45,10 @@ public class AddTeacher {
 		namehb.getChildren().addAll(namelb,nametf);
 		HBox sexhb=new HBox();
 		sexhb.getChildren().addAll(sexlb,sex);
-		HBox departhb=new HBox();
-		departhb.getChildren().addAll(departlb,departcb);
+		HBox gradehb=new HBox();
+		gradehb.getChildren().addAll(gradelb,gradecb);
 		VBox vb=new VBox();
-		vb.getChildren().addAll(departhb,idhb,namehb,sexhb,confirm);
+		vb.getChildren().addAll(gradehb,idhb,namehb,sexhb,confirm);
 		vb.setSpacing(20);
 		stage.setScene(new Scene(vb,500,250));
 		confirm.setOnAction(e->{
