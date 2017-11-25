@@ -16,8 +16,6 @@ public class Classes {
 	private int grade;
 	/**所属专业id*/
 	private String majorId;
-	/**学生列表*/
-	private ArrayList<Student>studentList;
 	/**班主任*/
 	private Teacher teacher;
 	/**班级人数*/
@@ -36,12 +34,11 @@ public class Classes {
 		this.number = number;
 	}
 	public Classes() {}
-	public Classes(String cid,String cn,int g,String mid,ArrayList<Student>sl) {
+	public Classes(String cid,String cn,int g,String mid) {
 		classId=cid;
 		className=cn;
 		grade=g;
 		majorId=mid;
-		studentList=sl;
 	}
 	public String getClassId() {
 		return classId;
@@ -67,17 +64,6 @@ public class Classes {
 	public void setMajorId(String majorId) {
 		this.majorId = majorId;
 	}
-	public ArrayList<Student> getStudentList() {
-		return studentList;
-	}
-	public void setStudentList(ArrayList<Student> studentList) {
-		this.studentList = studentList;
-	}
-	/**
-	 * 为班级增加学生
-	 * @param s 学生类
-	 */
-	public void addStudent(Student s) {
-		studentList.add(s);
-	}
+	
+	
 }
