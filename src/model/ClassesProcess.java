@@ -108,7 +108,7 @@ public class ClassesProcess implements Process {
 	public static void main(String[] args) {//测试
 		ClassesProcess up=new ClassesProcess();
 		try {
-			up.insertClasses("000010101","三年2班","0000101");
+			up.insertClasses("0000102","三年2班","00001");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
