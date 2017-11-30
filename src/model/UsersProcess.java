@@ -13,7 +13,7 @@ public class UsersProcess {
 	private ResultSet rs=null;
 	/**插入数据的sql语句*/
 	private static final String insertSQL="insert into users values (?,?,?)";
-	/**插入teacher_users关系表的sql语句*/
+	/**插入teacher_users关系表的sql语句*/ 
 	private static final String relationSQL="insert into teacher_users values(?,?)";
 	/**搜索用户id和密码的sql语句*/
 	private static final String searchSQL="select * from users where user_id=?";
@@ -114,7 +114,7 @@ public class UsersProcess {
 		Users u=new Users();
 		u.setUserId("admin");
 		u.setPassword("itpm");
-		u.setTeacherId("03001");
+		u.setTeacherId("1");
 		try {
 			up.insertUser("admin","itpm","1","admin");
 		} catch (SQLException e) {
