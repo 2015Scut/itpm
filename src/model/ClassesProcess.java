@@ -5,7 +5,7 @@ import java.sql.*;
 /** 
  * 处理教室类数据的类，可以获取，添加，更新教室数据 
  * @author 何广森
- * @version 1.0
+ * @version 1.1
  *  
  */
 public class ClassesProcess implements Process {
