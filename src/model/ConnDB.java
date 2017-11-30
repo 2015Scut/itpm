@@ -13,11 +13,11 @@ public class ConnDB {
 	/**Mysql JDBC 驱动*/
 	private static final String driver = "com.mysql.jdbc.Driver";  
 	/**数据库url*/
-	private static final String url = "jdbc:mysql://127.0.0.1:3306/itpm?useUnicode=true&characterEncoding=utf-8&useSSL=false"; 
+	private static final String url = "jdbc:mysql://110.64.88.82:3306/itpm?useUnicode=true&characterEncoding=utf-8&useSSL=false";
 	/**数据库用户名*/
 	private static final String user = "root";
 	/**数据库密码*/
-	private static final String password = "01230123";
+	private static final String password = "1234";
 	private static Connection ct=null;
 	
 	private ConnDB() {
