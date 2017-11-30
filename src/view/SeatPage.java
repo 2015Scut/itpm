@@ -35,6 +35,7 @@ public class SeatPage extends VBox{
 	private ComboBox<String> classcb;
 	private ObservableList<row> data;
 	private Button photo;
+	private Button save;
 	private Button sbt;
 	
 	public SeatPage() {
@@ -45,9 +46,10 @@ public class SeatPage extends VBox{
     	majorcb=new ComboBox<>();
     	classcb=new ComboBox<>();
     	photo=new Button("显示照片");
+    	save=new Button("保存");
     	sbt=new Button("搜索");
     	HBox hb=new HBox();
-    	hb.getChildren().addAll(gradelb,gradecb,majorlb,majorcb,classlb,classcb,photo,sbt);
+    	hb.getChildren().addAll(gradelb,gradecb,majorlb,majorcb,classlb,classcb,photo,save,sbt);
     	hb.setSpacing(10);
     	ArrayList<row> rows=new ArrayList<>();
     	rows.add(new row("","","","讲","台","","",""));

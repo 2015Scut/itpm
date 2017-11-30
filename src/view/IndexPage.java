@@ -9,6 +9,8 @@ import javafx.geometry.*;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -53,36 +55,37 @@ public class IndexPage extends Application {
 		men=new LeftBox();
 		men.setPrefWidth(150);
 		
-		MenuItem student=new MenuItem("录入学生信息");
-		menuInsert.getItems().add(student);
-		student.setOnAction(e->{
+		MenuItem studentItem=new MenuItem("录入学生信息");
+		menuInsert.getItems().add(studentItem);
+		studentItem.setOnAction(e->{
 			AddStudent.show();
 		});
 		
-		MenuItem depart=new MenuItem("录入年级信息");
-		menuInsert.getItems().add(depart);
-		depart.setOnAction(e->{
+		MenuItem departItem=new MenuItem("录入年级信息");
+		menuInsert.getItems().add(departItem);
+		departItem.setOnAction(e->{
 			AddGrade.show();
 		});
-		MenuItem major=new MenuItem("录入文理科信息");
-		menuInsert.getItems().add(major);
-		major.setOnAction(e->{
+		MenuItem majorItem=new MenuItem("录入文理科信息");
+		menuInsert.getItems().add(majorItem);
+		majorItem.setOnAction(e->{
 			AddMajor.show();
 		});
-		MenuItem classes=new MenuItem("录入班级信息");
-		menuInsert.getItems().add(classes);
-		classes.setOnAction(e->{
+		MenuItem classesItem=new MenuItem("录入班级信息");
+		menuInsert.getItems().add(classesItem);
+		classesItem.setOnAction(e->{
 			AddClasses.show();
 		});
-		MenuItem teacher=new MenuItem("录入教师信息");
-		menuInsert.getItems().add(teacher);
-		teacher.setOnAction(e->{
+		MenuItem teacherItem=new MenuItem("录入教师信息");
+		menuInsert.getItems().add(teacherItem);
+		teacherItem.setOnAction(e->{
 			AddTeacher.show();
 		});
 		
-		MenuItem user=new MenuItem("用户管理");
-		menuEdit.getItems().add(user);
-		user.setOnAction(e->{
+		MenuItem userItem=new MenuItem("用户管理");
+		//MenuItem test=new MenuItem("test", new ImageView(new Image("menusample/new.png")));给菜单加图标
+		menuEdit.getItems().add(userItem);
+		userItem.setOnAction(e->{
 			
 		});
 		
@@ -123,6 +126,7 @@ public class IndexPage extends Application {
 		
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("学生信息查询系统");
+		//primaryStage.getIcons().add(null);图标
 		primaryStage.setResizable(false);
 		primaryStage.show();
 	}

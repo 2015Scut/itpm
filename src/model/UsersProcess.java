@@ -49,6 +49,7 @@ public class UsersProcess {
 		ps=ct.prepareStatement(searchSQL);//验证用户名是否重复
 		ps.setString(1, uid);
 		rs=ps.executeQuery();
+		
 		if(rs.next())return false;
 		
 		ps=ct.prepareStatement(insertSQL);//插入用户表
@@ -98,9 +99,9 @@ public class UsersProcess {
 	public void updateUsers(String uid,String pw) throws SQLException {
 		ct=ConnDB.getConn();
 		ps=ct.prepareStatement(updateSQL);
-		ps.setString(1, uid);
-		ps.setString(2, pw);
-		ps.executeQuery();
+		ps.setString(2, uid);
+		ps.setString(1, pw);
+		ps.executeUpdate();
 		ct.close();
 		ct=null;
 		ps=null;
@@ -110,7 +111,7 @@ public class UsersProcess {
 	 * @param args 参数
 	 */
 	public static void main(String [] args) {//测试
-		UsersProcess up=new UsersProcess();
+		/*UsersProcess up=new UsersProcess();
 		Users u=new Users();
 		u.setUserId("admin");
 		u.setPassword("itpm");
@@ -120,11 +121,7 @@ public class UsersProcess {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		//wsj
-		//ConnDB.getConn();
-		/*while(true) {
-			
 		}*/
+		ConnDB.getConn();
 	}
 }

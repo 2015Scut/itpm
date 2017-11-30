@@ -29,6 +29,12 @@ public class AddStudent {
 	private Button photo;
 	private Image image;
 	private ImageView imageview;
+	private Label gradelb;
+	private Label majorlb;
+	private Label classlb;
+	private ComboBox<String>gradecb;
+	private ComboBox<String>majorcb;
+	private ComboBox<String>classcb;
 	
 	private AddStudent() {
 		stage=new Stage();
@@ -43,6 +49,12 @@ public class AddStudent {
 		nametf=new TextField();
 		ObservableList<String>options=FXCollections.observableArrayList("男","女");
 		sex=new ComboBox<String>(options);
+		gradelb=new Label("年级: ");
+		majorlb=new Label("分科: ");
+		classlb=new Label("班级: ");
+		gradecb=new ComboBox<>();
+		majorcb=new ComboBox<>();
+		classcb=new ComboBox<>();
 		BorderPane bp=new BorderPane();
 		photo=new Button("选择照片");
 		bp.setBottom(photo);
@@ -73,13 +85,19 @@ public class AddStudent {
 		namehb.getChildren().addAll(namelb,nametf);
 		HBox sexhb=new HBox();
 		sexhb.getChildren().addAll(sexlb,sex);
+		HBox gradehb=new HBox();
+		gradehb.getChildren().addAll(gradelb,gradecb);
+		HBox majorhb=new HBox();
+		majorhb.getChildren().addAll(majorlb,majorcb);
+		HBox classhb=new HBox();
+		classhb.getChildren().addAll(classlb,classcb);
 		VBox vb=new VBox();
-		vb.getChildren().addAll(idhb,namehb,sexhb,confirm);
+		vb.getChildren().addAll(gradehb,majorhb,classhb,idhb,namehb,sexhb,confirm);
 		vb.setSpacing(20);
 		HBox hb=new HBox();
 		hb.getChildren().addAll(vb,bp);
 		hb.setSpacing(20);
-		stage.setScene(new Scene(hb,500,200));
+		stage.setScene(new Scene(hb,500,400));
 		confirm.setOnAction(e->{
 			//弹出确认窗口
 			//录入数据
