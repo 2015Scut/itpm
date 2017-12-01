@@ -9,8 +9,9 @@ import java.sql.SQLException;
 /** 
  * 处理学生类数据的类，可以获取，添加，更新和删除学生数据 
  * @author 王圣杰 
- * @version 1.0
- *  
+ * @version 1.1
+ * 
+ *
  */
 public class StudentProcess implements Process {
 	
@@ -27,6 +28,10 @@ public class StudentProcess implements Process {
 	private static final String deleteSQL="delete from student where student_id=?";
 	/**根据五个值搜索出的学生集合sql语句*/
 	private static final String msearchSQL="select student.student_id,student.student_name,major.major_id,major.major_name,class.class_id from student natural join class natural join major where student.student_id=? and student.student_name=? and major.major_id=? and major.major_name=? and class.class_id=?";
+	/**查询指定行数区间的数据的sql语句*/
+	private static final String pageSQL="select student_id,student_name,student_sex,student_age,grade_id,major_id,class_id,job from student natural join class natural join major limit ?,?";
+	/**查询学生总数的sql语句*/
+	private static final String numSQL="select count(student_id) from student";
 	public StudentProcess() {}
 
 	/**
@@ -104,24 +109,64 @@ public class StudentProcess implements Process {
 		ps.setString(3, grade);
 		ps.setString(4, major);
 		ps.setString(5, classn);
-		ps.executeQuery();
+		rs=ps.executeQuery();
 		ct.close();
 		ct=null;
 		ps=null;
 		return rs;
 	}
 	/**
+	 * 根据页面数值返回对应的数据库信息
+	 * @param page_num 页面值
+	 * @throws SQLException 
+	 */
+	public ResultSet getPageData(int page_num) throws SQLException
+	{
+		ct=ConnDB.getConn();
+		ps=ct.prepareStatement(pageSQL);
+		int temp1=(page_num-1)*20+1;
+		int temp2=20*page_num;
+		ps.setInt(1, temp1);
+		ps.setInt(2, temp2);
+		rs=ps.executeQuery();
+		ct.close();
+		ct=null;
+		ps=null;
+		return rs;
+	}
+	/**
+	 *自动生成学号函数 
+	 * @param gra 年级
+	 * @param maj 专业
+	 * @param cla 班级
+	 * @throws SQLException 
+	 */
+	public String retSid(String gra,String maj,String cla) throws SQLException
+	{
+		ct=ConnDB.getConn();
+		ps=ct.prepareStatement(numSQL);
+		rs=ps.executeQuery();
+		String num="";
+		if(rs.next())
+			num=String.valueOf(rs.getInt(1)+1);
+		String id=gra+maj+cla+num;
+		return id;
+	}
+	/**
 	 * 测试函数
 	 * @param args 参数
+	 * @throws SQLException 
 	 */
-	public static void main(String [] args) {//测试
-		StudentProcess up=new StudentProcess();
-		try {
+	public static void main(String [] args) throws SQLException {//测试
+		/*StudentProcess up=new StudentProcess();
+		String id=up.retSid("2015", "01", "01");
+		System.out.print(id);*/
+		/*try {
 			up.insertStudent("000010101","王",20,"男",null,"0000101","打酱油",666);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		/*try {
 			up.updateStudent("0001","打麻油",888);
 		} catch (SQLException e) {
@@ -129,7 +174,7 @@ public class StudentProcess implements Process {
 			e.printStackTrace();
 		}*/
 		/*try {
-			up.deleteStudent("0001");
+			up.deleteStudent("000010101");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
