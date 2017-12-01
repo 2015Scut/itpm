@@ -1,8 +1,13 @@
 package model;
 
-
 import java.sql.*;
 
+/**
+ * 处理教师数据的类，可以将教师数据录入数据库，按id或年级查询教师，删除教师数据
+ * @author 吕睿
+ * @version 1.0
+ * 
+ */
 public class TeacherProcess  {
 
 	private Teacher t;
