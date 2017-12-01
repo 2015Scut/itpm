@@ -27,9 +27,9 @@ public class StudentProcess implements Process {
 	private static final String deleteSQL="delete from student where student_id=?";
 	/**根据五个值搜索出的学生集合sql语句*/
 	private static final String msearchSQL="select student.student_id,student.student_name,major.major_id,major.major_name,class.class_id from student natural join class natural join major where student.student_id=? and student.student_name=? and major.major_id=? and major.major_name=? and class.class_id=?";
-	/**查询指定行数区间的数据*/
+	/**查询指定行数区间的数据的sql语句*/
 	private static final String pageSQL="select student_id,student_name,student_sex,student_age,grade_id,major_id,class_id,job from student natural join class natural join major limit ?,?";
-	/**查询学生总数*/
+	/**查询学生总数的sql语句*/
 	private static final String numSQL="select count(student_id) from student";
 	public StudentProcess() {}
 
