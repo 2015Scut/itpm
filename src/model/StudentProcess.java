@@ -10,7 +10,6 @@ import java.sql.SQLException;
  * 处理学生类数据的类，可以获取，添加，更新和删除学生数据 
  * @author 王圣杰 
  * @version 1.1
- *  
  */
 public class StudentProcess implements Process {
 	
