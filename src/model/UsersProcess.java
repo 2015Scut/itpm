@@ -35,7 +35,6 @@ public class UsersProcess {
 	 * @param tid 教师id
 	 * @param name 教师名字
 	 * @return 是否成功
-	 * @throws SQLException SQL异常
 	 */
 	public int insertUser(String uid,String pw,String tid,String name){
 		ct=ConnDB.getConn();//获取数据库连接
@@ -89,7 +88,6 @@ public class UsersProcess {
 	 * 获取用户信息
 	 * @param uid 登录用户的id
 	 * @return 用户
-	 * @throws SQLException SQL异常
 	 */
 	public Users getData(String uid){
 		ct=ConnDB.getConn();
@@ -124,7 +122,6 @@ public class UsersProcess {
 	 * 更改用户密码
 	 * @param uid 用户名
 	 * @param pw 新的密码
-	 * @throws SQLException SQL异常
 	 */
 	public void updateUsers(String uid,String pw) {
 		ct=ConnDB.getConn();

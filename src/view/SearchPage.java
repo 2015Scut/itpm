@@ -127,7 +127,7 @@ public class SearchPage extends BorderPane{
 	}
 	/**
 	 * 根据学院获取专业列表
-	 * @param departName 学院名
+	 * @param gradeId 年级id
 	 * @return 专业名的数组
 	 */
 	private ArrayList<String> getMajorList(Integer gradeId){
