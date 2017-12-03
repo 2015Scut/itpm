@@ -14,6 +14,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import model.Users;
 
 /**
  * 目录页面
@@ -30,9 +31,10 @@ public class IndexPage extends Application {
 	private SearchPage search;
 	private StatisticsPage form;
 	private Group g;
+	private Users user;
 	@Override
 	public void start(Stage primaryStage) {
-		
+		System.out.println("欢迎  "+user.getTeacherId());
 		separator=new Separator();
 		separator.setOrientation(Orientation.VERTICAL);
 		separator.setPrefHeight(650);
@@ -129,6 +131,9 @@ public class IndexPage extends Application {
 		//primaryStage.getIcons().add(null);图标
 		primaryStage.setResizable(false);
 		primaryStage.show();
+	}
+	public void setUser(Users user) {
+		this.user=user;
 	}
 	
 	public static void main(String[] args) {

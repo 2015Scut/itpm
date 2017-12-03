@@ -20,15 +20,7 @@ public class ConnDB {
 	private static final String password = "1234";
 	private static Connection ct=null;
 	
-	private ConnDB() {
-		try{
-        	Class.forName("com.mysql.jdbc.Driver");
-        	ct = DriverManager.getConnection(url, user, password);  
-	    	System.out.println("ok");
-		}catch(Exception e){
-			e.printStackTrace();
-		} 
-	}
+	private ConnDB() {}
 	public static void close() {
 		try {
 			ct.close();
@@ -43,8 +35,13 @@ public class ConnDB {
 	 * @return 数据库连接
 	 */
 	public static Connection getConn() {
-		if(ct==null)
-			new ConnDB();
+		try{
+        	Class.forName("com.mysql.jdbc.Driver");
+        	ct = DriverManager.getConnection(url, user, password);  
+	    	System.out.println("ok");
+		}catch(Exception e){
+			e.printStackTrace();
+		} 
 		return ct;
 	}
 }

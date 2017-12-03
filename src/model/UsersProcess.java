@@ -37,35 +37,52 @@ public class UsersProcess {
 	 * @return 是否成功
 	 * @throws SQLException SQL异常
 	 */
-	public boolean insertUser(String uid,String pw,String tid,String name) throws SQLException {
+	public boolean insertUser(String uid,String pw,String tid,String name){
 		ct=ConnDB.getConn();//获取数据库连接
-		ps=ct.prepareStatement(confirmSQL);
-		ps.setString(1, tid);
-		rs=ps.executeQuery();
-		rs.next();
-		if(!name.equals(rs.getString(2)))return false;//验证教师身份
-		
+		try {
+			ps=ct.prepareStatement(confirmSQL);
+			ps.setString(1, tid);
+			rs=ps.executeQuery();
+			if(rs.next()) {
+				if(!name.equals(rs.getString(2)))
+				{
+					System.out.println(1);
+					return false;//验证教师身份
+					
+				}
+			}else
+				return false;
 
-		ps=ct.prepareStatement(searchSQL);//验证用户名是否重复
-		ps.setString(1, uid);
-		rs=ps.executeQuery();
-		
-		if(rs.next())return false;
-		
-		ps=ct.prepareStatement(insertSQL);//插入用户表
-		ps.setString(1, uid);//向String中？的地方填入数据
-		ps.setString(2, pw);
-		ps.setString(3, tid);
-		ps.executeUpdate();
-		
-		ps=ct.prepareStatement(relationSQL);//插入关系表
-		ps.setString(1, tid);
-		ps.setString(2, uid);
-		ps.executeUpdate();
-		ct.close();//关闭数据库，记得每次用完都要关闭
-		ct=null;
-		ps=null;
-		rs=null;
+			ps=ct.prepareStatement(searchSQL);//验证用户名是否重复
+			ps.setString(1, uid);
+			rs=ps.executeQuery();
+			
+			if(rs.next())return false;
+			
+			ps=ct.prepareStatement(insertSQL);//插入用户表
+			ps.setString(1, uid);//向String中？的地方填入数据
+			ps.setString(2, pw);
+			ps.setString(3, tid);
+			ps.executeUpdate();
+			
+			ps=ct.prepareStatement(relationSQL);//插入关系表
+			ps.setString(1, tid);
+			ps.setString(2, uid);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			try {
+				ct.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			ct=null;
+			ps=null;
+			rs=null;
+		}
 		return true;
 	}
 	/**
@@ -75,20 +92,34 @@ public class UsersProcess {
 	 * @return 是否成功登录
 	 * @throws SQLException SQL异常
 	 */
-	public boolean login(String uid,String pw) throws SQLException {
+	public Users getData(String uid){
 		ct=ConnDB.getConn();
-		ps=ct.prepareStatement(searchSQL);
-		ps.setString(1, uid);
-		rs=ps.executeQuery();
-		if(!rs.next())return false;
-		String password=rs.getString(2);
-		if(!password.equals(pw))return false;
-		ct.close();
-		ct=null;
-		ps=null;
-		rs=null;
-		return true;
-		
+		Users user=new Users();
+		try {
+			ps=ct.prepareStatement(searchSQL);
+			ps.setString(1, uid);
+			rs=ps.executeQuery();
+			if(rs.next()) {
+				user.setUserId(uid);
+				user.setPassword(rs.getString(2));
+				user.setTeacherId(rs.getString(3));
+			}else
+				return null;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			try {
+				ct.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			ct=null;
+			ps=null;
+			rs=null;
+		}
+		return user;
 	}
 	/**
 	 * 更改用户密码
@@ -96,32 +127,39 @@ public class UsersProcess {
 	 * @param pw 新的密码
 	 * @throws SQLException SQL异常
 	 */
-	public void updateUsers(String uid,String pw) throws SQLException {
+	public void updateUsers(String uid,String pw) {
 		ct=ConnDB.getConn();
-		ps=ct.prepareStatement(updateSQL);
-		ps.setString(2, uid);
-		ps.setString(1, pw);
-		ps.executeUpdate();
-		ct.close();
-		ct=null;
-		ps=null;
+		try {
+			ps=ct.prepareStatement(updateSQL);
+			ps.setString(2, uid);
+			ps.setString(1, pw);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			try {
+				ct.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			ct=null;
+			ps=null;
+		}
+		
 	}
 	/**
 	 * 测试函数
 	 * @param args 参数
 	 */
 	public static void main(String [] args) {//测试
-		/*UsersProcess up=new UsersProcess();
-		Users u=new Users();
-		u.setUserId("admin");
-		u.setPassword("itpm");
-		u.setTeacherId("1");
-		try {
-			up.insertUser("admin","itpm","1","admin");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-		ConnDB.getConn();
+		UsersProcess up=new UsersProcess();
+		Users u=up.getData("admin");
+		if(u!=null)
+			System.out.println(u.getUserId()+" "+u.getPassword()+" "+u.getTeacherId());
+		
+		Users u1=up.getData("admin");
+		//ConnDB.getConn();
 	}
 }

@@ -1,6 +1,7 @@
 package view;
 
 
+import controller.Register;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -15,9 +16,11 @@ public class RegisterPage {
 	private Label passcomfirmlb;
 	private TextField tidtf;
 	private TextField nametf;
-	private TextField passtf;
-	private TextField passcomtf;
+	private PasswordField passtf;
+	private PasswordField passcomtf;
 	private Button btn;
+	private Label teacherlb;
+	private TextField teachertf;
 	private static RegisterPage rp;
 	private static Stage stage;
 	
@@ -30,20 +33,31 @@ public class RegisterPage {
 		namelb=new Label("用户名: ");
 		passlb=new Label("密码: ");
 		passcomfirmlb=new Label("确认密码: ");
+		teacherlb=new Label("姓名: ");
+		teachertf=new TextField();
 		tidtf=new TextField();
 		nametf=new TextField();
-		passtf=new TextField();
-		passcomtf=new TextField();
+		passtf=new PasswordField();
+		passcomtf=new PasswordField();
 		btn=new Button("确定");
 		
 		btn.setOnAction(e->{
-			stage.close();
-			LoginPage lp=new LoginPage();
-			try {
-				lp.start(new Stage());
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			String pw=passtf.getText();
+			String pwcom=passcomtf.getText();
+			Register register=new Register();
+			if(!pw.equals(pwcom)) {
+				test.show("两次密码不一致");
+			}else if(!register.Zhuce(nametf.getText(), passtf.getText(), tidtf.getText(),teachertf.getText())) {
+				test.show("账号已存在");
+			}else {
+				stage.close();
+				LoginPage lp=new LoginPage();
+				try {
+					lp.start(new Stage());
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		
@@ -52,11 +66,13 @@ public class RegisterPage {
 		HBox namehb=new HBox();
 		HBox passhb=new HBox();
 		HBox passcomhb=new HBox();
+		HBox teacherhb=new HBox();
 		idhb.getChildren().addAll(tidlb,tidtf);
 		namehb.getChildren().addAll(namelb,nametf);
 		passhb.getChildren().addAll(passlb,passtf);
 		passcomhb.getChildren().addAll(passcomfirmlb,passcomtf);
-		vb.getChildren().addAll(idhb,namehb,passhb,passcomhb,btn);
+		teacherhb.getChildren().addAll(teacherlb,teachertf);
+		vb.getChildren().addAll(idhb,teacherhb,namehb,passhb,passcomhb,btn);
 		vb.setSpacing(20);
 		stage.setScene(new Scene(vb,500,300));
 	}

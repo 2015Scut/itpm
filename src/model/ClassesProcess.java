@@ -45,6 +45,7 @@ public class ClassesProcess implements Process {
 		ps=ct.prepareStatement(searchSQL);//验证教室id是否重复
 		ps.setString(1, cid);
 		rs=ps.executeQuery();
+		System.out.println(searchSQL);
 		if(rs.next())return false;
 		
 		ps=ct.prepareStatement(insertSQL);//插入教室表

@@ -1,6 +1,7 @@
 package view;
 
 
+import controller.Login;
 import javafx.application.Application;  
 import javafx.event.ActionEvent;  
 import javafx.event.EventHandler;  
@@ -14,7 +15,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;  
 import javafx.scene.layout.HBox;  
 import javafx.scene.text.Text;  
-import javafx.stage.Stage;  
+import javafx.stage.Stage;
+import model.Users;  
   
 /** 
  * 登录界面
@@ -69,17 +71,21 @@ public class LoginPage extends Application {
             RegisterPage.show();
         });
         
-        btn.setOnAction(new EventHandler<ActionEvent>() {  
-            @Override  
-            public void handle(ActionEvent arg0) {  
-                actiontarget.setText("1");  
-                grid.setVisible(false);  
-                StudentTable tp = new StudentTable();  
-                Scene tpScene = new Scene(tp,500,500);  
-                primaryStage.setScene(tpScene);  
-                  
-                
-            }  
+        btn.setOnAction(e->{
+        	String username=userTextField.getText();
+        	String password=passwdField.getText();
+        	Login login=new Login();
+        	Users user=login.getUsers(username);
+        	if(user==null) {
+        		test.show("账号不存在");
+        	}else if(!user.getPassword().equals(password)) {
+        		test.show("密码错误");
+        	}else {
+        		primaryStage.close();
+        		IndexPage index=new IndexPage();
+        		index.setUser(user);
+        		index.start(new Stage());
+        	}
         });  
         Scene scene = new Scene(grid,300,275);  
         primaryStage.setScene(scene);  
