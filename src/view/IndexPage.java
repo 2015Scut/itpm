@@ -31,10 +31,10 @@ public class IndexPage extends Application {
 	private SearchPage search;
 	private StatisticsPage form;
 	private Group g;
-	private Users user;
+	private String user;
 	@Override
 	public void start(Stage primaryStage) {
-		System.out.println("欢迎  "+user.getTeacherId());
+		System.out.println("欢迎  "+user);
 		separator=new Separator();
 		separator.setOrientation(Orientation.VERTICAL);
 		separator.setPrefHeight(650);
@@ -132,7 +132,7 @@ public class IndexPage extends Application {
 		primaryStage.setResizable(false);
 		primaryStage.show();
 	}
-	public void setUser(Users user) {
+	public void setUser(String user) {
 		this.user=user;
 	}
 	

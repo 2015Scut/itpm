@@ -6,11 +6,16 @@ import model.Users;
 import model.UsersProcess;
 
 public class Login {
-	public Users getUsers(String uid) {
+	public String getUsers(String uid,String password) {
 		UsersProcess up=new UsersProcess();
 		Users user;
 		user = up.getData(uid);
-		return user;
+		if(user==null) {
+			return "账号不存在";
+		}else if(!user.getPassword().equals(password)) {
+			return "密码错误";
+		}else
+			return null;
 	}
 	
 

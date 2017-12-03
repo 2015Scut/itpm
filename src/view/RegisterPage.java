@@ -42,13 +42,10 @@ public class RegisterPage {
 		btn=new Button("确定");
 		
 		btn.setOnAction(e->{
-			String pw=passtf.getText();
-			String pwcom=passcomtf.getText();
 			Register register=new Register();
-			if(!pw.equals(pwcom)) {
-				test.show("两次密码不一致");
-			}else if(!register.Zhuce(nametf.getText(), passtf.getText(), tidtf.getText(),teachertf.getText())) {
-				test.show("账号已存在");
+			String message=register.register(nametf.getText(), passtf.getText(), tidtf.getText(), teachertf.getText(),passcomtf.getText());
+			if(message!=null){
+				test.show(message);
 			}else {
 				stage.close();
 				LoginPage lp=new LoginPage();

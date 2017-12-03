@@ -75,15 +75,13 @@ public class LoginPage extends Application {
         	String username=userTextField.getText();
         	String password=passwdField.getText();
         	Login login=new Login();
-        	Users user=login.getUsers(username);
-        	if(user==null) {
-        		test.show("账号不存在");
-        	}else if(!user.getPassword().equals(password)) {
-        		test.show("密码错误");
+        	String message=login.getUsers(username,password);
+        	if(message!=null) {
+        		test.show(message);
         	}else {
         		primaryStage.close();
         		IndexPage index=new IndexPage();
-        		index.setUser(user);
+        		index.setUser(username);
         		index.start(new Stage());
         	}
         });  

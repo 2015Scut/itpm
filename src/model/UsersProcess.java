@@ -37,7 +37,7 @@ public class UsersProcess {
 	 * @return 是否成功
 	 * @throws SQLException SQL异常
 	 */
-	public boolean insertUser(String uid,String pw,String tid,String name){
+	public int insertUser(String uid,String pw,String tid,String name){
 		ct=ConnDB.getConn();//获取数据库连接
 		try {
 			ps=ct.prepareStatement(confirmSQL);
@@ -47,17 +47,17 @@ public class UsersProcess {
 				if(!name.equals(rs.getString(2)))
 				{
 					System.out.println(1);
-					return false;//验证教师身份
+					return 1;//验证教师身份
 					
 				}
 			}else
-				return false;
+				return 2;
 
 			ps=ct.prepareStatement(searchSQL);//验证用户名是否重复
 			ps.setString(1, uid);
 			rs=ps.executeQuery();
 			
-			if(rs.next())return false;
+			if(rs.next())return 3;
 			
 			ps=ct.prepareStatement(insertSQL);//插入用户表
 			ps.setString(1, uid);//向String中？的地方填入数据
@@ -83,13 +83,12 @@ public class UsersProcess {
 			ps=null;
 			rs=null;
 		}
-		return true;
+		return 0;
 	}
 	/**
-	 * 验证输入的用户名和密码是否正确
+	 * 获取用户信息
 	 * @param uid 登录用户的id
-	 * @param pw 登录用户的密码
-	 * @return 是否成功登录
+	 * @return 用户
 	 * @throws SQLException SQL异常
 	 */
 	public Users getData(String uid){
