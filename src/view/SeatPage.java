@@ -3,6 +3,9 @@ package view;
 
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.util.Callback;
+import model.Student;
+import view.StudentTable.EditingCell;
 
 import java.util.ArrayList;
 
@@ -11,14 +14,12 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;  
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.scene.control.*;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;  
+import javafx.scene.control.cell.TextFieldTableCell; 
+
 /**
  * 座位表页面
  * @author 钟恩俊
@@ -33,7 +34,6 @@ public class SeatPage extends VBox{
 	private ComboBox<String> gradecb;
 	private ComboBox<String> majorcb;
 	private ComboBox<String> classcb;
-	private ObservableList<row> data;
 	private Button photo;
 	private Button save;
 	private Button sbt;
@@ -53,24 +53,33 @@ public class SeatPage extends VBox{
     	hb.setSpacing(10);
     	ArrayList<row> rows=new ArrayList<>();
     	rows.add(new row("","","","讲","台","","",""));
-    	data=FXCollections.observableArrayList(rows);
     	
+    	Callback<TableColumn<row, String>, TableCell<row, String>> cellFactory = (
+                TableColumn<row, String> p) -> new EditingCell();
 		tv=new TableView<>();
 		for(int i=0;i<8;i++) {
-			TableColumn tc=new TableColumn(i+1+"");
+			int n=i;
+			TableColumn<row,String> tc=new TableColumn(i+1+"");
 			
 			tc.setMinWidth(124);
 			tc.setCellValueFactory(new PropertyValueFactory<row,String>(String.valueOf((char)(i+97))));
-			/*tc.setCellFactory(TextFieldTableCell.<row>forTableColumn());
-			tc.setOnEditCommit(
+			tc.setCellFactory(TextFieldTableCell.<row>forTableColumn());
+			/*tc.setOnEditCommit(
 					(CellEditEvent<row, String> t)->{
 				((row)t.getTableView().getItems().get(
 						t.getTablePosition().getRow())
 						).set(i+1, t.getNewValue());
 			});*/
+			tc.setOnEditCommit((CellEditEvent<row, String> t) ->{
+				((row) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+	            .set(n,t.getNewValue());
+	        	t.getNewValue();//获得修改的新值
+	        	t.getOldValue();//获得修改前的值
+			});
 			tv.getColumns().add(tc);
 			
 		}
+		tv.getItems().addAll(rows);
 		gradecb.valueProperty().addListener(new ChangeListener<String>() {
     		//当下拉框的值改变时，设置专业下拉框的items
 			@Override
@@ -82,7 +91,7 @@ public class SeatPage extends VBox{
 			}
     		
     	});
-		sbt.setOnAction(e->{
+		sbt.setOnAction(e->{//搜索
 			
 		});
 		photo.setOnAction(e->{
@@ -96,15 +105,81 @@ public class SeatPage extends VBox{
 		
 		this.getStylesheets().add(getClass().getResource("seattable.css").toExternalForm());
 		tv.setEditable(true);
-		tv.setItems(data);
 		tv.setPrefHeight(592);
 		tv.setMaxWidth(994);
 		this.getChildren().addAll(hb,tv);
 	}
 	
+	class EditingCell extends TableCell<row,String>{
+    	private TextField textField;
+
+        public EditingCell() {
+        }
+
+        @Override
+        public void startEdit() {
+          if (!isEmpty()) {
+            super.startEdit();
+            createTextField();
+            setText(null);
+            setGraphic(textField);
+            textField.selectAll();
+          }
+        }
+
+        @Override
+        public void cancelEdit() {
+          super.cancelEdit();
+
+          setText((String) getItem());
+          setGraphic(null);
+        }
+
+        @Override
+        public void updateItem(String item, boolean empty) {
+          super.updateItem(item, empty);
+
+          if (empty) {
+            setText(null);
+            setGraphic(null);
+          } else {
+            if (isEditing()) {
+              if (textField != null) {
+                textField.setText(getString());
+              }
+              setText(null);
+              setGraphic(textField);
+            } else {
+              setText(getString());
+              setGraphic(null);
+            }
+          }
+        }
+
+        private void createTextField() {
+          textField = new TextField(getString());
+          textField.setMinWidth(this.getWidth() - this.getGraphicTextGap() * 2);
+          textField.focusedProperty()
+              .addListener(
+                  (ObservableValue<? extends Boolean> arg0, Boolean arg1,
+                      Boolean arg2) -> {
+                    if (!arg2) {
+                      commitEdit(textField.getText());
+                    }
+                  });
+        }
+
+        private String getString() {
+          return getItem() == null ? "" : getItem().toString();
+        }
+    }
+	
 	protected ArrayList<String> getMajorList(String newValue) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	private void addData(ArrayList<Student>studentList,row r) {
+		
 	}
 
 	public static class row{

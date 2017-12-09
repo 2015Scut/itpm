@@ -1,6 +1,8 @@
 package view;
 
 
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -40,7 +42,7 @@ public class AddClasses {
 		gradecb=new ComboBox<>();
 		majorlb=new Label("文理科: ");
 		majorcb=new ComboBox<>();
-		teacherlb=new Label("班主任");
+		teacherlb=new Label("班主任: ");
 		teachercb=new ComboBox<>();
 		confirm=new Button("确定");
 		
@@ -57,6 +59,7 @@ public class AddClasses {
 		VBox vb=new VBox();
 		vb.getChildren().addAll(departhb,majorhb,idhb,namehb,teacherhb,confirm);
 		vb.setSpacing(20);
+		vb.setPadding(new Insets(20));
 		stage.setScene(new Scene(vb,500,300));
 		confirm.setOnAction(e->{
 			//弹出确认窗口

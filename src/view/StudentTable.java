@@ -69,7 +69,7 @@ public class StudentTable extends AnchorPane {
     	tableView.setEditable(true);
         ArrayList<Student> sl=new ArrayList<>();
         for(int i=0;i<5;i++) {
-        	sl.add(new Student("钟", 20, "男", "20150111001", null, 1, "20150111", null, 2015, "理科", "15级理科1班"));
+        	sl.add(new Student("钟", 20, "男", "20150111001", null, 1, "20150111", null, 2015, "15级理科", "15级理科1班"));
         }
         tableView.getItems().addAll(sl);
         tableView.getColumns().addAll(xhColumn,xmColumn,xbColumn,nlColumn,njColumn,fkColumn,bjColumn,zwColumn);  
@@ -78,10 +78,20 @@ public class StudentTable extends AnchorPane {
         
         
                 
-        zwColumn.setOnEditCommit((CellEditEvent<Student, String> t) ->{
-        	/*((Student) t.getTableView().getItems().get(t.getTablePosition().getRow()))
-            .setJob(t.getNewValue());*/
+        zwColumn.setOnEditCommit((CellEditEvent<Student, String> t) ->{//修改
+        	((Student) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+            .setJob(t.getNewValue());
+        	t.getNewValue();//获得修改的新值
+        	t.getOldValue();//获得修改前的值
+        	
         });
+        
+        /*zwColumn.setOnEditCommit(e->{
+        	((Student) e.getTableView().getItems().get(e.getTablePosition().getRow()))
+            .setJob(e.getNewValue());
+        	e.getNewValue();//获得修改的新值
+        	e.getOldValue();
+        });*/
         
         this.getChildren().add(tableView);  
     }  

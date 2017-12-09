@@ -32,6 +32,7 @@ public class IndexPage extends Application {
 	private StatisticsPage form;
 	private Group g;
 	private String user;
+	private Users teacher;
 	@Override
 	public void start(Stage primaryStage) {
 		System.out.println("欢迎  "+user);
@@ -42,7 +43,6 @@ public class IndexPage extends Application {
 		separator.setPadding(new Insets(0,10,0,50));
 		
 		hbox=new HBox();
-		
 		
 		border = new StackPane();
 		
