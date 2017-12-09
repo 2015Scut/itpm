@@ -1,9 +1,11 @@
 package view;
 
 
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -24,9 +26,11 @@ public class test {
 		HBox hb=new HBox();
 		hb.getChildren().addAll(t1,t2);
 		hb.setSpacing(20);
+		hb.setAlignment(Pos.CENTER);
 		VBox vb=new VBox();
 		vb.getChildren().addAll(lb,hb);
 		vb.setSpacing(20);
+		vb.setAlignment(Pos.CENTER);
 		primaryStage = new Stage();
         primaryStage.setResizable(false);      
         primaryStage.setTitle("警告");

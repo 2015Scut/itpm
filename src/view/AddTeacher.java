@@ -3,6 +3,7 @@ package view;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -50,6 +51,7 @@ public class AddTeacher {
 		VBox vb=new VBox();
 		vb.getChildren().addAll(gradehb,idhb,namehb,sexhb,confirm);
 		vb.setSpacing(20);
+		vb.setPadding(new Insets(20));
 		stage.setScene(new Scene(vb,500,250));
 		confirm.setOnAction(e->{
 			//弹出确认窗口

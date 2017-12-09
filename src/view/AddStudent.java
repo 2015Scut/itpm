@@ -6,6 +6,7 @@ import java.net.MalformedURLException;
 
 import javafx.scene.image.*;
 import javafx.collections.*;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -70,8 +71,8 @@ public class AddStudent {
 					String url=file.toURI().toURL().toString();
 					image=new Image(url);
 					imageview=new ImageView(image);
-					imageview.setFitWidth(100);
-					imageview.setFitHeight(100);
+					imageview.setFitWidth(150);
+					imageview.setFitHeight(200);
 					bp.setCenter(imageview);
 				} catch (MalformedURLException e1) {
 					// TODO Auto-generated catch block
@@ -94,9 +95,12 @@ public class AddStudent {
 		VBox vb=new VBox();
 		vb.getChildren().addAll(gradehb,majorhb,classhb,idhb,namehb,sexhb,confirm);
 		vb.setSpacing(20);
+		
 		HBox hb=new HBox();
 		hb.getChildren().addAll(vb,bp);
 		hb.setSpacing(20);
+		hb.setPadding(new Insets(20));
+		bp.setAlignment(hb, Pos.CENTER);
 		stage.setScene(new Scene(hb,500,400));
 		confirm.setOnAction(e->{
 			//弹出确认窗口
