@@ -57,6 +57,7 @@ public class SeatPage extends VBox{
     	Callback<TableColumn<row, String>, TableCell<row, String>> cellFactory = (
                 TableColumn<row, String> p) -> new EditingCell();
 		tv=new TableView<>();
+		tv.setEditable(true);
 		for(int i=0;i<8;i++) {
 			int n=i;
 			TableColumn<row,String> tc=new TableColumn(i+1+"");
@@ -64,13 +65,7 @@ public class SeatPage extends VBox{
 			tc.setMinWidth(124);
 			tc.setCellValueFactory(new PropertyValueFactory<row,String>(String.valueOf((char)(i+97))));
 			tc.setCellFactory(TextFieldTableCell.<row>forTableColumn());
-			/*tc.setOnEditCommit(
-					(CellEditEvent<row, String> t)->{
-				((row)t.getTableView().getItems().get(
-						t.getTablePosition().getRow())
-						).set(i+1, t.getNewValue());
-			});*/
-			tc.setOnEditCommit((CellEditEvent<row, String> t) ->{
+			tc.setOnEditCommit((CellEditEvent<row, String> t) ->{//修改提交监听器
 				((row) t.getTableView().getItems().get(t.getTablePosition().getRow()))
 	            .set(n,t.getNewValue());
 	        	t.getNewValue();//获得修改的新值
@@ -80,14 +75,14 @@ public class SeatPage extends VBox{
 			
 		}
 		tv.getItems().addAll(rows);
-		gradecb.valueProperty().addListener(new ChangeListener<String>() {
+		majorcb.valueProperty().addListener(new ChangeListener<String>() {
     		//当下拉框的值改变时，设置专业下拉框的items
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 				// TODO Auto-generated method stub
-				ArrayList<String> majors = getMajorList(newValue);
-				majorcb.getItems().clear();
-				majorcb.getItems().addAll(majors);
+				ArrayList<String> majors = getClassList(newValue);
+				classcb.getItems().clear();
+				classcb.getItems().addAll(majors);
 			}
     		
     	});
@@ -174,7 +169,7 @@ public class SeatPage extends VBox{
         }
     }
 	
-	protected ArrayList<String> getMajorList(String newValue) {
+	protected ArrayList<String> getClassList(String newValue) {
 		// TODO Auto-generated method stub
 		return null;
 	}
