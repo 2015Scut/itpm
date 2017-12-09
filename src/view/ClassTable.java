@@ -52,17 +52,7 @@ public class ClassTable extends VBox{
     	ArrayList<Integer> grades=getGradeList();
     	if(grades!=null)
     		gradecb.getItems().addAll(grades);
-    	gradecb.valueProperty().addListener(new ChangeListener<Integer>() {
-    		//当下拉框的值改变时，设置专业下拉框的items
-			@Override
-			public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
-				// TODO Auto-generated method stub
-				ArrayList<String> majors = getMajorList(newValue);
-				majorcb.getItems().clear();
-				majorcb.getItems().addAll(majors);
-			}
-    		
-    	});
+    	
     	
     	sbt.setOnAction(e->{
     		
