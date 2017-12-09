@@ -152,6 +152,7 @@ public class StudentProcess implements Process {
 		String id=gra+maj+cla+num;
 		return id;
 	}
+	
 	/**
 	 * 测试函数
 	 * @param args 参数
