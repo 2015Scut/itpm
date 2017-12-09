@@ -38,7 +38,7 @@ public class ClassTable extends VBox{
         TableColumn jsColumn = new TableColumn();  
         jsColumn.setText("班主任");  
         jsColumn.setMinWidth(200);
-        jsColumn.setCellValueFactory(new PropertyValueFactory("grade"));
+        jsColumn.setCellValueFactory(new PropertyValueFactory("teacher"));
         
         tableView=new TableView<Classes>();
         tableView.getColumns().addAll(bjColumn,njColumn,rsColumn,jsColumn);
