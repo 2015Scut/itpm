@@ -9,8 +9,10 @@ import view.StudentTable.EditingCell;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
 import controller.Search;
+import controller.Update;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -122,6 +124,15 @@ public class SeatPage extends VBox{
     		System.out.println(tv.getFocusModel().getFocusedItem().get(c));
     		
     	});
+		save.setOnAction(e->{
+			ArrayList<String>row=new ArrayList<>();
+			for(int i=1;i<rows.size();i++) {
+				for(int j=0;j<8;j++)
+					row.add(rows.get(i).get(j));
+			}
+			String message=Update.updateSeat(row, sl);
+			if(message!=null)test.show(message);
+		});
 		tv.setId("seattable");
 		
 		this.getStylesheets().add(getClass().getResource("seattable.css").toExternalForm());
