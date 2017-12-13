@@ -3,6 +3,7 @@ package view;
 
 import java.util.ArrayList;
 
+import controller.Search;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.*;
@@ -47,30 +48,26 @@ public class ClassTable extends VBox{
         gradelb=new Label("年级: ");
         majorlb=new Label("分科: ");
         majorcb=new ComboBox<>();
+        majorcb.getItems().addAll("文科","理科");
     	gradecb=new ComboBox<>();
     	
-    	ArrayList<Integer> grades=getGradeList();
-    	if(grades!=null)
-    		gradecb.getItems().addAll(grades);
+    	if(Search.getGrade()!=null)
+			gradecb.getItems().addAll(Search.getGrade());
     	
     	
     	sbt.setOnAction(e->{
-    		
+    		Integer g=gradecb.getValue();
+    		String m=majorcb.getValue();
+    		if(Search.getClassList(g, m)!=null)
+    			tableView.getItems().addAll(Search.getClassList(g, m));
     	});
+    	tableView.prefHeightProperty().bind(this.heightProperty());
+        tableView.prefWidthProperty().bind(this.widthProperty());
     	
     	hb.getChildren().addAll(gradelb,gradecb,majorlb,majorcb,sbt);
     	hb.setSpacing(20);
     	this.getChildren().addAll(hb,tableView);
 	}
 	
-	private ArrayList<String> getMajorList(Integer gradeId){
-		ArrayList ml=new ArrayList<String>();
-		ml.add("理科");
-		return ml;
-	}
-	private ArrayList<Integer> getGradeList(){
-		ArrayList gl=new ArrayList<String>();
-		gl.add(2015);
-		return gl;
-	}
+	
 }

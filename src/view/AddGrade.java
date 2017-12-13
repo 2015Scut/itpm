@@ -3,6 +3,7 @@ package view;
 
 import java.util.ArrayList;
 
+import controller.Insert;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -19,7 +20,7 @@ public class AddGrade {
 	private static AddGrade ad;
 	private static Stage stage;
 	private Label gradelb;
-	private ComboBox<String> gradecb;//下拉框
+	private ComboBox<Integer> gradecb;//下拉框
 	private Button confirm;
 	
 	private AddGrade() {
@@ -30,9 +31,9 @@ public class AddGrade {
 		gradelb=new Label("年级: ");
 		gradecb=new ComboBox<>();
 		confirm=new Button("确定");
-		ArrayList<String> grade=new ArrayList();
+		ArrayList<Integer> grade=new ArrayList();
 		for(int i=0;i<6;i++)
-			grade.add("2016");
+			grade.add(2016+i);
 		gradecb.getItems().addAll(grade);
 		
 		HBox namehb=new HBox();
@@ -48,8 +49,15 @@ public class AddGrade {
 		confirm.setOnAction(e->{
 			//弹出确认窗口
 			//录入数据
-			insert();
-			stage.close();
+			Integer g=gradecb.getValue();
+			if(g==null)test.show("信息不能为空");
+			else {
+				String message=Insert.addGrade(g);
+				if(message==null)
+					stage.close();
+				else
+					test.show(message);
+			}
 		});
 	}
 	
@@ -58,7 +66,5 @@ public class AddGrade {
 		stage.show();
 	}
 	
-	private boolean insert() {
-		return true;
-	}
+	
 }

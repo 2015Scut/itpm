@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import model.Grade;
+import model.Student;
 /**
  * 搜索页面
  * @author 钟恩俊
@@ -35,9 +36,10 @@ public class SearchPage extends BorderPane{
 	private ComboBox<Integer> gradecb;
 	private ComboBox<String> majorcb;
 	private ComboBox<String> classcb;
+	private String uid;
 	
-	public SearchPage() {
-		
+	public SearchPage(String u) {
+		uid=u;
 		tb=new StudentTable();
 		gradelb=new Label("年级: ");
     	majorlb=new Label("分科: ");
@@ -46,30 +48,29 @@ public class SearchPage extends BorderPane{
     	Search search=new Search();
     	
     	gradecb=new ComboBox<>();
-    	ArrayList<Integer> grades=getGradeList();
-    	if(grades!=null)
-    		gradecb.getItems().addAll(grades);
+    	if(Search.getGrade()!=null)
+			gradecb.getItems().addAll(Search.getGrade());
     	majorcb=new ComboBox<>();
     	classcb=new ComboBox<>();
     	gradecb.valueProperty().addListener(new ChangeListener<Integer>() {
-    		//当下拉框的值改变时，设置专业下拉框的items
+    		//当下拉框的值改变时，设置班级下拉框的items
 			@Override
 			public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
 				// TODO Auto-generated method stub
-				ArrayList<String> majors = getMajorList(newValue);
 				majorcb.getItems().clear();
-				majorcb.getItems().addAll(majors);
+				majorcb.getItems().addAll("文科","理科");
+				classcb.getItems().clear();
 			}
     		
     	});
-    	majorcb.valueProperty().addListener(new ChangeListener<String>() {
-
+		majorcb.valueProperty().addListener(new ChangeListener<String>() {
+    		//当下拉框的值改变时，设置学生id
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				// TODO Auto-generated method stub
-				ArrayList<String> classes = getClassList(newValue);
-				classcb.getItems().clear();
-				classcb.getItems().addAll(classes);
+				if(Search.getClasses(gradecb.getValue(),newValue)!=null) {
+					classcb.getItems().clear();
+					classcb.getItems().addAll(Search.getClasses(gradecb.getValue(),newValue));
+				}
 			}
     		
     	});
@@ -82,17 +83,45 @@ public class SearchPage extends BorderPane{
 		idlb=new Label("学号: ");
 		pg=new Pagination(10,0);
 		pg.setPageFactory((Integer pageIndex) -> {
-            if (pageIndex >= 11) {
-                return null;
-            } else {
-                return createPage(pageIndex);
-            }
+			System.out.println(pageIndex+"s");
+			String stdid=idtf.getText();
+			String stdname=nametf.getText();
+			Integer grade=gradecb.getValue();
+			String major=majorcb.getValue();
+			String classes=classcb.getValue();
+			ArrayList<Student> sl=Search.get18Student(stdid, stdname, grade, major, classes,pageIndex);
+			tb.getTable().getItems().clear();
+			if(sl!=null)
+				tb.getTable().getItems().addAll(sl);
+            return createPage(pageIndex);
         });
 		
+		
 		delete.setOnAction(e->{
-			String c=tb.getTable().getSelectionModel().getSelectedItem().getClasses();
-			if(checkTeacher(c));
-			System.out.println(c);
+			Student seletedStudent=tb.getTable().getSelectionModel().getSelectedItem();
+			if(seletedStudent==null) {
+				test.show("请选中学生");
+			}else {
+				String c=seletedStudent.getClassId();
+				String sid=seletedStudent.getStudentId();
+				if(Search.checkUserRight(c, uid)) {
+					String message=Delete.deleteStudent(sid);
+					if(message!=null)test.show(message);
+					else {
+						String stdid=idtf.getText();
+						String stdname=nametf.getText();
+						Integer grade=gradecb.getValue();
+						String major=majorcb.getValue();
+						String classes=classcb.getValue();
+						ArrayList<Student> sl=Search.get18Student(stdid, stdname, grade, major, classes,pg.getCurrentPageIndex());
+						tb.getTable().getItems().clear();
+						if(sl!=null)
+							tb.getTable().getItems().addAll(sl);
+					}
+				}else {
+					test.show("没有权限");
+				}
+			}
 		});
 		
 		sbt.setOnAction(e->{
@@ -102,7 +131,11 @@ public class SearchPage extends BorderPane{
 			Integer grade=gradecb.getValue();
 			String major=majorcb.getValue();
 			String classes=classcb.getValue();
-			System.out.println(stdid+" "+stdname+" "+grade+" "+major+" "+classes+" ");
+			ArrayList<Student> sl=Search.get18Student(stdid, stdname, grade, major, classes,1);
+			tb.getTable().getItems().clear();
+			if(sl!=null)
+				tb.getTable().getItems().addAll(sl);
+			pg.setPageCount(Search.getStudentPageCount(stdid, stdname, grade, major, classes));
 		});
 		
 		modify.setOnAction(e->{
@@ -130,21 +163,7 @@ public class SearchPage extends BorderPane{
 	 * @param gradeId 年级id
 	 * @return 专业名的数组
 	 */
-	private ArrayList<String> getMajorList(Integer gradeId){
-		ArrayList ml=new ArrayList<String>();
-		ml.add("理科");
-		return ml;
-	}
-	private ArrayList<String> getClassList(String majorName){
-		ArrayList cl=new ArrayList<String>();
-		cl.add("一班");
-		return cl;
-	}
-	private ArrayList<Integer> getGradeList(){
-		ArrayList gl=new ArrayList<String>();
-		gl.add(2015);
-		return gl;
-	}
+	
 	private VBox createPage(int pageIndex) {
         VBox box = new VBox(5);
         return box;

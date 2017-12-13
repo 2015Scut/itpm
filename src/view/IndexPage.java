@@ -102,7 +102,7 @@ public class IndexPage extends Application {
 		border.setPrefWidth(1000);
 		
 		men.getBt1().setOnAction((ActionEvent e)->{
-			search=new SearchPage();
+			search=new SearchPage(user);
 			border.getChildren().clear();
 			border.getChildren().add(search);
 			primaryStage.setScene(scene);

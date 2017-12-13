@@ -12,7 +12,7 @@ import javafx.beans.property.StringProperty;
  * @author 钟恩俊
  *
  */
-public class Student extends Person{
+public class Student extends Person implements Comparable{
 	/**学号*/
 	private String studentId;
 	/**职务*/
@@ -90,6 +90,14 @@ public class Student extends Person{
 	public void setClasses(String classes) {
 		this.classes = classes;
 	}
+	@Override
+	public int compareTo(Object o) {
+		Student s=(Student) o;
+		if(this.seatNumber>s.getSeatNumber())return 1;
+		else if(this.seatNumber==s.getSeatNumber())return 0;
+		else return -1;
+	}
+	
 	
 	
 }

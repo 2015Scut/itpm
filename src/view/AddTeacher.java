@@ -1,6 +1,8 @@
 package view;
 
 
+import controller.Insert;
+import controller.Search;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -16,7 +18,7 @@ public class AddTeacher {
 	private Label namelb;
 	private Label idlb;
 	private Label gradelb;
-	private ComboBox<String> gradecb;
+	private ComboBox<Integer> gradecb;
 	private TextField idtf;
 	private TextField nametf;
 	private Label sexlb;
@@ -31,10 +33,12 @@ public class AddTeacher {
 		namelb=new Label("姓名: ");
 		nametf=new TextField();
 		idlb=new Label("工号: ");
-		idtf=new TextField();
+		idtf=new TextField(Search.getNextTeacherId());
 		idtf.setEditable(false);//id通过查询数据库获取自动分配
 		gradelb=new Label("年级: ");
 		gradecb=new ComboBox<>();
+		if(Search.getGrade()!=null)
+			gradecb.getItems().addAll(Search.getGrade());
 		sexlb=new Label("性别: ");
 		ObservableList<String>options=FXCollections.observableArrayList("男","女");
 		sex=new ComboBox<>(options);
@@ -56,7 +60,14 @@ public class AddTeacher {
 		confirm.setOnAction(e->{
 			//弹出确认窗口
 			//录入数据
-			stage.close();
+			Integer g=gradecb.getValue();
+			String tid=idtf.getText();
+			String name=nametf.getText();
+			String s=sex.getValue();
+			String message=Insert.addTeacher(g, tid, name, s);
+			if(message==null)
+				stage.close();
+			else test.show(message);
 		});
 		
 	}
