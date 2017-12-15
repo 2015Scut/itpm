@@ -8,9 +8,10 @@ import model.Student;
 import model.StudentProcess;
 
 public class Update {
-	public static String updateJob(String sid,String jobs) {
+	public static void updateJob(String sid,String jobs) {
 		//圣杰
-		return null;
+		StudentProcess sp=new StudentProcess();
+		sp.updateStudent(sid, jobs);
 	}
 	public static String updateSeat(ArrayList<String> rows,ArrayList<Student>sl) {
 		//更新座位表

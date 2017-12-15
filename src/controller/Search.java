@@ -2,8 +2,7 @@ package controller;
 
 import java.util.ArrayList;
 
-import model.Classes;
-import model.Student;
+import model.*;
 
 public class Search {
 	public static ArrayList<Integer> getGrade(){
@@ -24,7 +23,8 @@ public class Search {
 	}
 	public static String getNextStudentId(Integer g,String majorName,String className) {
 		//根据年级，专业，班级自动获取学生id  圣杰
-		return null;
+		StudentProcess sp=new StudentProcess();
+		return sp.retSid(g, majorName, className);
 	}
 	public static String getNextClassId(Integer g,String m) {
 		//根据年级，专业自动获取班级id  广森
@@ -32,11 +32,13 @@ public class Search {
 	}
 	public static ArrayList<Student> get18Student(String sid,String name,Integer g,String majorName,String className,int pageIndex){
 		//根据学号，名字，年级，专业，班级，页数，查询 18条记录  圣杰
-		return null;
+		StudentProcess sp=new StudentProcess();
+		return sp.getPageData(sid, name, g, majorName, className, pageIndex);
 	}
 	public static int getStudentPageCount(String sid,String name,Integer g,String majorName,String className) {
 		//根据学号，名字，年级，专业，班级，查询总页数  圣杰
-		return 1;
+		StudentProcess sp=new StudentProcess();
+		return sp.num_Page(sid, name, g, majorName, className);
 	}
 	public static boolean checkUserRight(String cid,String uid) {
 		//根据班级id和用户id 检查用户权限  恩俊
