@@ -25,7 +25,7 @@ public class StudentProcess implements Process {
 	/** 搜索用户id和密码的sql语句 */
 	private static final String searchSQL = "select * from student where student_id=?";
 	/** 更新学生的职业的sql语句 */
-	private static final String updateSQL = "update student set job=? where student_id=?";
+	private static final String updateSQL = "update student set job=?,seat=? where student_id=?";
 	/** 删除学生的sql语句 */
 	private static final String deleteSQL = "delete from student where student_id=?";
 	/** 根学号，名字，年级，专业，班级查询学生集合的sql语句 */
@@ -116,12 +116,16 @@ public class StudentProcess implements Process {
 	 * @throws SQLException
 	 *             SQL异常
 	 */
-	public void updateStudent(String sid, String job) {
+	public void updateStudent(String sid, String job,Integer seat) {
 		ct = ConnDB.getConn();
 		try {
 			ps = ct.prepareStatement(updateSQL);
 			ps.setString(1, job);
-			ps.setString(2, sid);
+			if(seat!=null)
+				ps.setInt(2, seat);
+			else
+				ps.setString(2, "seat");
+			ps.setString(3, sid);
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

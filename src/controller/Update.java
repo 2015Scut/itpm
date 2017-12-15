@@ -11,7 +11,7 @@ public class Update {
 	public static void updateJob(String sid,String jobs) {
 		//圣杰
 		StudentProcess sp=new StudentProcess();
-		sp.updateStudent(sid, jobs);
+		sp.updateStudent(sid, jobs,null);
 	}
 	public static String updateSeat(ArrayList<String> rows,ArrayList<Student>sl) {
 		//更新座位表
@@ -34,6 +34,6 @@ public class Update {
 	}
 	private static void updateStudentSeat(Student s,Integer seat) {
 		StudentProcess sp=new StudentProcess();
-		//sp.updateStudent(s.getStudentId(), s.getJob(), seat);
+		sp.updateStudent(s.getStudentId(), s.getJob(), seat);
 	}
 }
