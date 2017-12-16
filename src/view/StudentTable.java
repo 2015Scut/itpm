@@ -3,6 +3,7 @@ package view;
 
 import java.util.ArrayList;
 
+import controller.Update;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;  
 import javafx.collections.ObservableList;
@@ -77,12 +78,17 @@ public class StudentTable extends AnchorPane {
         tableView.prefWidthProperty().bind(this.widthProperty());
         
         
-                
         zwColumn.setOnEditCommit((CellEditEvent<Student, String> t) ->{//修改
-        	((Student) t.getTableView().getItems().get(t.getTablePosition().getRow()))
-            .setJob(t.getNewValue());
-        	t.getNewValue();//获得修改的新值
-        	t.getOldValue();//获得修改前的值
+        	test.show("是否保存");
+        	if(test.getRet()==0) {
+        		tableView.getItems().clear();
+        		tableView.getItems().addAll(sl);
+        		return;
+        	}
+        	Student seletedStudent=((Student) t.getTableView().getItems().get(t.getTablePosition().getRow()));
+        	seletedStudent.setJob(t.getNewValue());
+        	Update.updateJob(seletedStudent.getStudentId(), t.getNewValue());
+        	System.out.println(t.getNewValue());
         	
         });
         

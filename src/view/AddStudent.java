@@ -3,8 +3,11 @@ import controller.*;
 
 import java.io.File;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 
 import javafx.scene.image.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -33,7 +36,7 @@ public class AddStudent {
 	private Label gradelb;
 	private Label majorlb;
 	private Label classlb;
-	private ComboBox<String>gradecb;
+	private ComboBox<Integer>gradecb;
 	private ComboBox<String>majorcb;
 	private ComboBox<String>classcb;
 	
@@ -47,6 +50,8 @@ public class AddStudent {
 		sexlb=new Label("性别: ");
 		confirm=new Button("确定");
 		idtf=new TextField();
+		idtf.setEditable(false);
+		idtf.setFocusTraversable(false);
 		nametf=new TextField();
 		ObservableList<String>options=FXCollections.observableArrayList("男","女");
 		sex=new ComboBox<String>(options);
@@ -54,8 +59,43 @@ public class AddStudent {
 		majorlb=new Label("分科: ");
 		classlb=new Label("班级: ");
 		gradecb=new ComboBox<>();
+		if(Search.getGrade()!=null)
+			gradecb.getItems().addAll(Search.getGrade());
 		majorcb=new ComboBox<>();
 		classcb=new ComboBox<>();
+		gradecb.valueProperty().addListener(new ChangeListener<Integer>() {
+    		//当下拉框的值改变时，设置班级下拉框的items
+			@Override
+			public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
+				// TODO Auto-generated method stub
+				majorcb.getItems().clear();
+				majorcb.getItems().addAll("文科","理科");
+				classcb.getItems().clear();
+			}
+    		
+    	});
+		majorcb.valueProperty().addListener(new ChangeListener<String>() {
+    		//当下拉框的值改变时，设置学生id
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				if(Search.getClasses(gradecb.getValue(),newValue)!=null) {
+					classcb.getItems().clear();
+					classcb.getItems().addAll(Search.getClasses(gradecb.getValue(),newValue));
+				}
+			}
+    		
+    	});
+		classcb.valueProperty().addListener(new ChangeListener<String>() {
+    		//当下拉框的值改变时，设置学生id
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				// TODO Auto-generated method stub
+				if(Search.getNextStudentId(gradecb.getValue(),majorcb.getValue(),newValue)!=null) {
+					idtf.setText(Search.getNextStudentId(gradecb.getValue(),majorcb.getValue(),newValue));
+				}
+			}
+    		
+    	});
 		BorderPane bp=new BorderPane();
 		photo=new Button("选择照片");
 		bp.setBottom(photo);
@@ -105,12 +145,24 @@ public class AddStudent {
 		confirm.setOnAction(e->{
 			//弹出确认窗口
 			//录入数据
-			Insert is=new Insert();
-			is.insertStudent(this);
-			stage.close();
+			Integer grade=gradecb.getValue();
+			String major=majorcb.getValue();
+			String classes=classcb.getValue();
+			String sid=idtf.getText();
+			String name=nametf.getText();
+			String se=sex.getValue();
+			String message=Insert.addStudent(grade,major,classes,sid,name,se);
+			if(message==null)
+				stage.close();
+			else test.show(message);
 		});
 		
 	}
+	private String getSid() {
+		return null;
+	}
+	
+	
 	
 	public static void show() {
 		af=new AddStudent();

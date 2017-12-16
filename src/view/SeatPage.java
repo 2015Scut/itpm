@@ -8,7 +8,11 @@ import model.Student;
 import view.StudentTable.EditingCell;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 
+import controller.Search;
+import controller.Update;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -31,7 +35,7 @@ public class SeatPage extends VBox{
 	private Label gradelb;
 	private Label majorlb;
 	private Label classlb;
-	private ComboBox<String> gradecb;
+	private ComboBox<Integer> gradecb;
 	private ComboBox<String> majorcb;
 	private ComboBox<String> classcb;
 	private Button photo;
@@ -39,12 +43,37 @@ public class SeatPage extends VBox{
 	private Button sbt;
 	
 	public SeatPage() {
+		ArrayList<Student> sl=new ArrayList<>();
 		gradelb=new Label("年级: ");
     	majorlb=new Label("分科: ");
     	classlb=new Label("班级: ");
     	gradecb=new ComboBox<>();
+    	if(Search.getGrade()!=null)
+			gradecb.getItems().addAll(Search.getGrade());
     	majorcb=new ComboBox<>();
     	classcb=new ComboBox<>();
+    	gradecb.valueProperty().addListener(new ChangeListener<Integer>() {
+    		//当下拉框的值改变时，设置班级下拉框的items
+			@Override
+			public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
+				// TODO Auto-generated method stub
+				majorcb.getItems().clear();
+				majorcb.getItems().addAll("文科","理科");
+				classcb.getItems().clear();
+			}
+    		
+    	});
+		majorcb.valueProperty().addListener(new ChangeListener<String>() {
+    		//当下拉框的值改变时，设置学生id
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				if(Search.getClasses(gradecb.getValue(),newValue)!=null) {
+					classcb.getItems().clear();
+					classcb.getItems().addAll(Search.getClasses(gradecb.getValue(),newValue));
+				}
+			}
+    		
+    	});
     	photo=new Button("显示照片");
     	save=new Button("保存");
     	sbt=new Button("搜索");
@@ -57,6 +86,7 @@ public class SeatPage extends VBox{
     	Callback<TableColumn<row, String>, TableCell<row, String>> cellFactory = (
                 TableColumn<row, String> p) -> new EditingCell();
 		tv=new TableView<>();
+		tv.setEditable(true);
 		for(int i=0;i<8;i++) {
 			int n=i;
 			TableColumn<row,String> tc=new TableColumn(i+1+"");
@@ -64,35 +94,28 @@ public class SeatPage extends VBox{
 			tc.setMinWidth(124);
 			tc.setCellValueFactory(new PropertyValueFactory<row,String>(String.valueOf((char)(i+97))));
 			tc.setCellFactory(TextFieldTableCell.<row>forTableColumn());
-			/*tc.setOnEditCommit(
-					(CellEditEvent<row, String> t)->{
-				((row)t.getTableView().getItems().get(
-						t.getTablePosition().getRow())
-						).set(i+1, t.getNewValue());
-			});*/
-			tc.setOnEditCommit((CellEditEvent<row, String> t) ->{
+			tc.setOnEditCommit((CellEditEvent<row, String> t) ->{//修改提交监听器
 				((row) t.getTableView().getItems().get(t.getTablePosition().getRow()))
 	            .set(n,t.getNewValue());
-	        	t.getNewValue();//获得修改的新值
-	        	t.getOldValue();//获得修改前的值
+	        	int hang=t.getTablePosition().getRow();
+	        	int lie=t.getTablePosition().getColumn();
+	        	System.out.println(hang+" "+lie);
 			});
 			tv.getColumns().add(tc);
 			
 		}
 		tv.getItems().addAll(rows);
-		gradecb.valueProperty().addListener(new ChangeListener<String>() {
-    		//当下拉框的值改变时，设置专业下拉框的items
-			@Override
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				// TODO Auto-generated method stub
-				ArrayList<String> majors = getMajorList(newValue);
-				majorcb.getItems().clear();
-				majorcb.getItems().addAll(majors);
-			}
-    		
-    	});
 		sbt.setOnAction(e->{//搜索
-			
+			Integer grade=gradecb.getValue();
+			String major=majorcb.getValue();
+			String classes=classcb.getValue();
+			sl.clear();
+			sl.addAll(Search.getStudentList(grade, major, classes));
+			Collections.sort(sl);
+			rows.clear();
+	    	rows.add(new row("","","","讲","台","","",""));
+			rows.addAll(addData(sl));
+			tv.getItems().addAll(rows);
 		});
 		photo.setOnAction(e->{
 			int r=tv.getFocusModel().getFocusedCell().getRow();
@@ -101,6 +124,15 @@ public class SeatPage extends VBox{
     		System.out.println(tv.getFocusModel().getFocusedItem().get(c));
     		
     	});
+		save.setOnAction(e->{
+			ArrayList<String>row=new ArrayList<>();
+			for(int i=1;i<rows.size();i++) {
+				for(int j=0;j<8;j++)
+					row.add(rows.get(i).get(j));
+			}
+			String message=Update.updateSeat(row, sl);
+			if(message!=null)test.show(message);
+		});
 		tv.setId("seattable");
 		
 		this.getStylesheets().add(getClass().getResource("seattable.css").toExternalForm());
@@ -174,12 +206,22 @@ public class SeatPage extends VBox{
         }
     }
 	
-	protected ArrayList<String> getMajorList(String newValue) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	private void addData(ArrayList<Student>studentList,row r) {
-		
+	
+	private ArrayList<row> addData(ArrayList<Student>studentList) {
+		ArrayList<row> rows=new ArrayList<>();
+		int r;
+		if(studentList.size()%8!=0)
+			r=studentList.size()/8+1;
+		else
+			r=studentList.size()/8;
+		for(int i=0;i<r;i++) {
+			row ro=new row();
+			for(int j=0;j<8;j++) {
+				ro.set(j, studentList.get(i*8+j).getName());
+			}
+			rows.add(ro);
+		}
+		return rows;
 	}
 
 	public static class row{
@@ -192,6 +234,7 @@ public class SeatPage extends VBox{
         private SimpleStringProperty g;
         private SimpleStringProperty h;
         
+        public row() {}
         public row(String a,String b,String c,String d,String e,String f,String g,String h) {
         	super();
         	this.a=new SimpleStringProperty(a);

@@ -1,6 +1,10 @@
 package view;
 
 
+import controller.Insert;
+import controller.Search;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -19,7 +23,7 @@ public class AddClasses {
 	private Label namelb;
 	private Label idlb;
 	private Label gradelb;
-	private ComboBox<String> gradecb;
+	private ComboBox<Integer> gradecb;
 	private TextField idtf;
 	private TextField nametf;
 	private Label majorlb;
@@ -40,10 +44,24 @@ public class AddClasses {
 		idtf.setEditable(false);//id通过查询数据库获取自动分配
 		gradelb=new Label("年级: ");
 		gradecb=new ComboBox<>();
+		if(Search.getGrade()!=null)
+			gradecb.getItems().addAll(Search.getGrade());
 		majorlb=new Label("文理科: ");
 		majorcb=new ComboBox<>();
+		gradecb.valueProperty().addListener(new ChangeListener<Integer>() {
+    		//当下拉框的值改变时，设置班级下拉框的items
+			@Override
+			public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
+				// TODO Auto-generated method stub
+				majorcb.getItems().clear();
+				majorcb.getItems().addAll("文科","理科");
+			}
+    		
+    	});
 		teacherlb=new Label("班主任: ");
 		teachercb=new ComboBox<>();
+		if(Search.getTeacher(gradecb.getValue())!=null)
+			teachercb.getItems().addAll(Search.getTeacher(gradecb.getValue()));
 		confirm=new Button("确定");
 		
 		HBox idhb=new HBox();
@@ -64,7 +82,15 @@ public class AddClasses {
 		confirm.setOnAction(e->{
 			//弹出确认窗口
 			//录入数据
-			stage.close();
+			Integer g=gradecb.getValue();
+			String m=majorcb.getValue();
+			String cid=idtf.getText();
+			String name=nametf.getText();
+			String t=teachercb.getValue();
+			String message=Insert.addClass(g, m, cid, name, t);
+			if(message==null)
+				stage.close();
+			else test.show(message);
 		});
 	}
 	
