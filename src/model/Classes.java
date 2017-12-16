@@ -27,6 +27,9 @@ public class Classes {
 	public void setTeacher(Teacher teacher) {
 		this.teacher = teacher;
 	}
+	public void setTeachername(String tea){
+		this.teacher.setName(tea);
+	}
 	public int getNumber() {
 		return number;
 	}
