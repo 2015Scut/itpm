@@ -24,16 +24,17 @@ public class ClassesProcess implements Process {
 	private static final String searchSQL = "select * from class where class_id=?";
 	/** 更新班级的名字和课程的sql语句 */
 	private static final String updateSQL = "update class set class_name=?,major_id=? where class_id=?";
-	/** 根据三个值搜索出的学生集合sql语句 */
-	private static final String msearchSQL = "select student.student_id,student.student_name,major.major_id,major.major_name,class.class_id from student natural join class natural join major where student.class_id=? and major.major_name=? and major.grade_id=? ";
-
-	/** 根据年级搜索出班级和班主任 */
-	private static final String gradeSearchSQL = "select class.class_name,teacher.teacher_name from teacher natural join teacher_class natural join class where garde_id=?";
-	/** 根据分科搜索出班级年级和班主任 */
-	private static final String majorSearchSQL = "select class.class_name,major.grade_id,teacher.name from teacher natural join teacher_class natural join class natural join major where major_nmae=?";
+	
+	
 	/** 根据年级和分科搜索出班级和班主任 */
-	private static final String gmSearchSQL = "select class.class_name,grade_id,teacher.teacher_name from teacher natural join teacher_class natural join class natural join major where grade_id=? and major_name=? ";
+	private static final String gmSearchSQL = "select class.class_id,class.class_name,teacher.teacher_name from teacher natural join teacher_class natural join class natural join major where grade_id=? and major_name=? ";
 
+	/**查询指定年级与专业的班级总数的sql语句*/
+	private static final String numSQL = "select count(class_id) from class natural join major where grade_id=? and major_name=?";
+	/** 查询专业名对应的专业id */
+	private static final String rmidSQL = "select major_id from major where major_name=?";
+	/**查询同一个班级id的学生人数*/
+	private static final String snumSQL="select count(student_id) from student where class_id=?";
 	/*
 	 * 以上都是预先定义好的sql语句，？的地方为需要填入的变量 具体使用方法可以参考下面的insertUser函数
 	 * 也可以自己百度学习一下有关JDBC的知识
@@ -123,10 +124,8 @@ public class ClassesProcess implements Process {
 	}
 
 	/**
-	 * 查找学生信息
+	 * 根据年级专业获取班级列表
 	 * 
-	 * @param cid
-	 *            学生id
 	 * @param major
 	 *            专业
 	 * @param grade
@@ -134,45 +133,11 @@ public class ClassesProcess implements Process {
 	 * @throws SQLException
 	 *             SQL异常
 	 */
-	/*
-	 * public ArrayList<Classes> getData(String cid,String major,int grade) {
-	 * ct=ConnDB.getConn(); ArrayList<Classes> classes=new ArrayList<Classes>();
-	 * try{ ps=ct.prepareStatement(msearchSQL); ps.setString(1, cid);
-	 * rs=ps.executeQuery(); for(int i=0;;i++){ Classes cla=new Classes();
-	 * 
-	 * if(rs.next()) { cla.setClassId(cid); cla.setMajorId(rs.getString(2));
-	 * cla.setGrade(rs.getInt(3)); }else break; classes.add(cla); } }catch
-	 * (SQLException e){ // TODO Auto-generated catch block e.printStackTrace();
-	 * }finally{ try{ ct.close(); }catch (SQLException e){ // TODO
-	 * Auto-generated catch block e.printStackTrace(); } ct=null; ps=null; }
-	 * return classes; }
-	 * 
-	 * public Classes getData(int grade) { ct=ConnDB.getConn(); Classes
-	 * classes=new Classes(); try{ ps=ct.prepareStatement(gradeSearchSQL);
-	 * rs=ps.executeQuery(); if(rs.next()) {
-	 * 
-	 * classes.setGrade(rs.getInt(1)); }else return null;
-	 * 
-	 * }catch (SQLException e){ // TODO Auto-generated catch block
-	 * e.printStackTrace(); }finally{ try{ ct.close(); }catch (SQLException e){
-	 * // TODO Auto-generated catch block e.printStackTrace(); } ct=null;
-	 * ps=null; } return classes; }
-	 * 
-	 * public Classes getData(String major) { ct=ConnDB.getConn(); Classes
-	 * classes=new Classes(); try{ ps=ct.prepareStatement(majorSearchSQL);
-	 * rs=ps.executeQuery(); if(rs.next()) {
-	 * classes.setMajorId(rs.getString(1)); }else return null;
-	 * 
-	 * }catch (SQLException e){ // TODO Auto-generated catch block
-	 * e.printStackTrace(); }finally{ try{ ct.close(); }catch (SQLException e){
-	 * // TODO Auto-generated catch block e.printStackTrace(); } ct=null;
-	 * ps=null; } return classes; }
-	 */
+	
 	public ArrayList<Classes> getData(String major, int grade) {
 		ArrayList<Classes> classes = new ArrayList<Classes>();
 		ct = ConnDB.getConn();
 
-		Classes cla = new Classes();
 		try {
 			ps = ct.prepareStatement(gmSearchSQL);
 			ps.setString(1, major);
@@ -182,11 +147,23 @@ public class ClassesProcess implements Process {
 			for (int i = 0;; i++) {
 				Classes cl = new Classes();
 				if (rs.next()) {
-					cl.setClassName(rs.getString(1));
-					cl.setGrade(rs.getInt(2));
+					cl.setClassId(rs.getString(1));
+					cl.setClassName(rs.getString(2));
 					cl.setTeachername(rs.getString(3));
 				} else
 					break;
+				try{
+				ps=ct.prepareStatement(snumSQL);
+				ps.setString(1,cl.getClassId());
+				rs=ps.executeQuery();
+				cl.setNumber(rs.getInt(1));
+				}catch (SQLException e){
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				cl.setGrade(grade);
+				cl.setMajorId(major);
 				classes.add(cl);
 			}
 		} catch (SQLException e) {
@@ -204,6 +181,60 @@ public class ClassesProcess implements Process {
 		}
 		return classes;
 	}
+	
+	/**
+	 * 自动生成班级id函数
+	 * 
+	 * @param gra
+	 *            年级
+	 * @param maj
+	 *            专业
+	 * @throws SQLException
+	 */
+	public String retSid(int gra, String maj){
+		ct = ConnDB.getConn();
+		try {
+			ps = ct.prepareStatement(numSQL);
+			ps.setInt(1, gra);
+			ps.setString(2, maj);
+			rs = ps.executeQuery();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String num = "";
+		try {
+			if (rs.next())
+				num = String.valueOf(rs.getInt(1) + 1);
+
+			ps = ct.prepareStatement(rmidSQL);
+			ps.setString(1, maj);
+			rs = ps.executeQuery();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String maj_id = "";
+		try {
+			if (rs.next())
+				maj_id = rs.getString(1);
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			ct.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String id = gra + maj_id + num;
+		return id;
+	}
+	
+	
+	
 	/**
 	 * 测试函数
 	 * 
