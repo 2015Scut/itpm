@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 /**
  * 处理年级类数据的类，可以插入，查询，删除年级信息
  * @author 李龙康
@@ -34,33 +35,56 @@ public class GradeProcess implements Process {
 	 * @return 是否成功
 	 * @throws SQLException SQL异常
 	 */
-	public boolean insertGrade(int gid) throws SQLException {
+	public int insertGrade(int gid) {
 		
 		ct=ConnDB.getConn();//获取数据库连接
+		try{
 		ps=ct.prepareStatement(searchSQL);//验证年级id是否重复
 		ps.setInt(1, gid);
 		rs=ps.executeQuery();
 		System.out.println(ps);
-		if(rs.next())return false;
+		if(rs.next())return 0;
 		
 		ps=ct.prepareStatement(insertSQL);//插入年级表
 		ps.setInt(1, gid);
 		ps.executeUpdate();
+		}catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				ct.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			ct = null;
+			ps = null;
+		}
 		
-		ct.close();//关闭数据库，记得每次用完都要关闭
-		ct=null;
-		ps=null;
-		rs=null;
-		return true;
+		return 1;
 	}
-	public ResultSet getData() throws SQLException{
+	public ArrayList<Grade> getData() {
+		ArrayList<Grade> Grade_ = new ArrayList<Grade>();
 		ct=ConnDB.getConn();
-		ps=ct.prepareStatement(msearchSQL);
-		ps.executeQuery();
-		ct.close();
-		ct=null;
-		ps=null;
-		return rs;
+		try{
+			ps=ct.prepareStatement(msearchSQL);
+			ps.executeQuery();
+		}catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				ct.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			ct = null;
+			ps = null;
+		}
+		return Grade_;
+	   
 	}
 	/**
 	 * 测试函数
