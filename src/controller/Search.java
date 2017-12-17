@@ -28,8 +28,8 @@ public class Search {
 	}
 	public static String getNextClassId(Integer g,String m) {
 		//根据年级，专业自动获取班级id  广森
-		ClassesProcess sp=new ClassesProcess();
-		return sp.retSid(g, m);
+		ClassesProcess cp=new ClassesProcess();
+		return cp.retSid(g, m);
 	}
 	public static ArrayList<Student> get18Student(String sid,String name,Integer g,String majorName,String className,int pageIndex){
 		//根据学号，名字，年级，专业，班级，页数，查询 18条记录  圣杰
@@ -47,7 +47,8 @@ public class Search {
 	}
 	public static ArrayList<Classes> getClassList(Integer g,String m){
 		//根据年级，专业获得班级列表  广森
-		return null;
+		ClassesProcess cp=new ClassesProcess();
+		return cp.getData(m, g);
 	}
 	public static ArrayList<Student> getStudentList(Integer g,String majorName,String className){
 		//根据年级，专业名，班级名，获得学生列表  吕睿
