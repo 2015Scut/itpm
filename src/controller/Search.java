@@ -28,7 +28,8 @@ public class Search {
 	}
 	public static String getNextClassId(Integer g,String m) {
 		//根据年级，专业自动获取班级id  广森
-		return null;
+		ClassesProcess sp=new ClassesProcess();
+		return sp.retSid(g, m);
 	}
 	public static ArrayList<Student> get18Student(String sid,String name,Integer g,String majorName,String className,int pageIndex){
 		//根据学号，名字，年级，专业，班级，页数，查询 18条记录  圣杰
