@@ -92,11 +92,6 @@ public class GradeProcess implements Process {
 	 */
 	public static void main(String [] args) {//测试
 		GradeProcess up=new GradeProcess();
-		try {
-			up.insertGrade(2016);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		up.insertGrade(2016);
 	}
 }
