@@ -7,26 +7,26 @@ package model;
  */
 public class Teacher extends Person{
 	/**教师id*/
-	private String teacherId;
+	private int teacherId;
 	/**所属学院id*/
 	private int gradeId;
 	
 	public Teacher() {}
-	public Teacher(String n,int a,String s,String tid,int gid) {
+	public Teacher(String n,int a,String s,int tid,int gid) {
 		super(n,a,s);
 		teacherId=tid;
 		gradeId=gid;
 	}
-	public String getTeacherId() {
+	public int getTeacherId() {
 		return teacherId;
 	}
-	public void setTeacherId(String teacherId) {
+	public void setTeacherId(int teacherId) {
 		this.teacherId = teacherId;
 	}
-	public int getDepartId() {
+	public int getGradeId() {
 		return gradeId;
 	}
-	public void setDepartId(int gradeId) {
+	public void setGradeId(int gradeId) {
 		this.gradeId = gradeId;
 	}
 	

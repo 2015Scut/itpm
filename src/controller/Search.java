@@ -29,11 +29,13 @@ public class Search {
 	}
 	public static ArrayList<String> getTeacher(Integer g){
 		//根据年级查询教师列表 吕睿
-		return null;
+		TeacherProcess tp=new TeacherProcess();
+		return tp.getTeacherName(g);
 	}
 	public static String getNextTeacherId() {
 		//自动获得教师id 吕睿
-		return null;
+		TeacherProcess tp=new TeacherProcess();
+		return tp.nextId();
 	}
 	public static String getNextStudentId(Integer g,String majorName,String className) {
 		//根据年级，专业，班级自动获取学生id  圣杰
