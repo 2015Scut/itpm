@@ -24,17 +24,16 @@ public class ClassesProcess implements Process {
 	private static final String searchSQL = "select * from class where class_id=?";
 	/** 更新班级的名字和课程的sql语句 */
 	private static final String updateSQL = "update class set class_name=?,major_id=? where class_id=?";
-	
-	
-	/** 根据年级和分科搜索出班级和班主任 */
-	private static final String gmSearchSQL = "select class.class_id,class.class_name,teacher.teacher_name from teacher natural join teacher_class natural join class natural join major where grade_id=? and major_name=? ";
 
-	/**查询指定年级与专业的班级总数的sql语句*/
+	/** 根据年级和分科搜索出班级和班主任 */
+	private static final String gmSearchSQL = "select class_id,class_name,teacher_name from teacher natural join teacher_class natural join class natural join major where ?=NULL or grade_id=? and ?=NULL or major_name=? ";
+
+	/** 查询指定年级与专业的班级总数的sql语句 */
 	private static final String numSQL = "select count(class_id) from class natural join major where grade_id=? and major_name=?";
 	/** 查询专业名对应的专业id */
 	private static final String rmidSQL = "select major_id from major where major_name=?";
-	/**查询同一个班级id的学生人数*/
-	private static final String snumSQL="select count(student_id) from student where class_id=?";
+	/** 查询同一个班级id的学生人数 */
+	private static final String snumSQL = "select count(student_id) from student where class_id=?";
 	/*
 	 * 以上都是预先定义好的sql语句，？的地方为需要填入的变量 具体使用方法可以参考下面的insertUser函数
 	 * 也可以自己百度学习一下有关JDBC的知识
@@ -133,7 +132,7 @@ public class ClassesProcess implements Process {
 	 * @throws SQLException
 	 *             SQL异常
 	 */
-	
+
 	public ArrayList<Classes> getData(String major, int grade) {
 		ArrayList<Classes> classes = new ArrayList<Classes>();
 		ct = ConnDB.getConn();
@@ -141,29 +140,32 @@ public class ClassesProcess implements Process {
 		try {
 			ps = ct.prepareStatement(gmSearchSQL);
 			ps.setString(1, major);
-			ps.setInt(2, grade);
+			ps.setString(2, major);
+			ps.setInt(3, grade);
+			ps.setInt(4, grade);
 			rs = ps.executeQuery();
-
+			ResultSet rs1 = null;
 			for (int i = 0;; i++) {
 				Classes cl = new Classes();
+				Teacher tea = new Teacher();
 				if (rs.next()) {
 					cl.setClassId(rs.getString(1));
 					cl.setClassName(rs.getString(2));
-					cl.setTeachername(rs.getString(3));
-				} else
+					tea.setName(rs.getString(3));
+					cl.setTeacher(tea);
+
+					ps = ct.prepareStatement(snumSQL);
+					ps.setString(1, cl.getClassId());
+					rs1 = ps.executeQuery();
+					int num = 0;
+					if (rs1.next())
+						num = rs1.getInt(1);
+					cl.setNumber(num);
+
+					cl.setGrade(grade);
+					cl.setMajorId(major);
+				}else
 					break;
-				try{
-				ps=ct.prepareStatement(snumSQL);
-				ps.setString(1,cl.getClassId());
-				rs=ps.executeQuery();
-				cl.setNumber(rs.getInt(1));
-				}catch (SQLException e){
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				cl.setGrade(grade);
-				cl.setMajorId(major);
 				classes.add(cl);
 			}
 		} catch (SQLException e) {
@@ -181,7 +183,7 @@ public class ClassesProcess implements Process {
 		}
 		return classes;
 	}
-	
+
 	/**
 	 * 自动生成班级id函数
 	 * 
@@ -191,7 +193,7 @@ public class ClassesProcess implements Process {
 	 *            专业
 	 * @throws SQLException
 	 */
-	public String retSid(int gra, String maj){
+	public String retSid(int gra, String maj) {
 		ct = ConnDB.getConn();
 		try {
 			ps = ct.prepareStatement(numSQL);
@@ -229,12 +231,15 @@ public class ClassesProcess implements Process {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String id = gra + maj_id + num;
+		String id;
+		if (Integer.parseInt(num) <= 9) {
+			id = gra + maj_id.substring(4, 5) + "0" + num;
+		} else {
+			id = gra + maj_id.substring(4, 5) + num;
+		}
 		return id;
 	}
-	
-	
-	
+
 	/**
 	 * 测试函数
 	 * 
@@ -251,4 +256,21 @@ public class ClassesProcess implements Process {
 	 * try { up.updateClasses("2222","zhoujile","2222"); } catch (SQLException
 	 * e) { // TODO Auto-generated catch block e.printStackTrace(); }
 	 */
+
+	/*public static void main(String[] args) throws SQLException {// 测试
+
+		ClassesProcess up = new ClassesProcess();
+		ArrayList<Classes> cla = new ArrayList<Classes>();
+		/*
+		 * String id=up.retSid(2015, "文科"); System.out.print(id);
+		 */
+		/*cla = up.getData("理科", 0);
+		for(int i=0;i<cla.size();i++)
+		System.out.println(cla.get(i).getClassName());
+		/*
+		 * StudentProcess up=new StudentProcess(); String id=up.retSid(0, "理科",
+		 * "测试"); System.out.print(id);
+		 */
+
+	//}
 }
