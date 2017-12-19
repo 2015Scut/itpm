@@ -35,7 +35,7 @@ public class GradeProcess implements Process {
 	 * @return 是否成功
 	 * @throws SQLException SQL异常
 	 */
-	public int insertGrade(int gid) {
+	public int insertGrade(int gid)  {
 		
 		ct=ConnDB.getConn();//获取数据库连接
 		try{
