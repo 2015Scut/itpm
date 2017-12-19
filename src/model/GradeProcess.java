@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * 
  */
 
-public class GradeProcess implements Process {
+public class GradeProcess implements Process { 
 
 	private Connection ct=null;
 	private PreparedStatement ps=null;
