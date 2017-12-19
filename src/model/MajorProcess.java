@@ -6,10 +6,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 /**
  * 处理分科类数据的类，可以获取和插入分科信息
  * @author 邢浩
- * @version 1.0
+ * @version 1.1
  * 
  */
 
@@ -25,55 +26,86 @@ public class MajorProcess implements Process{
 	public MajorProcess() {}
 	/**
 	 * 向数据库插入用户
-	 * @param major_id 分科的id
-	 * @param major_name 分科的名字
-	 * @param grade_id 年级id
-	 * @return 是否成功
-	 * @throws SQLException SQL异常
+	 * @param major_id 
+	 *                   分科的id
+	 * @param major_name 
+	 *                   分科的名字
+	 * @param grade_id 
+	 *                   年级id
+	 * @return 
+	 *                   是否成功
+	 * @throws SQLException
+	 *                   SQL异常
+	 *                   
 	 */
-	public boolean insertmajor(String major_id,String major_name,int grade_id) throws SQLException {
+	public int insertmajor(String major_id,String major_name,int grade_id) {
 		ct=ConnDB.getConn();//获取数据库连接
-		ps=ct.prepareStatement(searchSQL);//验证majorid是否重复
-		ps.setString(1, major_id);
-		rs=ps.executeQuery();
-		System.out.println(ps);
-		if(rs.next())return false;
-		
-		ps=ct.prepareStatement(insertSQL);//插入学生表
-		ps.setString(1, major_id);//向String中？的地方填入数据
-		ps.setString(2,major_name);
-		ps.setInt(3, grade_id);
-		System.out.println(ps);
-		ps.executeUpdate();
-		
-		ct.close();//关闭数据库，记得每次用完都要关闭
-		ct=null;
-		ps=null;
-		rs=null;
-		return true;
+		try{
+			ps=ct.prepareStatement(searchSQL);//验证majorid是否重复
+			ps.setString(1, major_id);
+			rs=ps.executeQuery();
+			System.out.println(ps);
+			if(rs.next())return 1;
+			
+			ps=ct.prepareStatement(insertSQL);//插入学生表
+			ps.setString(1, major_id);//向String中？的地方填入数据
+			ps.setString(2,major_name);
+			ps.setInt(3, grade_id);
+			System.out.println(ps);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally{
+			try {
+				ct.close();// 关闭数据库，记得每次用完都要关闭
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			ct=null;
+			ps=null;
+			rs=null;
+		}
+		   return 0;
 	}
-	public ResultSet getData(int grade_id) throws SQLException
-	{
+	/**
+	 * 根据年级获取分科列表
+	 * 
+	 * @param grade
+	 *            年级
+	 * @throws SQLException
+	 *             SQL异常
+	 */
+	public ArrayList<Major> getData(int grade_id){
+		ArrayList<Major> major=new ArrayList<Major>();
 		ct=ConnDB.getConn();
-		ps=ct.prepareStatement(searchSQL);
-		ps.setInt(1,grade_id);
-		ps.executeQuery();
-		ct.close();
-		ct=null;
-		ps=null;
-		return rs;
+		try{
+			ps=ct.prepareStatement(searchSQL);
+			ps.setInt(1,grade_id);
+			ps.executeQuery();
+		}catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				ct.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			ct=null;
+			ps=null;
+		}
+		return major;
 	}
 	/**
 	 * 测试函数
 	 * @param args 参数
 	 */
-	public static void main(String [] args) {//测试
-		MajorProcess up=new MajorProcess();
-		try {
-			up.insertmajor("00002","理科",2016);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+     public static void main(String [] args) throws SQLException{
+    	MajorProcess up=new MajorProcess();
+    	up.insertmajor("000001", "理科", 2017);
+     }
 }
+ 
