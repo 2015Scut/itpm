@@ -99,7 +99,7 @@ public class GradeProcess implements Process {
 	 * 测试函数
 	 * @param args 参数
 	 */
-	public static void main(String [] args) {//测试
+	public static void main(String [] args){//测试
 		GradeProcess up=new GradeProcess();
 		
 		ArrayList<Grade> grade = new ArrayList<Grade>();
