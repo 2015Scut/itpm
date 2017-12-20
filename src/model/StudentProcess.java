@@ -13,6 +13,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javafx.scene.image.Image;
+
 /**
  * 处理学生类数据的类，可以获取，添加，更新和删除学生数据
  * 
@@ -35,7 +37,7 @@ public class StudentProcess implements Process {
 	/** 删除学生的sql语句 */
 	private static final String deleteSQL = "delete from student where student_id=?";
 	/** 根学号，名字，年级，专业，班级查询学生集合的sql语句 */
-	private static final String msearchSQL = "select student_id,student_name,student_sex,student_age,grade_id,major_name,class_name,job,seat from student natural join class natural join major where (?='' or student_id=?) and (?='' or student_name=?) and (?='' or grade_id=?) and (?='' or major_name=?) and (?='' or class_name=?)";
+	private static final String msearchSQL = "select student_id,student_name,student_sex,student_age,grade_id,major_name,class_name,job,seat,photo from student natural join class natural join major where (?='' or student_id=?) and (?='' or student_name=?) and (?='' or grade_id=?) and (?='' or major_name=?) and (?='' or class_name=?)";
 	/** 根据学号，名字，年级，专业，班级，页数，查询 18条记录sql语句 */
 	private static final String pageSQL = "select student_id,student_name,student_sex,student_age,grade_id,major_name,class_name,job,seat,class_id,photo from student natural join class natural join major where (?='' or student_id=?) and (?='' or student_name=?) and (?='' or grade_id=?) and (?='' or major_name=?) and (?='' or class_name=?) limit ?,?";
 	/**根据学号，名字，年级，专业，班级，查询总页数*/
@@ -72,14 +74,13 @@ public class StudentProcess implements Process {
 	 * @throws SQLException
 	 *             SQL异常
 	 */
-	public int insertStudent(String sid, String name, int age, String sex, Blob photo, String cid, String job,
+	public int insertStudent(String sid, String name, int age, String sex, InputStream photo, String cid, String job,
 			int seat) {
 		ct = ConnDB.getConn();// 获取数据库连接
 		try {
 			ps = ct.prepareStatement(searchSQL);// 验证学生id是否重复
 			ps.setString(1, sid);
 			rs = ps.executeQuery();
-			System.out.println(ps);
 			if (rs.next())
 				return 1;// 学生id重复
 
@@ -92,7 +93,6 @@ public class StudentProcess implements Process {
 			ps.setString(6, cid);
 			ps.setString(7, job);
 			ps.setInt(8, seat);
-			System.out.println(ps);
 			ps.executeUpdate();
 			
 		} catch (SQLException e) {
@@ -203,6 +203,10 @@ public class StudentProcess implements Process {
 					st.setClasses(rs.getString(7));
 					st.setJob(rs.getString(8));
 					st.setSeatNumber(rs.getInt(9));
+					if(rs.getBlob(10)!=null) {
+						st.setPhoto(rs.getBlob(10).getBinaryStream());
+						
+					}
 				} else
 					break;
 				stu.add(st);
@@ -272,7 +276,7 @@ public class StudentProcess implements Process {
 					st.setJob(rs.getString(8));
 					st.setSeatNumber(rs.getInt(9));
 					st.setClassId(rs.getString(10));
-					st.setPhoto(rs.getBlob(11));
+					st.setPhoto(rs.getBlob(11).getBinaryStream());
 				} else
 					break;
 				stu.add(st);
@@ -413,58 +417,35 @@ public class StudentProcess implements Process {
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) throws SQLException, IOException  {// 测试
-		/*StudentProcess up=new StudentProcess();
-		int a=up.num_Page("", "", 0, "理科", "测试");
-		System.out.print(a);*/
-		/*StudentProcess up=new StudentProcess();
-		System.out.println(1);
-		ArrayList<Student> stu = new ArrayList<Student>();
-		stu.addAll(up.getPageData("", "", null, "理科", "测试", 1));
-		for(int i=0;i<stu.size();i++)
-			System.out.println(stu.get(i).getStudentId());*/
-		StudentProcess up=new StudentProcess();
-		ArrayList<Student> stu = new ArrayList<Student>();
-		stu=up.getData(null, null, null, null, null);
-		for(int i=0;i<stu.size();i++)
-			System.out.println(stu.get(i).getStudentId());
-		/*
-		 * StudentProcess up=new StudentProcess(); String id=up.retSid(0, "理科",
-		 * "测试"); System.out.print(id);
-		 */
-		/*
-		 * try {
-		 * up.insertStudent("000010101","王",20,"男",null,"0000101","打酱油",666); }
-		 * catch (SQLException e) { // TODO Auto-generated catch block
-		 * e.printStackTrace(); }
-		 */
-		/*
-		 * try { up.updateStudent("000010101","打麻油",888); } catch (SQLException e) {
-		 * // TODO Auto-generated catch block e.printStackTrace(); }
-		 */
-		/*
-		 * try { up.deleteStudent("000010101"); } catch (SQLException e) { //
-		 * TODO Auto-generated catch block e.printStackTrace(); }
-		 */
-		/*File file=new File("D:\\test.png");
-		ct = ConnDB.getConn();
-			
-		String test="select photo from student where student_name='zej'";
-		ps = ct.prepareStatement(test);
-		rs=ps.executeQuery();
-		if(rs.next()) {
-			try {
+		
+		File file=new File("D:\\test.png");
+		try {
+			String p="select photo from student where student_name='照片'";
+			String up="update student set photo=? where student_name='照片'";
+			FileInputStream insert=new FileInputStream(file);
+			ct=ConnDB.getConn();
+			ps=ct.prepareStatement(p);
+			//ps.setBlob(1, insert);
+			//ps.executeUpdate();
+			rs=ps.executeQuery();
+			if(rs.next()) {
 				byte[] b=new byte[1024];
+				FileOutputStream in=new FileOutputStream(new File("D:\\student.png"));
+				//Image im=new Image(in);
 				InputStream i=rs.getBlob(1).getBinaryStream();
-				FileOutputStream out=new FileOutputStream(new File("D:\\test1.png"));
 				while(i.read(b)!=-1)
-					out.write(b);
-				out.close();
+					in.write(b);
+				in.close();
 				i.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
-		}*/
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			ct.close();
+			ps.close();
+		}
 	}
+	
 
 }

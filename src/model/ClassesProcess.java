@@ -203,7 +203,6 @@ public class ClassesProcess implements Process {
 			ps = ct.prepareStatement(numSQL);
 			ps.setInt(1, gra);
 			ps.setString(2, maj);
-			System.out.println(ps);
 			rs = ps.executeQuery();
 			if(rs.next()) {
 				id+=String.valueOf(gra);

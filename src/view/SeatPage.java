@@ -99,7 +99,6 @@ public class SeatPage extends VBox{
 	            .set(n,t.getNewValue());
 	        	int hang=t.getTablePosition().getRow();
 	        	int lie=t.getTablePosition().getColumn();
-	        	System.out.println(hang+" "+lie);
 			});
 			tv.getColumns().add(tc);
 			
@@ -123,9 +122,8 @@ public class SeatPage extends VBox{
 		photo.setOnAction(e->{
 			int r=tv.getFocusModel().getFocusedCell().getRow();
 			int c=tv.getFocusModel().getFocusedCell().getColumn();
-			
-    		System.out.println(tv.getFocusModel().getFocusedItem().get(c));
-    		
+			Student selectedStudent=sl.get((r-1)*8+c);
+    		PictureView.show(selectedStudent.getImage());
     	});
 		save.setOnAction(e->{
 			ArrayList<String>row=new ArrayList<>();

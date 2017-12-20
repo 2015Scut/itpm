@@ -17,7 +17,6 @@ public class Update {
 		//更新座位表
 		HashMap<String,Integer> map=new HashMap<>();
 		HashSet<Student> set=new HashSet<>();
-		System.out.println(sl.size());
 		for(int i=0;i<sl.size();i++) {
 			System.out.println(i);
 			if(!rows.get(i).equals(sl.get(i).getName())) {

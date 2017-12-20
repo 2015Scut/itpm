@@ -134,7 +134,7 @@ public class SearchPage extends BorderPane{
 			Integer grade=gradecb.getValue();
 			String major=majorcb.getValue();
 			String classes=classcb.getValue();
-			ArrayList<Student> sl=Search.get18Student(stdid, stdname, grade, major, classes,1);
+			ArrayList<Student> sl=Search.get18Student(stdid, stdname, grade, major, classes,pg.getCurrentPageIndex());
 			tb.getTable().getItems().clear();
 			if(sl!=null)
 				tb.getTable().getItems().addAll(sl);

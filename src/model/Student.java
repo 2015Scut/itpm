@@ -1,12 +1,19 @@
 package model;
 
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Blob;
+import java.sql.SQLException;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.scene.image.Image;
 /**
  * 学生类
  * @author 钟恩俊
@@ -22,16 +29,17 @@ public class Student extends Person implements Comparable{
 	/**所在班级id*/
 	private String classId;
 	/**照片*/
-	private Blob photo;
+	private InputStream photo;
 	/**年级*/
 	private int grade;
 	/**专业*/
 	private String major;
 	/**班级名称*/
 	private String classes;
+	private Image im;
 	
 	public Student() {}
-	public Student(String na,int a,String s,String sid,String j,int n,String cid,Blob p,int g,String m,String c) {
+	public Student(String na,int a,String s,String sid,String j,int n,String cid,InputStream p,int g,String m,String c) {
 		super(na,a,s);
 		studentId=sid;
 		job=j;
@@ -66,11 +74,12 @@ public class Student extends Person implements Comparable{
 	public void setClassId(String classId) {
 		this.classId = classId;
 	}
-	public Blob getPhoto() {
+	public InputStream getPhoto() {
 		return photo;
 	}
-	public void setPhoto(Blob photo) {
+	public void setPhoto(InputStream photo) {
 		this.photo = photo;
+		
 	}
 	public int getGrade() {
 		return grade;
@@ -97,7 +106,11 @@ public class Student extends Person implements Comparable{
 		else if(this.seatNumber==s.getSeatNumber())return 0;
 		else return -1;
 	}
-	
+	public Image getImage() {
+		System.out.println(photo==null);
+		im=new Image(photo);
+		return im;
+	}
 	
 	
 }
