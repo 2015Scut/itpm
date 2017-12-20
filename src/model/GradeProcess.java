@@ -68,7 +68,7 @@ public class GradeProcess implements Process {
 	public ArrayList<Grade> getData() {
 		ArrayList<Grade> Grade_ = new ArrayList<Grade>();
 		ct=ConnDB.getConn();
-		
+
 		try{
 			ps=ct.prepareStatement(msearchSQL);
 			rs = ps.executeQuery();
