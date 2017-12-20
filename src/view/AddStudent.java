@@ -40,6 +40,8 @@ public class AddStudent {
 	private ComboBox<Integer>gradecb;
 	private ComboBox<String>majorcb;
 	private ComboBox<String>classcb;
+	private Label agelb;
+	private TextField agetf;
 	
 	private AddStudent() {
 		stage=new Stage();
@@ -121,6 +123,10 @@ public class AddStudent {
 				}
 			}
 		});
+		agelb=new Label("年龄: ");
+		agetf=new TextField();
+		HBox agehb=new HBox();
+		agehb.getChildren().addAll(agelb,agetf);
 		HBox idhb=new HBox();
 		idhb.getChildren().addAll(idlb,idtf);
 		HBox namehb=new HBox();
@@ -134,7 +140,7 @@ public class AddStudent {
 		HBox classhb=new HBox();
 		classhb.getChildren().addAll(classlb,classcb);
 		VBox vb=new VBox();
-		vb.getChildren().addAll(gradehb,majorhb,classhb,idhb,namehb,sexhb,confirm);
+		vb.getChildren().addAll(gradehb,majorhb,classhb,idhb,namehb,sexhb,agehb,confirm);
 		vb.setSpacing(20);
 		
 		HBox hb=new HBox();

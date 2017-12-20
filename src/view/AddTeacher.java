@@ -24,6 +24,8 @@ public class AddTeacher {
 	private Label sexlb;
 	private ComboBox<String>sex;
 	private Button confirm;
+	private Label agelb;
+	private TextField agetf;
 	
 	private AddTeacher() {
 		stage=new Stage();
@@ -43,6 +45,8 @@ public class AddTeacher {
 		ObservableList<String>options=FXCollections.observableArrayList("男","女");
 		sex=new ComboBox<>(options);
 		confirm=new Button("确定");
+		agelb=new Label("年龄: ");
+		agetf=new TextField();
 		
 		HBox idhb=new HBox();
 		idhb.getChildren().addAll(idlb,idtf);
@@ -52,11 +56,13 @@ public class AddTeacher {
 		sexhb.getChildren().addAll(sexlb,sex);
 		HBox gradehb=new HBox();
 		gradehb.getChildren().addAll(gradelb,gradecb);
+		HBox agehb=new HBox();
+		agehb.getChildren().addAll(agelb,agetf);
 		VBox vb=new VBox();
-		vb.getChildren().addAll(gradehb,idhb,namehb,sexhb,confirm);
+		vb.getChildren().addAll(gradehb,idhb,namehb,sexhb,agehb,confirm);
 		vb.setSpacing(20);
 		vb.setPadding(new Insets(20));
-		stage.setScene(new Scene(vb,500,250));
+		stage.setScene(new Scene(vb,500,300));
 		confirm.setOnAction(e->{
 			//弹出确认窗口
 			//录入数据
@@ -64,7 +70,9 @@ public class AddTeacher {
 			String tid=idtf.getText();
 			String name=nametf.getText();
 			String s=sex.getValue();
-			String message=Insert.addTeacher(g, tid, name, s);
+			Integer age=Integer.parseInt(agetf.getText());
+			String message=Insert.addTeacher(g, tid, name, s,age);
+			
 			if(message==null)
 				stage.close();
 			else test.show(message);

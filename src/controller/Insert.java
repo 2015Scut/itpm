@@ -1,9 +1,9 @@
 package controller;
 import model.ClassesProcess;
+import model.GradeProcess;
 import model.MajorProcess;
 import model.StudentProcess;
 import model.TeacherProcess;
-import view.*;
 
 
 public class Insert {
@@ -11,6 +11,12 @@ public class Insert {
 	public Insert(){}
 	
 	public static String addGrade(Integer g) {
+		GradeProcess gp=new GradeProcess();
+		gp.insertGrade(g);
+		MajorProcess mp=new MajorProcess();
+		String id=String.valueOf(g);
+		mp.insertmajor(g+"0", "文科", g);
+		mp.insertmajor(g+"1", "理科", g);
 		return null;
 	}
 	
@@ -27,10 +33,10 @@ public class Insert {
 		cp.insertClasses(cid, cname, teacherName);
 		return null;
 	}
-	public static String addTeacher(Integer g,String tid,String name,String sex) {
+	public static String addTeacher(Integer g,String tid,String name,String sex,Integer age) {
 		//邢浩
 		TeacherProcess tp=new TeacherProcess();
-		tp.insertTeacher(tid, name, g, sex, g);
+		tp.insertTeacher(Integer.parseInt(tid), name, age, sex, g);
 		return null;
 	}
 }
