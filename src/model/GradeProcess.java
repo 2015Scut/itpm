@@ -69,7 +69,12 @@ public class GradeProcess implements Process {
 		ct=ConnDB.getConn();
 		try{
 			ps=ct.prepareStatement(msearchSQL);
-			ps.executeQuery();
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				Grade g=new Grade();
+				g.setGradeId(rs.getInt(1));
+				Grade_.add(g);
+			}
 		}catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -92,6 +97,6 @@ public class GradeProcess implements Process {
 	 */
 	public static void main(String [] args) {//测试
 		GradeProcess up=new GradeProcess();
-		up.insertGrade(2016);
+		System.out.println(up.getData().size());
 	}
 }

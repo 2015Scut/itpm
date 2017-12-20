@@ -26,7 +26,7 @@ public class ClassesProcess implements Process {
 	private static final String updateSQL = "update class set class_name=?,major_id=? where class_id=?";
 
 	/** 根据年级和分科搜索出班级和班主任 */
-	private static final String gmSearchSQL = "select class_id,class_name,teacher_name from teacher natural join teacher_class natural join class natural join major where ?=NULL or grade_id=? and ?=NULL or major_name=? ";
+	private static final String gmSearchSQL = "select class_id,class_name,teacher_name,grade_id,major_id from teacher natural join teacher_class natural join class natural join major where (?='' or grade_id=?) and (?='' or major_name=?) ";
 
 	/** 查询指定年级与专业的班级总数的sql语句 */
 	private static final String numSQL = "select count(class_id) from class natural join major where grade_id=? and major_name=?";
@@ -61,7 +61,6 @@ public class ClassesProcess implements Process {
 			ps = ct.prepareStatement(searchSQL);// 验证教室id是否重复
 			ps.setString(1, cid);
 			rs = ps.executeQuery();
-			System.out.println(searchSQL);
 			if (rs.next())
 				return 1;
 
@@ -133,16 +132,21 @@ public class ClassesProcess implements Process {
 	 *             SQL异常
 	 */
 
-	public ArrayList<Classes> getData(String major, int grade) {
+	public ArrayList<Classes> getData(String major, Integer grade) {
 		ArrayList<Classes> classes = new ArrayList<Classes>();
 		ct = ConnDB.getConn();
-
+		if(major==null)major="";
 		try {
 			ps = ct.prepareStatement(gmSearchSQL);
-			ps.setString(1, major);
-			ps.setString(2, major);
-			ps.setInt(3, grade);
-			ps.setInt(4, grade);
+			if(grade==null) {
+				ps.setString(1, "");
+				ps.setString(2, "");
+			}else {
+				ps.setInt(1, grade);
+				ps.setInt(2, grade);
+			}
+			ps.setString(3, major);
+			ps.setString(4, major);
 			rs = ps.executeQuery();
 			ResultSet rs1 = null;
 			for (int i = 0;; i++) {
@@ -161,9 +165,8 @@ public class ClassesProcess implements Process {
 					if (rs1.next())
 						num = rs1.getInt(1);
 					cl.setNumber(num);
-
-					cl.setGrade(grade);
-					cl.setMajorId(major);
+					cl.setGrade(rs.getInt(4));
+					cl.setMajorId(rs.getString(5));
 				}else
 					break;
 				classes.add(cl);
@@ -195,16 +198,28 @@ public class ClassesProcess implements Process {
 	 */
 	public String retSid(int gra, String maj) {
 		ct = ConnDB.getConn();
+		String id="";
 		try {
 			ps = ct.prepareStatement(numSQL);
 			ps.setInt(1, gra);
 			ps.setString(2, maj);
+			System.out.println(ps);
 			rs = ps.executeQuery();
+			if(rs.next()) {
+				id+=String.valueOf(gra);
+				int num=rs.getInt(1);
+				num+=1;
+				if(maj=="理科")id+="1";
+				else id+="0";
+				if(num>=10)id+=String.valueOf(num);
+				else id=id+"0"+String.valueOf(num);
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String num = "";
+		
+		/*String num = "";
 		try {
 			if (rs.next())
 				num = String.valueOf(rs.getInt(1) + 1);
@@ -236,7 +251,7 @@ public class ClassesProcess implements Process {
 			id = gra + maj_id.substring(4, 5) + "0" + num;
 		} else {
 			id = gra + maj_id.substring(4, 5) + num;
-		}
+		}*/
 		return id;
 	}
 
@@ -257,13 +272,13 @@ public class ClassesProcess implements Process {
 	 * e) { // TODO Auto-generated catch block e.printStackTrace(); }
 	 */
 
-	/*public static void main(String[] args) throws SQLException {// 测试
+	public static void main(String[] args) throws SQLException {// 测试
 
 		ClassesProcess up = new ClassesProcess();
-		ArrayList<Classes> cla = new ArrayList<Classes>();
-		/*
-		 * String id=up.retSid(2015, "文科"); System.out.print(id);
-		 */
+		//System.out.println(up.getData("00001", 0).size());
+		
+		String id=up.retSid(2015, "文科"); System.out.print(id);
+		
 		/*cla = up.getData("理科", 0);
 		for(int i=0;i<cla.size();i++)
 		System.out.println(cla.get(i).getClassName());
@@ -272,5 +287,5 @@ public class ClassesProcess implements Process {
 		 * "测试"); System.out.print(id);
 		 */
 
-	//}
+	}
 }

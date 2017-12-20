@@ -45,6 +45,7 @@ public class AddClasses {
 		gradelb=new Label("年级: ");
 		gradecb=new ComboBox<>();
 		if(Search.getGrade()!=null)
+			System.out.println(Search.getGrade().size());
 			gradecb.getItems().addAll(Search.getGrade());
 		majorlb=new Label("文理科: ");
 		majorcb=new ComboBox<>();
@@ -55,13 +56,22 @@ public class AddClasses {
 				// TODO Auto-generated method stub
 				majorcb.getItems().clear();
 				majorcb.getItems().addAll("文科","理科");
+				if(Search.getTeacher(gradecb.getValue())!=null)
+					teachercb.getItems().addAll(Search.getTeacher(gradecb.getValue()));
 			}
     		
     	});
+		majorcb.valueProperty().addListener(new ChangeListener<String>() {
+
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				// TODO Auto-generated method stub
+				idtf.setText(Search.getNextClassId(gradecb.getValue(), newValue));
+			}
+			
+		});
 		teacherlb=new Label("班主任: ");
 		teachercb=new ComboBox<>();
-		if(Search.getTeacher(gradecb.getValue())!=null)
-			teachercb.getItems().addAll(Search.getTeacher(gradecb.getValue()));
 		confirm=new Button("确定");
 		
 		HBox idhb=new HBox();

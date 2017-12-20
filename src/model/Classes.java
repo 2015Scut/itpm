@@ -21,12 +21,17 @@ public class Classes {
 	private Teacher teacher;
 	/**班级人数*/
 	private int number;
+	private String teacherName;
 	
+	public String getTeacherName() {
+		return teacherName;
+	}
 	public Teacher getTeacher() {
 		return teacher;
 	}
 	public void setTeacher(Teacher teacher) {
 		this.teacher = teacher;
+		teacherName=teacher.getName();
 	}
 	
 	public int getNumber() {

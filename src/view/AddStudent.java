@@ -3,6 +3,7 @@ import controller.*;
 
 import java.io.File;
 import java.net.MalformedURLException;
+import java.sql.Blob;
 import java.util.ArrayList;
 
 import javafx.scene.image.*;

@@ -81,7 +81,7 @@ public class SeatPage extends VBox{
     	hb.getChildren().addAll(gradelb,gradecb,majorlb,majorcb,classlb,classcb,photo,save,sbt);
     	hb.setSpacing(10);
     	ArrayList<row> rows=new ArrayList<>();
-    	rows.add(new row("","","","讲","台","","",""));
+    	//rows.add(new row("","","","讲","台","","",""));
     	
     	Callback<TableColumn<row, String>, TableCell<row, String>> cellFactory = (
                 TableColumn<row, String> p) -> new EditingCell();
@@ -110,11 +110,14 @@ public class SeatPage extends VBox{
 			String major=majorcb.getValue();
 			String classes=classcb.getValue();
 			sl.clear();
+			if(grade==null||major==null||classes==null)
+				test.show("信息不能为空");
 			sl.addAll(Search.getStudentList(grade, major, classes));
 			Collections.sort(sl);
 			rows.clear();
 	    	rows.add(new row("","","","讲","台","","",""));
 			rows.addAll(addData(sl));
+			tv.getItems().clear();
 			tv.getItems().addAll(rows);
 		});
 		photo.setOnAction(e->{
@@ -208,16 +211,22 @@ public class SeatPage extends VBox{
 	
 	
 	private ArrayList<row> addData(ArrayList<Student>studentList) {
+		int total=studentList.size();
 		ArrayList<row> rows=new ArrayList<>();
 		int r;
 		if(studentList.size()%8!=0)
 			r=studentList.size()/8+1;
 		else
 			r=studentList.size()/8;
+		int count=0;
 		for(int i=0;i<r;i++) {
 			row ro=new row();
 			for(int j=0;j<8;j++) {
-				ro.set(j, studentList.get(i*8+j).getName());
+				if(count<total) {
+					ro.set(j, studentList.get(i*8+j).getName());
+					count++;
+				}
+				else break;
 			}
 			rows.add(ro);
 		}
@@ -225,14 +234,14 @@ public class SeatPage extends VBox{
 	}
 
 	public static class row{
-		private SimpleStringProperty a;
-        private SimpleStringProperty b;
-        private SimpleStringProperty c;
-        private SimpleStringProperty d;
-        private SimpleStringProperty e;
-        private SimpleStringProperty f;
-        private SimpleStringProperty g;
-        private SimpleStringProperty h;
+		private SimpleStringProperty a=new SimpleStringProperty();
+        private SimpleStringProperty b=new SimpleStringProperty();
+        private SimpleStringProperty c=new SimpleStringProperty();
+        private SimpleStringProperty d=new SimpleStringProperty();
+        private SimpleStringProperty e=new SimpleStringProperty();
+        private SimpleStringProperty f=new SimpleStringProperty();
+        private SimpleStringProperty g=new SimpleStringProperty();
+        private SimpleStringProperty h=new SimpleStringProperty();
         
         public row() {}
         public row(String a,String b,String c,String d,String e,String f,String g,String h) {
@@ -252,15 +261,15 @@ public class SeatPage extends VBox{
         		setA(s);
         	else if(n==1)
         		setB(s);
-        	else if(n==3)
+        	else if(n==2)
         		setC(s);
-        	else if(n==4)
+        	else if(n==3)
         		setD(s);
-        	else if(n==5)
+        	else if(n==4)
         		setE(s);
-        	else if(n==6)
+        	else if(n==5)
         		setF(s);
-        	else if(n==7)
+        	else if(n==6)
         		setG(s);
         	else setH(s);
         }

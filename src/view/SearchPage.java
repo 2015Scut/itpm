@@ -83,16 +83,18 @@ public class SearchPage extends BorderPane{
 		idlb=new Label("学号: ");
 		pg=new Pagination(10,0);
 		pg.setPageFactory((Integer pageIndex) -> {
-			System.out.println(pageIndex+"s");
-			String stdid=idtf.getText();
-			String stdname=nametf.getText();
-			Integer grade=gradecb.getValue();
-			String major=majorcb.getValue();
-			String classes=classcb.getValue();
-			ArrayList<Student> sl=Search.get18Student(stdid, stdname, grade, major, classes,pageIndex);
-			tb.getTable().getItems().clear();
-			if(sl!=null)
-				tb.getTable().getItems().addAll(sl);
+				String stdid=idtf.getText();
+				String stdname=nametf.getText();
+				Integer grade=gradecb.getValue();
+				String major=majorcb.getValue();
+				String classes=classcb.getValue();
+				ArrayList<Student> sl=Search.get18Student(stdid, stdname, grade, major, classes,pageIndex);
+				tb.getTable().getItems().clear();
+				if(sl!=null)
+					tb.getTable().getItems().addAll(sl);
+				pg.setPageCount(Search.getStudentPageCount(stdid, stdname, grade, major, classes));
+
+			
             return createPage(pageIndex);
         });
 		
@@ -104,6 +106,7 @@ public class SearchPage extends BorderPane{
 			}else {
 				String c=seletedStudent.getClassId();
 				String sid=seletedStudent.getStudentId();
+				System.out.println(c);
 				if(Search.checkUserRight(c, uid)) {
 					String message=Delete.deleteStudent(sid);
 					if(message!=null)test.show(message);

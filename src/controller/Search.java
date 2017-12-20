@@ -2,7 +2,14 @@ package controller;
 
 import java.util.ArrayList;
 
-import model.*;
+import model.Classes;
+import model.ClassesProcess;
+import model.Grade;
+import model.GradeProcess;
+import model.Student;
+import model.StudentProcess;
+import model.TeacherProcess;
+import model.UsersProcess;
 
 public class Search {
 	public static ArrayList<Integer> getGrade(){
@@ -59,7 +66,8 @@ public class Search {
 	}
 	public static boolean checkUserRight(String cid,String uid) {
 		//根据班级id和用户id 检查用户权限  恩俊
-		return true;
+		UsersProcess up=new UsersProcess();
+		return up.check(cid, uid);
 	}
 	public static ArrayList<Classes> getClassList(Integer g,String m){
 		//根据年级，专业获得班级列表  广森
@@ -68,6 +76,7 @@ public class Search {
 	}
 	public static ArrayList<Student> getStudentList(Integer g,String majorName,String className){
 		//根据年级，专业名，班级名，获得学生列表  吕睿
-		return null;
+		StudentProcess sp=new StudentProcess();
+		return sp.getData("", "", g, majorName, className);
 	}
 }

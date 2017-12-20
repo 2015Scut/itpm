@@ -87,8 +87,10 @@ public class StudentTable extends AnchorPane {
         	}
         	Student seletedStudent=((Student) t.getTableView().getItems().get(t.getTablePosition().getRow()));
         	seletedStudent.setJob(t.getNewValue());
-        	Update.updateJob(seletedStudent.getStudentId(), t.getNewValue());
         	System.out.println(t.getNewValue());
+        	System.out.println(seletedStudent.getStudentId());
+        	Update.updateJob(seletedStudent.getStudentId(), t.getNewValue(),seletedStudent.getSeatNumber());
+        	
         	
         });
         

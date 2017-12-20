@@ -21,12 +21,44 @@ public class UsersProcess {
 	private static final String updateSQL="update users set pw=? where user_id=?";
 	/**搜索教师id的sql语句*/
 	private static final String confirmSQL="select * from teacher where teacher_id=?";
+	
+	private static final String checkSQL="select * from users natural join teacher_users natural join teacher natural join teacher_class natural join class where user_id=?";
 	/*
 	 * 以上都是预先定义好的sql语句，？的地方为需要填入的变量
 	 * 具体使用方法可以参考下面的insertUser函数
 	 * 也可以自己百度学习一下有关JDBC的知识
 	 * */
 	public UsersProcess() {}
+	
+	public boolean check(String cid,String uid) {
+		ct=ConnDB.getConn();
+		try {
+			ps=ct.prepareStatement(checkSQL);
+			ps.setString(1, uid);
+			rs=ps.executeQuery();
+			if(rs.next()) {
+				if(cid.equals(rs.getString(1)))
+					return true;
+				else
+					return false;
+			}else
+				return false;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			try {
+				ct.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			ct=null;
+			ps=null;
+			rs=null;
+		}
+		return false;
+	}
 	
 	/**
 	 * 向数据库插入用户

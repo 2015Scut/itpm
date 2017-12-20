@@ -1,5 +1,11 @@
 package model;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,9 +23,9 @@ import java.util.ArrayList;
  */
 public class StudentProcess implements Process {
 
-	private Connection ct = null;
-	private PreparedStatement ps = null;
-	private ResultSet rs = null;
+	private static Connection ct = null;
+	private static PreparedStatement ps = null;
+	private static ResultSet rs = null;
 	/** 插入数据的sql语句 */
 	private static final String insertSQL = "insert into student values (?,?,?,?,?,?,?,?)";
 	/** 搜索用户id和密码的sql语句 */
@@ -29,11 +35,11 @@ public class StudentProcess implements Process {
 	/** 删除学生的sql语句 */
 	private static final String deleteSQL = "delete from student where student_id=?";
 	/** 根学号，名字，年级，专业，班级查询学生集合的sql语句 */
-	private static final String msearchSQL = "select student_id,student_name,student_sex,student_age,grade_id,major_name,class_name,job from student natural join class natural join major where ?=NULL or student_id=? and ?=NULL or student_name=? and ?=NULL or grade_id=? and ?=NULL or major_name=? and ?=NULL or class_name=?";
+	private static final String msearchSQL = "select student_id,student_name,student_sex,student_age,grade_id,major_name,class_name,job,seat from student natural join class natural join major where (?='' or student_id=?) and (?='' or student_name=?) and (?='' or grade_id=?) and (?='' or major_name=?) and (?='' or class_name=?)";
 	/** 根据学号，名字，年级，专业，班级，页数，查询 18条记录sql语句 */
-	private static final String pageSQL = "select student_id,student_name,student_sex,student_age,grade_id,major_name,class_name,job from student natural join class natural join major where ?=NULL or student_id=? and ?=NULL or student_name=? and ?=NULL or grade_id=? and ?=NULL or major_name=? and ?=NULL or class_name=? limit ?,?";
+	private static final String pageSQL = "select student_id,student_name,student_sex,student_age,grade_id,major_name,class_name,job,seat,class_id,photo from student natural join class natural join major where (?='' or student_id=?) and (?='' or student_name=?) and (?='' or grade_id=?) and (?='' or major_name=?) and (?='' or class_name=?) limit ?,?";
 	/**根据学号，名字，年级，专业，班级，查询总页数*/
-	private static final String countSQL = "select count(student_id) from student natural join class natural join major where ?=NULL or student_id=? and ?=NULL or student_name=? and ?=NULL or grade_id=? and ?=NULL or major_name=? and ?=NULL or class_name=?";
+	private static final String countSQL = "select count(student_id) from student natural join class natural join major where (?='' or student_id=?) and (?='' or student_name=?) and (?='' or grade_id=?) and (?='' or major_name=?) and (?='' or class_name=?)";
 	/** 查询指定年级专业及班级的学生总数的sql语句 */
 	private static final String numSQL = "select count(student_id) from student natural join class natural join major where grade_id=? and major_name=? and class_name=?";
 	/** 查询专业名对应的专业id */
@@ -121,10 +127,7 @@ public class StudentProcess implements Process {
 		try {
 			ps = ct.prepareStatement(updateSQL);
 			ps.setString(1, job);
-			if(seat!=null)
-				ps.setInt(2, seat);
-			else
-				ps.setString(2, "seat");
+			ps.setInt(2, seat);
 			ps.setString(3, sid);
 			ps.executeUpdate();
 		} catch (SQLException e) {
@@ -163,17 +166,26 @@ public class StudentProcess implements Process {
 		}
 	}
 
-	public ArrayList<Student> getData(String sid, String name, int grade, String major, String classn) {
+	public ArrayList<Student> getData(String sid, String name, Integer grade, String major, String classn) {
 		ArrayList<Student> stu = new ArrayList<Student>();
 		ct = ConnDB.getConn();
+		if(sid==null)sid="";
+		if(name==null)name="";
+		if(major==null)major="";
+		if(classn==null)classn="";
 		try {
 			ps = ct.prepareStatement(msearchSQL);
 			ps.setString(1, sid);
 			ps.setString(2, sid);
 			ps.setString(3, name);
 			ps.setString(4, name);
-			ps.setInt(5, grade);
-			ps.setInt(6, grade);
+			if(grade==null) {
+				ps.setString(5, "");
+				ps.setString(6, "");
+			}else {
+				ps.setInt(5, grade);
+				ps.setInt(6, grade);
+			}
 			ps.setString(7, major);
 			ps.setString(8, major);
 			ps.setString(9, classn);
@@ -190,6 +202,7 @@ public class StudentProcess implements Process {
 					st.setMajor(rs.getString(6));
 					st.setClasses(rs.getString(7));
 					st.setJob(rs.getString(8));
+					st.setSeatNumber(rs.getInt(9));
 				} else
 					break;
 				stu.add(st);
@@ -219,17 +232,26 @@ public class StudentProcess implements Process {
 	 */
 	public ArrayList<Student> getPageData(String sid,String name,Integer g,String majorName,String className,int pageIndex) {
 		ArrayList<Student> stu = new ArrayList<Student>();
+		if(sid==null)sid="";
+		if(name==null)name="";
+		if(majorName==null)majorName="";
+		if(className==null)className="";
 		ct = ConnDB.getConn();
 		try {
 			ps = ct.prepareStatement(pageSQL);
-			int temp1 = (pageIndex - 1) * 18;
-			int temp2 = 18 * pageIndex;
+			int temp1 = (pageIndex) * 18;
+			int temp2 = 18 ;
 			ps.setString(1, sid);
 			ps.setString(2, sid);
 			ps.setString(3, name);
 			ps.setString(4, name);
-			ps.setInt(5, g);
-			ps.setInt(6, g);
+			if(g==null) {
+				ps.setString(5, "");
+				ps.setString(6, "");
+			}else {
+				ps.setInt(5, g);
+				ps.setInt(6, g);
+			}
 			ps.setString(7, majorName);
 			ps.setString(8, majorName);
 			ps.setString(9, className);
@@ -248,6 +270,9 @@ public class StudentProcess implements Process {
 					st.setMajor(rs.getString(6));
 					st.setClasses(rs.getString(7));
 					st.setJob(rs.getString(8));
+					st.setSeatNumber(rs.getInt(9));
+					st.setClassId(rs.getString(10));
+					st.setPhoto(rs.getBlob(11));
 				} else
 					break;
 				stu.add(st);
@@ -272,7 +297,10 @@ public class StudentProcess implements Process {
 	 */
 	public int num_Page(String sid,String name,Integer g,String majorName,String className){
 		ct = ConnDB.getConn();
-
+		if(sid==null)sid="";
+		if(name==null)name="";
+		if(majorName==null)majorName="";
+		if(className==null)className="";
 		try {
 			ps = ct.prepareStatement(countSQL);
 				
@@ -280,8 +308,13 @@ public class StudentProcess implements Process {
 		ps.setString(2, sid);
 		ps.setString(3, name);
 		ps.setString(4, name);
-		ps.setInt(5, g);
-		ps.setInt(6, g);
+		if(g==null) {
+			ps.setString(5, "");
+			ps.setString(6, "");
+		}else {
+			ps.setInt(5, g);
+			ps.setInt(6, g);
+		}
 		ps.setString(7, majorName);
 		ps.setString(8, majorName);
 		ps.setString(9, className);
@@ -302,6 +335,7 @@ public class StudentProcess implements Process {
 		}
 		ct = null;
 		ps = null;
+		
 		return page_num;
 	}
 
@@ -376,21 +410,23 @@ public class StudentProcess implements Process {
 	 * @param args
 	 *            参数
 	 * @throws SQLException
+	 * @throws IOException 
 	 */
-	public static void main(String[] args) throws SQLException {// 测试
+	public static void main(String[] args) throws SQLException, IOException  {// 测试
 		/*StudentProcess up=new StudentProcess();
 		int a=up.num_Page("", "", 0, "理科", "测试");
 		System.out.print(a);*/
 		/*StudentProcess up=new StudentProcess();
+		System.out.println(1);
 		ArrayList<Student> stu = new ArrayList<Student>();
-		stu=up.getPageData("", "", 0, "理科", "测试", 2);
+		stu.addAll(up.getPageData("", "", null, "理科", "测试", 1));
 		for(int i=0;i<stu.size();i++)
 			System.out.println(stu.get(i).getStudentId());*/
-		/*StudentProcess up=new StudentProcess();
+		StudentProcess up=new StudentProcess();
 		ArrayList<Student> stu = new ArrayList<Student>();
-		stu=up.getData("", "", 0, "理科", "测试");
+		stu=up.getData(null, null, null, null, null);
 		for(int i=0;i<stu.size();i++)
-			System.out.println(stu.get(i).getStudentId());*/
+			System.out.println(stu.get(i).getStudentId());
 		/*
 		 * StudentProcess up=new StudentProcess(); String id=up.retSid(0, "理科",
 		 * "测试"); System.out.print(id);
@@ -409,6 +445,26 @@ public class StudentProcess implements Process {
 		 * try { up.deleteStudent("000010101"); } catch (SQLException e) { //
 		 * TODO Auto-generated catch block e.printStackTrace(); }
 		 */
+		/*File file=new File("D:\\test.png");
+		ct = ConnDB.getConn();
+			
+		String test="select photo from student where student_name='zej'";
+		ps = ct.prepareStatement(test);
+		rs=ps.executeQuery();
+		if(rs.next()) {
+			try {
+				byte[] b=new byte[1024];
+				InputStream i=rs.getBlob(1).getBinaryStream();
+				FileOutputStream out=new FileOutputStream(new File("D:\\test1.png"));
+				while(i.read(b)!=-1)
+					out.write(b);
+				out.close();
+				i.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}*/
 	}
 
 }

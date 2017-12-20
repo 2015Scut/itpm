@@ -38,7 +38,6 @@ public class ConnDB {
 		try{
         	Class.forName("com.mysql.jdbc.Driver");
         	ct = DriverManager.getConnection(url, user, password);  
-	    	System.out.println("ok");
 		}catch(Exception e){
 			e.printStackTrace();
 		} 

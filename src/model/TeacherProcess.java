@@ -28,9 +28,9 @@ public class TeacherProcess  {
 	/**根据id搜索教师的sql语句*/
 	private static final String idQuerySQL="select * from teacher where teacher_id=?";
 	/**搜索某年级所有教师的sql语句*/
-	private static final String gradeQuerySQL="select * from teacher where grade_id=?";
+	private static final String gradeQuerySQL="select * from teacher where grade_id=? or ?=''";
 	/**更新教师所属年级的sql语句*/
-	private static final String updateSQL="update teacher set grade_id=? where grade_id=?";
+	private static final String updateSQL="update teacher set grade_id=? where grade_id=? ";
 	/**删除教师的sql语句*/
 	private static final String deleteSQL="delete from teacher where teacher_id=?";
 	/**计算教师人数的sql语句*/
@@ -47,14 +47,21 @@ public class TeacherProcess  {
 		ArrayList<Teacher> tList = new ArrayList<Teacher>();
 		try {
 			ps=ct.prepareStatement(gradeQuerySQL);
-			if (g == null) ps.setString(1, "grade_id");
-			else ps.setInt(1, g);
+			if (g == null) {
+				ps.setString(1, "");
+				ps.setString(2, "");
+				}
+			else {
+				ps.setInt(1, g);
+				ps.setInt(2, g);
+			}
 			rs=ps.executeQuery();
 			if(rs.next()) {
 				rs.last();
 				int n = rs.getRow();
 				rs.first();
-				for(int i = 1; i<n; i++){
+				for(int i = 0; i<n; i++){
+					t=new Teacher();
 					t.setTeacherId(rs.getInt("teacher_id"));
 					t.setName(rs.getString("teacher_name"));
 					t.setAge(rs.getInt("teacher_age"));
@@ -218,6 +225,10 @@ public String nextId() {
 	 */
 	public static void main(String [] args) {//测试
 		TeacherProcess tp=new TeacherProcess();
+		ArrayList<Teacher>te=tp.getTeacherData(null);
+		for(Teacher tt:te) {
+			System.out.println(tt.getName());
+		}
 		/*try {
 			tp.insertTeacher(1001,"八代",28,"男",10);
 		} catch (SQLException e) {

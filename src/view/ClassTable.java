@@ -34,12 +34,12 @@ public class ClassTable extends VBox{
         TableColumn rsColumn = new TableColumn();  
         rsColumn.setText("人数");  
         rsColumn.setMinWidth(200);
-        rsColumn.setCellValueFactory(new PropertyValueFactory("grade"));
+        rsColumn.setCellValueFactory(new PropertyValueFactory("Number"));
         
         TableColumn jsColumn = new TableColumn();  
         jsColumn.setText("班主任");  
         jsColumn.setMinWidth(200);
-        jsColumn.setCellValueFactory(new PropertyValueFactory("teacher"));
+        jsColumn.setCellValueFactory(new PropertyValueFactory("teacherName"));
         
         tableView=new TableView<Classes>();
         tableView.getColumns().addAll(bjColumn,njColumn,rsColumn,jsColumn);
@@ -58,8 +58,9 @@ public class ClassTable extends VBox{
     	sbt.setOnAction(e->{
     		Integer g=gradecb.getValue();
     		String m=majorcb.getValue();
-    		if(Search.getClassList(g, m)!=null)
-    			tableView.getItems().addAll(Search.getClassList(g, m));
+    		ArrayList<Classes> cl=Search.getClassList(g, m);
+    		if(cl!=null)
+    			tableView.getItems().addAll(cl);
     	});
     	tableView.prefHeightProperty().bind(this.heightProperty());
         tableView.prefWidthProperty().bind(this.widthProperty());
