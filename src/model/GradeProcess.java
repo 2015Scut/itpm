@@ -27,6 +27,8 @@ public class GradeProcess implements Process {
 	private static final String searchSQL="select * from grade where grade_id=?";
 	/**搜索所有年级的sql语句*/
 	private static final String msearchSQL="select * from grade";
+	/**搜索年级总数的sql语句 */
+	private static final String snumSQL = "select count(grade_id) from grade";
 	public GradeProcess() {}
 	
 	/**
@@ -69,8 +71,15 @@ public class GradeProcess implements Process {
 		ct=ConnDB.getConn();
 		try{
 			ps=ct.prepareStatement(msearchSQL);
-			ps.executeQuery();
-		}catch (SQLException e) {
+			rs = ps.executeQuery();
+			
+			for (int i = 0;; i++) {
+				Grade gd = new Grade();
+				if (rs.next()) {
+					gd.setGradeId(rs.getInt(1));
+		}
+			Grade_.add(gd);	
+			}}catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
@@ -92,6 +101,10 @@ public class GradeProcess implements Process {
 	 */
 	public static void main(String [] args) {//测试
 		GradeProcess up=new GradeProcess();
-		up.insertGrade(2016);
+		
+		ArrayList<Grade> grade = new ArrayList<Grade>();
+		grade=up.getData();
+		for(int i=0;i<grade.size();i++)
+			System.out.println(grade.get(i).getGradeId());
 	}
 }
