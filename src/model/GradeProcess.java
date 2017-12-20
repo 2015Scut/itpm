@@ -63,7 +63,6 @@ public class GradeProcess implements Process {
 			ct = null;
 			ps = null;
 		}
-		
 		return 1;
 	}
 	public ArrayList<Grade> getData() {
