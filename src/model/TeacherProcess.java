@@ -149,7 +149,7 @@ public String nextId() {
 	 * @param g  教师所属年级
 	 * @throws SQLException SQL异常
 	 */
-	public int insertTeacher(int tid, String n,int age, String sex,  int g) throws SQLException{
+	public int insertTeacher(int tid, String n,int age, String sex,  int g) {
 		
 		ct=ConnDB.getConn();
 		try{
@@ -186,15 +186,25 @@ public String nextId() {
 	 * @param ng 更新后教师所属年级
 	 * @throws SQLException SQL异常
 	 */
-	public void updateTeacher(int og,int ng) throws SQLException {
-		ct=ConnDB.getConn();
-		ps=ct.prepareStatement(updateSQL);
-		ps.setInt(1, ng);
-		ps.setInt(2, og);
-		ps.executeUpdate();
-		ct.close();
+	public void updateTeacher(int og,int ng){
+		try{
+			ct=ConnDB.getConn();
+			ps=ct.prepareStatement(updateSQL);
+			ps.setInt(1, ng);
+			ps.setInt(2, og);
+			ps.executeUpdate();
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try{
+			ct.close();
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
 		ct=null;
 		ps=null;
+		rs=null;
+		}
 	}
 	
 	/**
@@ -202,14 +212,25 @@ public String nextId() {
 	 * @param tid  教师id
 	 * @throws SQLException SQL异常
 	 */
-	public void deleteTeacher(int tid) throws SQLException {
-		ct=ConnDB.getConn();
-		ps=ct.prepareStatement(deleteSQL);
-		ps.setInt(1, tid);
-		ps.executeUpdate();
-		ct.close();
+	public void deleteTeacher(int tid)  {
+		
+		try{
+			ct=ConnDB.getConn();
+			ps=ct.prepareStatement(deleteSQL);
+			ps.setInt(1, tid);
+			ps.executeUpdate();
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try{
+			ct.close();
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
 		ct=null;
 		ps=null;
+		rs=null;
+		}
 	}
 
 	/**
