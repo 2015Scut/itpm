@@ -13,7 +13,7 @@ import model.UsersProcess;
 
 public class Search {
 	public static ArrayList<Integer> getGrade(){
-		//查询数据库中年级列表 龙康
+		//查询数据库中年级列表  龙康
 		GradeProcess gp=new GradeProcess();
 		ArrayList<Grade> grade = gp.getData();
 		ArrayList<Integer> gradeid = new ArrayList<Integer>();
@@ -24,7 +24,7 @@ public class Search {
 		return gradeid;
 	}
 	public static ArrayList<String> getClasses(Integer g,String m){
-		//根据年级和专业查询班级列表 龙康
+		//根据年级和专业查询班级列表  龙康
 		ClassesProcess cp=new ClassesProcess();
 		ArrayList<Classes> Classes_ = cp.getData(m, g);
 		ArrayList<String> Classname = new ArrayList<String>();
