@@ -77,7 +77,7 @@ public class GradeProcess implements Process {
 				Grade gd = new Grade();
 				if (rs.next()) {
 					gd.setGradeId(rs.getInt(1));
-		}
+		}else break;
 			Grade_.add(gd);	
 			}}catch (SQLException e) {
 			// TODO Auto-generated catch block
