@@ -1,20 +1,27 @@
 package view;
-import controller.*;
-
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
-import java.sql.Blob;
-import java.util.ArrayList;
 
-import javafx.scene.image.*;
+import controller.Insert;
+import controller.Search;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -42,6 +49,7 @@ public class AddStudent {
 	private ComboBox<String>classcb;
 	private Label agelb;
 	private TextField agetf;
+	private FileInputStream in;
 	
 	private AddStudent() {
 		stage=new Stage();
@@ -108,6 +116,12 @@ public class AddStudent {
 			photochooser.getExtensionFilters().add(
 					new FileChooser.ExtensionFilter("ALL Images(*.jpg;*.png;*.gif;*.bmp)", "*.jpg;*.png;*.gif;*.bmp"));
 			File file=photochooser.showOpenDialog(stage);
+			try {
+				in=new FileInputStream(file);
+			} catch (FileNotFoundException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
 			//System.out.println(file.toPath());
 			if(file!=null) {
 				try {
@@ -158,7 +172,8 @@ public class AddStudent {
 			String sid=idtf.getText();
 			String name=nametf.getText();
 			String se=sex.getValue();
-			String message=Insert.addStudent(grade,major,classes,sid,name,se);
+			Integer age=Integer.valueOf(agetf.getText());
+			String message=Insert.addStudent(grade,major,classes,sid,name,se,age,in);
 			if(message==null)
 				stage.close();
 			else test.show(message);

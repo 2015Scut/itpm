@@ -1,6 +1,8 @@
 package view;
 
 
+import java.util.ArrayList;
+
 import controller.Insert;
 import controller.Search;
 import javafx.beans.value.ChangeListener;
@@ -56,8 +58,11 @@ public class AddClasses {
 				// TODO Auto-generated method stub
 				majorcb.getItems().clear();
 				majorcb.getItems().addAll("文科","理科");
-				if(Search.getTeacher(gradecb.getValue())!=null)
-					teachercb.getItems().addAll(Search.getTeacher(gradecb.getValue()));
+				teachercb.getItems().clear();
+				ArrayList<String>tl=Search.getTeacher(gradecb.getValue());
+				if(tl!=null) {
+					teachercb.getItems().addAll(tl);
+				}
 			}
     		
     	});

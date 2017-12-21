@@ -44,14 +44,12 @@ public class MajorProcess implements Process{
 			ps=ct.prepareStatement(searchSQL);//验证majorid是否重复
 			ps.setString(1, major_id);
 			rs=ps.executeQuery();
-			System.out.println(ps);
 			if(rs.next())return 1;
 			
 			ps=ct.prepareStatement(insertSQL);//插入学生表
 			ps.setString(1, major_id);//向String中？的地方填入数据
 			ps.setString(2,major_name);
 			ps.setInt(3, grade_id);
-			System.out.println(ps);
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

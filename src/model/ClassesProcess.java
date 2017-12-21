@@ -1,6 +1,9 @@
 package model;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -34,6 +37,8 @@ public class ClassesProcess implements Process {
 	private static final String rmidSQL = "select major_id from major where major_name=?";
 	/** 查询同一个班级id的学生人数 */
 	private static final String snumSQL = "select count(student_id) from student where class_id=?";
+	private static final String teacherSQL="select teacher_id from teacher where teacher_name=?";
+	private static final String teacher_classSQL="insert into teacher_class values(?,?)";
 	/*
 	 * 以上都是预先定义好的sql语句，？的地方为需要填入的变量 具体使用方法可以参考下面的insertUser函数
 	 * 也可以自己百度学习一下有关JDBC的知识
@@ -55,7 +60,7 @@ public class ClassesProcess implements Process {
 	 *             SQL异常
 	 */
 
-	public int insertClasses(String cid, String class_name, String mid) {
+	public int insertClasses(String cid, String class_name, String mid,String teacherName) {
 		ct = ConnDB.getConn();// 获取数据库连接
 		try {
 			ps = ct.prepareStatement(searchSQL);// 验证教室id是否重复
@@ -68,6 +73,19 @@ public class ClassesProcess implements Process {
 			ps.setString(1, cid);// 向String中？的地方填入数据
 			ps.setString(2, class_name);
 			ps.setString(3, mid);
+			System.out.println(ps);
+			ps.executeUpdate();
+			
+			ps=ct.prepareStatement(teacherSQL);
+			ps.setString(1, teacherName);
+			rs=ps.executeQuery();
+			String tid;
+			rs.next();
+			tid=rs.getString(1);
+			
+			ps=ct.prepareStatement(teacher_classSQL);
+			ps.setString(1, tid);
+			ps.setString(2, cid);
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

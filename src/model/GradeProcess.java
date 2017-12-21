@@ -44,7 +44,6 @@ public class GradeProcess implements Process {
 		ps=ct.prepareStatement(searchSQL);//验证年级id是否重复
 		ps.setInt(1, gid);
 		rs=ps.executeQuery();
-		System.out.println(ps);
 		if(rs.next())return 0;
 		
 		ps=ct.prepareStatement(insertSQL);//插入年级表

@@ -93,6 +93,7 @@ public class StudentProcess implements Process {
 			ps.setString(6, cid);
 			ps.setString(7, job);
 			ps.setInt(8, seat);
+			System.out.println(ps);
 			ps.executeUpdate();
 			
 		} catch (SQLException e) {
@@ -276,7 +277,8 @@ public class StudentProcess implements Process {
 					st.setJob(rs.getString(8));
 					st.setSeatNumber(rs.getInt(9));
 					st.setClassId(rs.getString(10));
-					st.setPhoto(rs.getBlob(11).getBinaryStream());
+					if(rs.getBlob(11)!=null)
+						st.setPhoto(rs.getBlob(11).getBinaryStream());
 				} else
 					break;
 				stu.add(st);
@@ -368,21 +370,15 @@ public class StudentProcess implements Process {
 		}
 		String num = "";
 		try {
-			if (rs.next())
-				num = String.valueOf(rs.getInt(1) + 1);
-
-			ps = ct.prepareStatement(rmidSQL);
-			ps.setString(1, maj);
-			rs = ps.executeQuery();
+			if (rs.next()) {
+				int temp=rs.getInt(1);
+				num=temp>=9?String.valueOf(temp+1):"0"+String.valueOf(temp+1);
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String maj_id = "";
 		try {
-			if (rs.next())
-				maj_id = rs.getString(1);
-
 			ps = ct.prepareStatement(rcidSQL);
 			ps.setString(1, cla);
 			rs = ps.executeQuery();
@@ -404,7 +400,7 @@ public class StudentProcess implements Process {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String id = gra + maj_id + cla_id.substring(5, 6) + num;
+		String id = cla_id+num;
 		return id;
 	}
 
