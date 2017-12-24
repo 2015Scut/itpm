@@ -178,6 +178,7 @@ public class StudentProcess implements Process {
 			ps.setString(8, major);
 			ps.setString(9, classn);
 			ps.setString(10, classn);
+			System.out.println(ps);
 			rs = ps.executeQuery();
 			for (int i = 0;; i++) {
 				Student st = new Student();
