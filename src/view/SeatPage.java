@@ -109,8 +109,10 @@ public class SeatPage extends VBox{
 			String major=majorcb.getValue();
 			String classes=classcb.getValue();
 			sl.clear();
-			if(grade==null||major==null||classes==null)
+			if(grade==null||major==null||classes==null) {
 				test.show("信息不能为空");
+				return;
+			}
 			sl.addAll(Search.getStudentList(grade, major, classes));
 			Collections.sort(sl);
 			rows.clear();
@@ -122,8 +124,10 @@ public class SeatPage extends VBox{
 		photo.setOnAction(e->{
 			int r=tv.getFocusModel().getFocusedCell().getRow();
 			int c=tv.getFocusModel().getFocusedCell().getColumn();
-			Student selectedStudent=sl.get((r-1)*8+c);
-    		PictureView.show(selectedStudent.getImage());
+			if((r-1)*8+c<sl.size()) {
+				Student selectedStudent=sl.get((r-1)*8+c);
+	    		PictureView.show(selectedStudent.getImage());
+			}
     	});
 		save.setOnAction(e->{
 			ArrayList<String>row=new ArrayList<>();

@@ -70,7 +70,7 @@ public class AddTeacher {
 			String tid=idtf.getText();
 			String name=nametf.getText();
 			String s=sex.getValue();
-			Integer age=Integer.parseInt(agetf.getText());
+			String age=agetf.getText();
 			String message=Insert.addTeacher(g, tid, name, s,age);
 			
 			if(message==null)

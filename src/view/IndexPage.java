@@ -51,9 +51,8 @@ public class IndexPage extends Application {
 		mb=new MenuBar();
 		Menu menuInsert = new Menu("录入");
         Menu menuEdit = new Menu("管理");
-        Menu menuView = new Menu("View");
  
-        mb.getMenus().addAll(menuInsert, menuEdit, menuView);
+        mb.getMenus().addAll(menuInsert, menuEdit);
 		men=new LeftBox();
 		men.setPrefWidth(150);
 		
@@ -68,11 +67,7 @@ public class IndexPage extends Application {
 		departItem.setOnAction(e->{
 			AddGrade.show();
 		});
-		MenuItem majorItem=new MenuItem("录入文理科信息");
-		menuInsert.getItems().add(majorItem);
-		majorItem.setOnAction(e->{
-			AddMajor.show();
-		});
+		
 		MenuItem classesItem=new MenuItem("录入班级信息");
 		menuInsert.getItems().add(classesItem);
 		classesItem.setOnAction(e->{

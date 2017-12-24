@@ -55,7 +55,6 @@ public class TeacherProcess  {
 				ps.setInt(1, g);
 				ps.setInt(2, g);
 			}
-			System.out.println(ps);
 			rs=ps.executeQuery();
 			if(rs.next()) {
 				rs.last();

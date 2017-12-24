@@ -36,7 +36,7 @@ public class Student extends Person implements Comparable{
 	private String major;
 	/**班级名称*/
 	private String classes;
-	private Image im;
+	private Image im=null;
 	
 	public Student() {}
 	public Student(String na,int a,String s,String sid,String j,int n,String cid,InputStream p,int g,String m,String c) {
@@ -107,7 +107,7 @@ public class Student extends Person implements Comparable{
 		else return -1;
 	}
 	public Image getImage() {
-		System.out.println(photo==null);
+		if(im!=null)return im;
 		im=new Image(photo);
 		return im;
 	}

@@ -15,9 +15,8 @@ public class PictureView {
 	private PictureView(Image im) {
 		VBox vb=new VBox();
 		ImageView imageView = new ImageView(im);
-		imageView.setFitWidth(150);
-		imageView.setFitHeight(200);
-		System.out.println(imageView);
+		imageView.setFitWidth(300);
+		imageView.setFitHeight(300);
 		vb.getChildren().add(imageView);
 		
 		primaryStage = new Stage();

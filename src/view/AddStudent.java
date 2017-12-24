@@ -172,7 +172,7 @@ public class AddStudent {
 			String sid=idtf.getText();
 			String name=nametf.getText();
 			String se=sex.getValue();
-			Integer age=Integer.valueOf(agetf.getText());
+			String age=agetf.getText();
 			String message=Insert.addStudent(grade,major,classes,sid,name,se,age,in);
 			if(message==null)
 				stage.close();
