@@ -59,6 +59,7 @@ public class ClassTable extends VBox{
     		Integer g=gradecb.getValue();
     		String m=majorcb.getValue();
     		ArrayList<Classes> cl=Search.getClassList(g, m);
+    		tableView.getItems().clear();
     		if(cl!=null)
     			tableView.getItems().addAll(cl);
     	});
