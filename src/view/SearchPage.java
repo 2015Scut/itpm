@@ -10,6 +10,7 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.geometry.Side;
 import javafx.scene.control.*;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import model.Grade;
@@ -98,6 +99,28 @@ public class SearchPage extends BorderPane{
             return createPage(pageIndex);
         });
 		
+		tb.getColumn().setOnEditCommit((CellEditEvent<Student, String> t)->{
+			test.show("是否保存");
+        	Student seletedStudent=((Student) t.getTableView().getItems().get(t.getTablePosition().getRow()));
+        	
+        	if(test.getRet()==0) {
+        		//tableView.getItems().clear();
+        		String stdid=idtf.getText();
+				String stdname=nametf.getText();
+				Integer grade=gradecb.getValue();
+				String major=majorcb.getValue();
+				String classes=classcb.getValue();
+				ArrayList<Student> sl=Search.get18Student(stdid, stdname, grade, major, classes,pg.getCurrentPageIndex());
+				tb.getTable().getItems().clear();
+				if(sl!=null)
+					tb.getTable().getItems().addAll(sl);
+        		return;
+        	}
+        	
+        	seletedStudent.setJob(t.getNewValue());
+        	Update.updateJob(seletedStudent.getStudentId(), t.getNewValue(),seletedStudent.getSeatNumber());
+        	
+		});
 		
 		delete.setOnAction(e->{
 			Student seletedStudent=tb.getTable().getSelectionModel().getSelectedItem();

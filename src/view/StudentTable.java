@@ -3,6 +3,7 @@ package view;
 
 import java.util.ArrayList;
 
+import controller.Search;
 import controller.Update;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;  
@@ -20,6 +21,7 @@ import model.*;
  
 public class StudentTable extends AnchorPane {  
 	private TableView<Student> tableView; 
+	private TableColumn<Student,String> zwColumn = new TableColumn<>();  
     public StudentTable() {  
     	Callback<TableColumn<Student, String>, TableCell<Student, String>> cellFactory = (
                 TableColumn<Student, String> p) -> new EditingCell();
@@ -59,7 +61,7 @@ public class StudentTable extends AnchorPane {
         bjColumn.setMinWidth(100);
         bjColumn.setCellValueFactory(new PropertyValueFactory("classes")); 
         
-        TableColumn<Student,String> zwColumn = new TableColumn<>();  
+        
         zwColumn.setText("职务");  
         zwColumn.setMinWidth(100);
         zwColumn.setCellFactory(cellFactory);
@@ -68,31 +70,27 @@ public class StudentTable extends AnchorPane {
         tableView = new TableView<>();  
 
     	tableView.setEditable(true);
-        ArrayList<Student> sl=new ArrayList<>();
-        for(int i=0;i<5;i++) {
-        	sl.add(new Student("钟", 20, "男", "20150111001", null, 1, "20150111", null, 2015, "15级理科", "15级理科1班"));
-        }
-        tableView.getItems().addAll(sl);
+        
         tableView.getColumns().addAll(xhColumn,xmColumn,xbColumn,nlColumn,njColumn,fkColumn,bjColumn,zwColumn);  
         tableView.prefHeightProperty().bind(this.heightProperty());
         tableView.prefWidthProperty().bind(this.widthProperty());
         
         
-        zwColumn.setOnEditCommit((CellEditEvent<Student, String> t) ->{//修改
+        /*zwColumn.setOnEditCommit((CellEditEvent<Student, String> t) ->{//修改
         	test.show("是否保存");
+        	Student seletedStudent=((Student) t.getTableView().getItems().get(t.getTablePosition().getRow()));
+        	
         	if(test.getRet()==0) {
-        		tableView.getItems().clear();
-        		tableView.getItems().addAll(sl);
+        		//tableView.getItems().clear();
+        		
         		return;
         	}
-        	Student seletedStudent=((Student) t.getTableView().getItems().get(t.getTablePosition().getRow()));
+        	
         	seletedStudent.setJob(t.getNewValue());
-        	System.out.println(t.getNewValue());
-        	System.out.println(seletedStudent.getStudentId());
         	Update.updateJob(seletedStudent.getStudentId(), t.getNewValue(),seletedStudent.getSeatNumber());
         	
         	
-        });
+        });*/
         
         /*zwColumn.setOnEditCommit(e->{
         	((Student) e.getTableView().getItems().get(e.getTablePosition().getRow()))
@@ -103,6 +101,9 @@ public class StudentTable extends AnchorPane {
         
         this.getChildren().add(tableView);  
     }  
+    public TableColumn<Student, String> getColumn(){
+    	return zwColumn;
+    }
     
     public TableView<Student> getTable() {
     	return tableView;
