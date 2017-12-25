@@ -101,9 +101,9 @@ public class MajorProcess implements Process{
 	 * 测试函数
 	 * @param args 参数
 	 */
-     public static void main(String [] args) throws SQLException{
+     /*public static void main(String [] args) throws SQLException{
     	MajorProcess up=new MajorProcess();
     	up.insertmajor("000001", "理科", 2017);
-     }
+     }*/
 }
  

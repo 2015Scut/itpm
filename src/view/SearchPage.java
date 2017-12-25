@@ -106,7 +106,6 @@ public class SearchPage extends BorderPane{
 			}else {
 				String c=seletedStudent.getClassId();
 				String sid=seletedStudent.getStudentId();
-				System.out.println(c);
 				if(Search.checkUserRight(c, uid)) {
 					String message=Delete.deleteStudent(sid);
 					if(message!=null)test.show(message);
@@ -145,7 +144,6 @@ public class SearchPage extends BorderPane{
 			String c=tb.getTable().getSelectionModel().getSelectedItem().getClasses();
 			if(!checkTeacher(c))
 				test.show("没有权限");
-			System.out.println(test.getRet());
 		});
 		
 		HBox hb=new HBox();

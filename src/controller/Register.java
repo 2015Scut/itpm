@@ -14,7 +14,7 @@ public class Register {
 			return "没有注册权限";
 		}else if(state==3) {
 			return "已存在账号";
-		}else
+		}else 
 			return null;
 	}
 

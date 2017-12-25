@@ -108,6 +108,7 @@ public class Student extends Person implements Comparable{
 	}
 	public Image getImage() {
 		if(im!=null)return im;
+		if(photo==null)return null;
 		im=new Image(photo);
 		return im;
 	}

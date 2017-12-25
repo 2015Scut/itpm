@@ -13,7 +13,7 @@ public class Users {
 	/**教师id*/
 	private String teacherId;
 	
-	public Users() {}
+	public Users() {} 
 	public Users(String uid,String pw,String tid) {
 		userId=uid;
 		password=pw;

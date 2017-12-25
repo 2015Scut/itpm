@@ -181,7 +181,7 @@ public class UsersProcess {
 	 * 测试函数
 	 * @param args 参数
 	 */
-	public static void main(String [] args) {//测试
+	/*public static void main(String [] args) {//测试
 		UsersProcess up=new UsersProcess();
 		Users u=up.getData("admin");
 		if(u!=null)
@@ -189,5 +189,5 @@ public class UsersProcess {
 		
 		Users u1=up.getData("admin");
 		//ConnDB.getConn();
-	}
+	}*/
 }

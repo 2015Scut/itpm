@@ -16,7 +16,7 @@ public class ClassTable extends VBox{
 	private TableView<Classes> tableView;
 	private Button sbt;
 	private Label gradelb;
-	private Label majorlb;
+	private Label majorlb; 
 	private ComboBox<Integer> gradecb;
 	private ComboBox<String> majorcb;
 	

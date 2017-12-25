@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * @author 钟恩俊
  *
  */
-public class Grade {
+public class Grade { 
 	/**年级id*/
 	private int gradeId;
 	

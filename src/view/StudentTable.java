@@ -19,7 +19,7 @@ import javafx.util.Callback;
 import model.*;
  
 public class StudentTable extends AnchorPane {  
-	private TableView<Student> tableView;
+	private TableView<Student> tableView; 
     public StudentTable() {  
     	Callback<TableColumn<Student, String>, TableCell<Student, String>> cellFactory = (
                 TableColumn<Student, String> p) -> new EditingCell();

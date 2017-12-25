@@ -15,7 +15,7 @@ public class NumberOfClass extends VBox {
 	private Label majorlb;
 	private ComboBox<String> gradecb;
 	private ComboBox<String> majorcb;
-    
+     
     public NumberOfClass() {
     	gradelb=new Label("年级: ");
     	majorlb=new Label("分科: ");

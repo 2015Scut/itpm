@@ -14,7 +14,7 @@ public class LeftBox extends VBox{
 		return bt1;
 	}
 	public Button getBt2() {
-		return bt2;
+		return bt2; 
 	}
 	public Button getBt3() {
 		return bt3;

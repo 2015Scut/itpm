@@ -16,7 +16,7 @@ public class test {
 	
 	private static Stage primaryStage;
 	
-	private static int ret;
+	private static int ret; 
 	
 	private test(String message) {
 		ret=0;

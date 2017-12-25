@@ -76,7 +76,7 @@ public class LoginPage extends Application {
         	String password=passwdField.getText();
         	Login login=new Login();
         	String message=login.getUsers(username,password);
-        	if(message!=null) {
+        	if(message!=null) { 
         		test.show(message);
         	}else {
         		primaryStage.close();

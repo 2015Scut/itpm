@@ -11,7 +11,7 @@ public class Teacher extends Person{
 	/**所属学院id*/
 	private int gradeId;
 	
-	public Teacher() {}
+	public Teacher() {} 
 	public Teacher(String n,int a,String s,int tid,int gid) {
 		super(n,a,s);
 		teacherId=tid;

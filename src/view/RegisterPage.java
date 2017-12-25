@@ -49,7 +49,7 @@ public class RegisterPage {
 			}else {
 				stage.close();
 				LoginPage lp=new LoginPage();
-				try {
+				try { 
 					lp.start(new Stage());
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block

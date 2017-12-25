@@ -7,7 +7,7 @@ import model.*;
  * 班级类
  * @author 钟恩俊
  *
- */
+ */ 
 public class Classes {
 	/**班级id*/
 	private String classId;

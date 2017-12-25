@@ -9,11 +9,11 @@ import java.util.ArrayList;
  */
 public class Major {
 	/**专业id*/
-	private String majorId;
+	private String majorId; 
 	/**专业名称*/
 	private String majorName;
 	/**所属年级id*/
-	private int gradeId;
+	private int gradeId; 
 	
 	public Major() {}
 	public Major(String mid,String mn,int did) {

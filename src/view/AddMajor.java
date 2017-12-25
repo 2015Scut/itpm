@@ -13,7 +13,7 @@ public class AddMajor {
 	private static AddMajor am;
 	private static Stage stage;
 	private Label namelb;
-	private Label idlb;
+	private Label idlb; 
 	private Label gradelb;
 	private ComboBox<String> gradecb;
 	private TextField idtf;

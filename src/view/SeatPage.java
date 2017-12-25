@@ -18,7 +18,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;  
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
+import javafx.event.EventHandler; 
 import javafx.scene.control.*;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.PropertyValueFactory;

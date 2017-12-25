@@ -46,7 +46,7 @@ public class Insert {
 				cid=cla.getClassId();
 				break;
 			}
-		}
+		} 
 		StudentProcess sp=new StudentProcess();
 		int state=sp.insertStudent(sid, name, a, sex, in, cid,null, Integer.parseInt(sid)%100);
 		if(state==1)

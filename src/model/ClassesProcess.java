@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 public class ClassesProcess implements Process {
 	// private Classes classes;
-	private Connection ct = null;
+	private static Connection ct = null;
 	private PreparedStatement ps = null;
 	private ResultSet rs = null;
 
@@ -73,7 +73,6 @@ public class ClassesProcess implements Process {
 			ps.setString(1, cid);// 向String中？的地方填入数据
 			ps.setString(2, class_name);
 			ps.setString(3, mid);
-			System.out.println(ps);
 			ps.executeUpdate();
 			
 			ps=ct.prepareStatement(teacherSQL);
@@ -289,20 +288,8 @@ public class ClassesProcess implements Process {
 	 * e) { // TODO Auto-generated catch block e.printStackTrace(); }
 	 */
 
-	public static void main(String[] args) throws SQLException {// 测试
-
-		ClassesProcess up = new ClassesProcess();
-		//System.out.println(up.getData("00001", 0).size());
+	/*public static void main(String[] args) throws SQLException {// 测试
 		
-		String id=up.retSid(2015, "文科"); System.out.print(id);
-		
-		/*cla = up.getData("理科", 0);
-		for(int i=0;i<cla.size();i++)
-		System.out.println(cla.get(i).getClassName());
-		/*
-		 * StudentProcess up=new StudentProcess(); String id=up.retSid(0, "理科",
-		 * "测试"); System.out.print(id);
-		 */
 
-	}
+	}*/
 }

@@ -131,7 +131,7 @@ public class IndexPage extends Application {
 		this.user=user;
 	}
 	
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		launch(args);
-	}
+	}*/
 }

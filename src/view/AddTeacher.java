@@ -17,7 +17,7 @@ public class AddTeacher {
 	private static Stage stage;
 	private Label namelb;
 	private Label idlb;
-	private Label gradelb;
+	private Label gradelb; 
 	private ComboBox<Integer> gradecb;
 	private TextField idtf;
 	private TextField nametf;

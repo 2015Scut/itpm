@@ -15,7 +15,7 @@ public class PictureView {
 	private PictureView(Image im) {
 		VBox vb=new VBox();
 		ImageView imageView = new ImageView(im);
-		imageView.setFitWidth(300);
+		imageView.setFitWidth(300); 
 		imageView.setFitHeight(300);
 		vb.getChildren().add(imageView);
 		

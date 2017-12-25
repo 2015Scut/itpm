@@ -12,7 +12,7 @@ public class Update {
 		//圣杰
 		StudentProcess sp=new StudentProcess();
 		sp.updateStudent(sid, jobs,seat);
-	}
+	} 
 	public static String updateSeat(ArrayList<String> rows,ArrayList<Student>sl) {
 		//更新座位表
 		HashMap<String,Integer> map=new HashMap<>();

@@ -412,7 +412,7 @@ public class StudentProcess implements Process {
 	 * @throws SQLException
 	 * @throws IOException 
 	 */
-	public static void main(String[] args) throws SQLException, IOException  {// 测试
+	/*public static void main(String[] args) throws SQLException, IOException  {// 测试
 		
 		File file=new File("D:\\test.png");
 		try {
@@ -441,7 +441,7 @@ public class StudentProcess implements Process {
 			ct.close();
 			ps.close();
 		}
-	}
+	}*/
 	
 
 }

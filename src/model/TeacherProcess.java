@@ -244,47 +244,14 @@ public String nextId() {
 	 * 测试函数
 	 * @param args 参数
 	 */
-	public static void main(String [] args) {//测试
+	/*public static void main(String [] args) {//测试
 		TeacherProcess tp=new TeacherProcess();
 		ArrayList<Teacher>te=tp.getTeacherData(null);
 		for(Teacher tt:te) {
 			System.out.println(tt.getName());
 		}
-		/*try {
-			tp.insertTeacher(1001,"八代",28,"男",10);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-	
-		/*try {
-		tp.getTeacherData(1988);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-		e.printStackTrace();
-		}*/
 		
-		/*try {
-		System.out.println(tp.getTeacherNum());
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-		e.printStackTrace();
-		}*/
-	
-		/*try {
-			tp.updateTeacher(10, 2016);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-	
-		/*try {
-			tp.deleteTeacher(1001);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-	}
+	}*/
 }
 
 
